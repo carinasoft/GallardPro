@@ -1,0 +1,172 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                    Generated Order List
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input type="search" placeholder="PO Number" matInput name="PONumber" [(ngModel)]="poNumber" (ngModelChange)="search(poNumber)">                    
+                    <!-- <input  placeholder="Search material"> -->
+                </div>
+            </div>
+            <!-- / SEARCH -->
+            <button mat-raised-button type="button" style="margin-left: 347px;;" (click)="downloadCSV()">
+                Export
+        </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+
+            <mat-table class="products-table mat-card "
+                       #table [dataSource]="dataSource"
+                       matSort
+                      
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="date" [style.width.percentage]="10">PO Date</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.percentage]="10">
+                        <p class="text-truncate">{{moment(indent.PODate).format('MM/DD/YYYY')}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="number">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="number">PO NUmber</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.PONumber}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="supplier">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="supplier">Supplier Name</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.VendorName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="SupplierRef">
+                    <mat-header-cell *matHeaderCellDef>Supplier Ref.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.SupplierRef}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="TermsofDelivery">
+                    <mat-header-cell *matHeaderCellDef>Terms of Delivery</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate" style="    white-space: nowrap;">{{indent.TermsofDelivery}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="dispatch">
+                    <mat-header-cell *matHeaderCellDef>Dispatch Through</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.Despatchhrough}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="preview">
+                    <mat-header-cell *matHeaderCellDef>Preview</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" >
+                            <img src="/gallard/assets/images/misc/pdf.png" class="img-responsive" (click)="openPDF(indent.PdfPath)"/>
+                        <!--[@EnterLeave]="'flyIn'" <a href="{{indent.PdfPath}}" target="_blank"><img src="/gallard/assets/images/misc/pdf.png" class="img-responsive" /></a> -->
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- <ng-container matColumnDef="create">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <button mat-stroked-button color="primary" >Generate</button>
+                    </mat-cell>
+                </ng-container> -->
+
+
+                 <ng-container matColumnDef="create" >
+                    <mat-header-cell fxFlex="row" fxLayoutAlign="end center" *matHeaderCellDef [style.width.px]="50">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text" >more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item (click)="createToGrn(indent.PONumber)">
+                                    <mat-icon style="color: rgb(10, 109, 155)">open_in_new</mat-icon>
+                                    <span>GRN</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="edit" (click)="editPurchaseOrder(indent.PONumber)">
+                                    <mat-icon style="color: blue">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container> 
+                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+              
+                <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                          Loading data...
+                        </mat-footer-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                          No data.
+                        </mat-footer-cell>
+                      </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                      <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                               class="product">
+                      </mat-row>
+                    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </tr> -->
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.length==0)}"></mat-footer-row>
+
+            </mat-table>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

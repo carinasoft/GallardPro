@@ -1,0 +1,119 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Heat Finish
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search"  placeholder="Search ">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                
+                &nbsp;
+                <button mat-raised-button type="button" >
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="content-card">
+
+
+
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index;"> {{i +1}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="Date of Heat">
+                  <th mat-header-cell *matHeaderCellDef> Date of Heat </th>
+                  <td mat-cell *matCellDef="let element"> {{element.DateofHeat}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Furnace">
+                  <th mat-header-cell *matHeaderCellDef> Furnace </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Furnace}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Heat Code">
+                  <th mat-header-cell *matHeaderCellDef> Heat Code </th>
+                  <td mat-cell *matCellDef="let element"> {{element.HeatCode}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="Heat Type">
+                    <th mat-header-cell *matHeaderCellDef> Heat Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.HeatType}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Grade">
+                    <th mat-header-cell *matHeaderCellDef> Grade </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="Start Time">
+                    <th mat-header-cell *matHeaderCellDef> Start Time </th>
+                    <td mat-cell *matCellDef="let element"> {{element.StartTime}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Power Reading (Start)">
+                    <th mat-header-cell *matHeaderCellDef> Power Reading (Start) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.PowerReadingS}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Power Reading (End)">
+                    <th mat-header-cell *matHeaderCellDef> Power Reading (End) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.PowerReadingE}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef>View</th>
+                    <td mat-cell *matCellDef="let element">  
+
+                 
+                        <button mat-icon-button  ><mat-icon>edit</mat-icon></button>
+                          
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element"> 
+
+                        <button mat-icon-button ><mat-icon style="color:red">delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

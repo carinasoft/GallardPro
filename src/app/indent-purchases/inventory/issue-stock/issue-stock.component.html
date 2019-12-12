@@ -1,0 +1,103 @@
+<h2>Issue Stock</h2>
+
+  <section class="collapse-pane">
+    <h3 class="mb-0"><strong>Issued to</strong></h3>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="30" class="pr-12" appearance="outline">
+                  <mat-label>Name</mat-label>
+                    <input type="text" placeholder="Name" matInput [(ngModel)]="IssueStockForm.Name">
+                  <!-- <mat-select placeholder="Select Vendor" (selectionChange)="onSelectVendor($event.value)" [(ngModel)]="selectedVendor">
+                    <mat-option *ngFor="let vendor of vendorList" [value]="vendor">
+                      {{vendor.VendorName}}
+                    </mat-option>
+                  </mat-select> -->
+                </mat-form-field>
+
+                <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                    <mat-label>Issue Date</mat-label>
+
+                    <input matInput [matDatepicker]="datePicker" placeholder="Date" [(ngModel)]="IssueStockForm.IssueDate">
+                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+  </section>
+ <section>  
+              <mat-table class="products-table mat-elevation-z8 mb-48 pb-24"
+                       #table [dataSource]="data?.material"
+                       fusePerfectScrollbar>
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let material; let i = index" [style.width.px]="10">
+                        <p class="text-truncate">{{i + 1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                       <p class="text-truncate">{{material.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Orgqty">
+                    <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index">
+                        {{ material.Quantity }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="IssuedQty">
+                    <mat-header-cell *matHeaderCellDef>Issued Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index">
+                      <input type="text" name="{{material.materialId}}" [(ngModel)]="material.IssueQuantity" class="table_input" />
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="unit">
+                    <mat-header-cell *matHeaderCellDef>Unit</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                       <p class="text-truncate">{{material.UOM}}</p>
+                       <span *ngIf="material.IssueQuantity > material.Quantity?true:false" style="color: red">
+                            *Stock not available
+                        </span>
+                    </mat-cell>
+                    
+                </ng-container>                
+
+
+                <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+<!--                         <button mat-icon-button (click)="getPriceHistory(indent.RawMaterialId, i)">
+                          <mat-icon>history</mat-icon>                  
+                        </button>
+ -->
+                        <button mat-icon-button (click)="removeItem(i)">
+                          <mat-icon>delete</mat-icon>                  
+                        </button>
+
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let material; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+</section>
+
+
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button (click)="closeModal()">Cancel</button>
+
+        <button mat-raised-button type="button" onclick="this.disabled = true" color="accent" (click)="IssueStock()">Save</button>
+    </div>
+

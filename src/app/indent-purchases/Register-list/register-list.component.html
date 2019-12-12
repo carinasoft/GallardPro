@@ -1,0 +1,107 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                                Register-list
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ...">
+                </div>
+            </div>
+            <div class="">
+                    <button mat-raised-button type="button" (click)="print()">
+                        Print
+                    </button>
+                    &nbsp;
+                
+            </div>
+            <!-- / SEARCH -->
+
+        </div>
+        <!-- / HEADER -->
+       
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+           
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <!-- <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="5"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.percentage]="5">
+                        <mat-checkbox [(ngModel)]="indent.selected">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container> -->
+
+
+                
+
+                <ng-container matColumnDef="S.NO.">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="S.NO." [style.width.percentage]="10">SNo.</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Casting Base">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Casting Base">Casting Base</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Grade">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Grade">Grade</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                           <p class="text-truncate">{{indent.ItemName}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+               
+                
+
+
+               
+               
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+        </div>
+    </div>
+    
+</div>

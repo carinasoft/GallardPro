@@ -1,0 +1,203 @@
+<div class="center">
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+    <h2 mat-dialog-title color="primary"  style="margin-top: 7px;
+    margin-left: 9px;">Edit Client Details </h2>
+   
+                </span>
+            </div>  
+            <div fxFlex="4">                
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 30px;
+                    width: 30px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>                  
+                    </button>    
+                    </div>
+            </div></div>
+
+       
+       <form class="" style="margin-top: 15px;" [formGroup]="contactForm" >
+            
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <!-- [(ngModel)]="data.Name" [value]="data.Name" -->
+                     <input type="text" placeholder="Name" matInput #input   formControlName="Name" >
+                </mat-form-field>
+                <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                        <mat-label>GST</mat-label>
+                        <!-- [(ngModel)]="data.GST" [value]="data.GST" -->
+                        <input type="text" placeholder="GST" matInput   formControlName="GST" />
+                </mat-form-field>             
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>ClientTypeId</mat-label>
+                    <!-- [(ngModel)]="data.Name" [value]="data.Name" -->
+                     <!-- <input type="text" placeholder="ClientTypeId" matInput #input   formControlName="ClientTypeId" > -->
+
+                     <mat-select placeholder="Choose ClientType" formControlName="ClientTypeId">
+                        <mat-option *ngFor="let item of ClientType" [value]="item.ClientType">
+                        {{item.ClientType}}
+                        </mat-option>
+                </mat-select>
+
+
+                </mat-form-field>
+                <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                        <mat-label>ServiceTaxNo</mat-label>
+                        <!-- [(ngModel)]="data.GST" [value]="data.GST" -->
+                        <input type="text" placeholder="ServiceTaxNo" matInput   formControlName="ServiceTaxNo" />
+                </mat-form-field>             
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                    <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                        <mat-label>PanNo</mat-label>
+                        <!-- [(ngModel)]="data.PAN" [value]="data.PAN" -->
+                         <input type="text" placeholder="PanNo" matInput   formControlName="PanNo">
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                            <mat-label>EmailID</mat-label>
+                            <input type="text" placeholder="EmailID" matInput  formControlName="EmailID"/>
+                    </mat-form-field>             
+                </div>
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                        <mat-form-field   fxFlex="50" class="pr-24" appearance="outline" >
+                            <mat-label>MobileNo</mat-label>
+                             <input type="text" placeholder="MobileNo" matInput  formControlName="MobileNo">
+                        </mat-form-field>
+                       <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                                <mat-label>Pincode </mat-label>
+                                <input type="text" placeholder="Pincode" matInput formControlName="Pincode"/>
+                        </mat-form-field>              
+                    </div>
+                    <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                        <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                            <mat-label>State</mat-label>
+                            
+                            <!-- <div *ngIf="chek" (click)="check()">
+                            <input type="text"  matInput   [(ngModel)]="data.State" [value]="data.State" />
+                           </div>
+                           <div *ngIf="!chek"> -->
+                            <mat-select placeholder="Select State" (selectionChange)="getCity($event.value)" formControlName="StateID" >
+                              <mat-option *ngFor="let state of stateList" [value]="state.ID">
+                                {{state.Name}}
+                              </mat-option>
+                            </mat-select>
+                           
+
+                        </mat-form-field>
+                        <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                            <mat-label>City</mat-label>
+                            <!-- <div *ngIf="chek" (click)="check()">
+                              <input type="text"  matInput   [(ngModel)]="data.City" [value]="data.City" />
+                            </div>
+                            <div *ngIf="!chek"> -->
+                            <mat-select placeholder="Select City"  formControlName="CityID" >
+                              <mat-option *ngFor="let city of cityList" [value]="city.ID">
+                                {{city.Name}}
+                              </mat-option>
+                            </mat-select>
+                       
+                        </mat-form-field>        
+                        </div>
+
+
+                        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center"> 
+                        <mat-form-field  fxFlex="100" class="pr-24" appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <textarea placeholder="Address" matInput cols="2" formControlName="Address" ></textarea>
+                        </mat-form-field>
+                        </div>
+
+                
+                
+
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button type="button" color="accent" onclick="this.disabled = true" (click)="editclient()" mat-dialog-close>
+                    Save
+                </button>
+            </div>
+
+        </form>
+
+
+
+<!-- <fuse-sidebar name="rawMaterialForm" position="right" class="width-400 p-24 bg-white">
+  
+       <form class="example-form" [formGroup]="addMaterialForm">
+            <div class="h2 mb-12">Add Material</div>
+
+            
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="70" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input type="text" placeholder="Raw Material Name" matInput formControlName="ItemName" />
+              </mat-form-field>
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Category</mat-label>
+
+                 <input type="text" placeholder="Category" matInput formControlName="CategoryId" [matAutocomplete]="category"> 
+                     <mat-autocomplete #category="matAutocomplete" [displayWith]="selectCategory.bind(this)">
+                        <mat-option *ngFor="let category of (categoryFilter | async)" [value]="category.CategoryId">
+                        {{ category.CategoryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(categoryFilter | async) && !(categoryFilter | async).length && addMaterialForm.get('CategoryId').value" matSuffix>
+                    <mat-icon  (click)="addCategory()">add_circle_outline</mat-icon>
+                    </button>
+               </mat-form-field>
+            </div>
+            
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Unit</mat-label>
+
+                    <input type="text" placeholder="Unit of measurment" matInput formControlName="UOMID"  [matAutocomplete]="unit">
+                    <mat-autocomplete #unit="matAutocomplete" [displayWith]="selectUnit.bind(this)">
+                        <mat-option *ngFor="let option of (unitFilter | async)" [value]="option.UOMID">
+                        {{option.UOM}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(unitFilter | async) && !(unitFilter | async).length && addMaterialForm.get('UOMID').value" matSuffix>
+                    <mat-icon  (click)="addUnit()">add_circle_outline</mat-icon>
+                    </button>
+
+              </mat-form-field> 
+            </div> 
+
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+
+                 <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>GST %</mat-label>
+                    <mat-select placeholder="Choose GST" formControlName="Gst">
+                        <mat-option *ngFor="let item of gstList" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                 <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>HSN Code</mat-label>
+                    <input type="text" placeholder="HSN Code" matInput formControlName="HsnCode">
+                </mat-form-field> 
+
+
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button type="button" color="accent" (click)="addRawMaterial()" [disabled]="addMaterialForm.invalid">
+                    Save
+                </button>
+            </div>
+
+</form>
+
+</fuse-sidebar> -->

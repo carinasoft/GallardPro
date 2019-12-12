@@ -1,0 +1,271 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Producation
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search"  placeholder="Search ">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                <button mat-raised-button type="button" (click)="createProduct()">
+                    Add Heat
+                </button>
+                &nbsp;
+                <button mat-raised-button type="button" >
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="content-card">
+
+
+
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef style="font-weight: bold; color: black;"> S.No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index;"> {{i +1}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="Date of Heat">
+                  <th mat-header-cell *matHeaderCellDef> Date of Heat </th>
+                  <td mat-cell *matCellDef="let element"> {{element.DateofHeat}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Furnace">
+                  <th mat-header-cell *matHeaderCellDef> Furnace </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Furnace}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Heat Code">
+                  <th mat-header-cell *matHeaderCellDef> Heat Code </th>
+                  <td mat-cell *matCellDef="let element"> {{element.HeatCode}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="Heat Type">
+                    <th mat-header-cell *matHeaderCellDef> Heat Type</th>
+                    <td mat-cell *matCellDef="let element"> {{element.HeatType}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Grade">
+                    <th mat-header-cell *matHeaderCellDef> Grade </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="Start Time">
+                    <th mat-header-cell *matHeaderCellDef> Start Time </th>
+                    <td mat-cell *matCellDef="let element"> {{element.StartTime}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Power Reading (Start)">
+                    <th mat-header-cell *matHeaderCellDef> Power Reading (Start) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.PowerReadingS}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Power Reading (End)">
+                    <th mat-header-cell *matHeaderCellDef> Power Reading (End) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.PowerReadingE}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef>View</th>
+                    <td mat-cell *matCellDef="let element">  
+
+                 
+                        <button mat-icon-button  ><mat-icon>edit</mat-icon></button>
+                          
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element"> 
+
+                        <button mat-icon-button ><mat-icon style="color:red">delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<fuse-sidebar name="addvendorDetails" position="right" class="width-500 p-12 bg-white">
+    <h3><strong> Add Heat
+        </strong></h3>
+    <form>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Date of Heat </mat-label>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Furnace</mat-label>
+                <mat-select>
+                    <mat-option value="1000">1000</mat-option>
+                    <mat-option value="500">500</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Code</mat-label>
+                <input type="text" placeholder="" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Type</mat-label>
+                <mat-select>
+                    <mat-option value="1000">ms</mat-option>
+                    <mat-option value="500">cs</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="47" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Grade</mat-label>
+                <mat-select>
+                    <mat-option value="10sdasd00">adads</mat-option>
+                    <mat-option value="5asdasdas00">csadsadsas</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Time (Start)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Heat Time (End)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Tapping Time (Start)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Tapping Time (End)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Power Reading (Start)</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Power Reading (End)</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Tapping Temperature</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Pouring Temperature</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Spectrometer Result No.</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" style="margin-top: 10px;">
+            <div class="text-center">
+                <button mat-raised-button cdkFocusInitial color="accent">Save</button>
+            </div>
+        </div>
+    </form>
+</fuse-sidebar>

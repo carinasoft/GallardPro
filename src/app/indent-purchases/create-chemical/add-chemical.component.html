@@ -1,0 +1,33 @@
+       <form class="" [formGroup]="indentForm">
+            <div class="h2 mb-12" style="background-color: #039be5;">Add New Chemical<span  style="float: right;"><button mat-icon-button mat-dialog-close ><mat-icon style="    margin-bottom: 11px;
+                background-color: red;
+                border-radius: 13px;
+                color: white;">close</mat-icon></button></span></div>
+            
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                
+        
+                <mat-form-field  fxFlex="70" class="pr-24" appearance="outline">
+                    <mat-label>Chemical Name</mat-label>
+                    <input type="text" placeholder="Enter Chemical Name " matInput formControlName="Name" >
+                    
+                   
+                </mat-form-field>
+
+                
+            </div>
+
+           
+               
+            <div >
+                <button mat-raised-button onclick="this.disabled = true" type="button" color="accent" (click)="addChemical()" [disabled]="!indentForm.valid" >
+                    Save
+                </button>
+
+              
+            </div>
+
+        </form>
+
+

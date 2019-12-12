@@ -1,0 +1,365 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+
+    <div class="center">
+
+
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+
+
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Client List
+                </span>
+            </div>
+
+
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search" (keyup)="search($event)" placeholder="Search ">
+                </div>
+            </div>
+
+           <div style="text-align: end">
+            <button mat-raised-button type="button"  (click)="createProduct()">
+                Add New Client
+            </button>
+            &nbsp;
+            <button mat-raised-button type="button" (click)="downloadCSV()">
+                    Export
+                  </button>
+
+                </div>
+
+        </div>
+
+        <div class="content-card">
+
+            <mat-table class="products-table" #table [dataSource]="listData" matSort [@animateStagger]="{value:'50'}"
+                fusePerfectScrollbar (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="workorderno">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="workorderno" fxFlex="100px">S.No.</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" fxFlex="100px">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="order-date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="order-date" fxFlex="100px">Client ID</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index"  fxFlex="100px">
+                        <p class="text-truncate">{{material.Id}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Grade">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Grade">Client Name</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.Name}}</p>
+                       
+        <div *ngIf="material.isEditable">
+          <input type="text" [(ngModel)]="material.Name" style="border-bottom: 1px solid #ccc;">
+        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="Product Name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Product Name">GST</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.GST}}</p>
+                        <div *ngIf="material.isEditable">
+                            <input type="text" [(ngModel)]="material.GST" style="border-bottom: 1px solid #ccc;">
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Total Net Weight">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="quantity">PAN</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.PanNo}}</p>
+                        <div *ngIf="material.isEditable">
+                            <input type="text" [(ngModel)]="material.PanNo" style="border-bottom: 1px solid #ccc;">
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Notes">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Notes">Address</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.Address}}</p>
+                        <div *ngIf="material.isEditable">
+                            <input type="text" [(ngModel)]="material.Address" style="border-bottom: 1px solid #ccc;">
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="No. of Ordered Pieces">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="No. of Ordered Pieces">State</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.StateName}}</p>
+                        <div *ngIf="material.isEditable">
+                                <mat-form-field >
+                                        <mat-label>StateName</mat-label>
+                                <mat-select placeholder="Select State" (selectionChange)="getCity($event.value)" [(ngModel)]="material.StateName">
+                                        <mat-option *ngFor="let state of stateList" [value]="state.ID">
+                                          {{state.Name}}
+                                        </mat-option>
+                                      </mat-select>
+                                      </mat-form-field>
+                            
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Planned">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Planned">City</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.CityName}}</p>
+                        <div *ngIf="material.isEditable">
+                                <mat-form-field >
+                                        <mat-label>CityName</mat-label>
+                                <mat-select placeholder="Select City" formControlName="CityId" [(ngModel)]="material.CityName">
+                                        <mat-option *ngFor="let city of cityList" [value]="city.ID">
+                                          {{city.Name}}
+                                        </mat-option>
+                                      </mat-select>
+                                      </mat-form-field>
+                           
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Pincode">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Pincode">Pincode</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.Pincode}}</p>
+                        <div *ngIf="material.isEditable">
+                                <input type="text" [(ngModel)]="material.Pincode" style="border-bottom: 1px solid #ccc;">
+                              </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Email">Email</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.EmailID}}</p>
+                        <div *ngIf="material.isEditable">
+                            <input type="text" [(ngModel)]="material.EmailID" style="border-bottom: 1px solid #ccc;">
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Contact No" sticky>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Contact No" >Contact No</mat-header-cell>
+                    <mat-cell *matCellDef="let material" >
+                        <p class="text-truncate" *ngIf="!material.isEditable">{{material.MobileNo}}</p>
+                        <div *ngIf="material.isEditable">
+                            <input type="text" [(ngModel)]="material.MobileNo" style="border-bottom: 1px solid #ccc;">
+                          </div>
+                    </mat-cell>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="Contact" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Contact"  style="    ">Contact</mat-header-cell>
+                        <mat-cell *matCellDef="let material" >
+    
+                                <button  mat-raised-button type="button" (click)="createContact(material.Id,material)">
+                                        <mat-icon>note_add</mat-icon>
+                                        <span>Add Contact</span>
+                                    </button>
+    
+                        </mat-cell>
+                    </ng-container>
+
+
+                <ng-container matColumnDef="Bank" sticky>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Bank"  fxFlex="200px" style="    padding-left: 7px;">Bank</mat-header-cell>
+                        <mat-cell *matCellDef="let material" fxFlex="200px" >
+    
+                                <button  mat-raised-button type="button" (click)="createBank(material.Id,material)">
+                                        <mat-icon>note_add</mat-icon>
+                                        <span>Add Bank</span>
+                                    </button>
+    
+                        </mat-cell>
+                    </ng-container>
+
+                <ng-container matColumnDef="view" sticky>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view" fxFlex="100px" style="    padding-left: 7px;">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let material" fxFlex="100px">
+
+                        <!-- <button mat-icon-button *ngIf="material.isEditable" (click)="save(material)" ><mat-icon style="    color: blue;">check</mat-icon></button> -->
+                        <button mat-icon-button  onclick="this.disabled = true" (click)="OpenEditDailogBox(material)"><mat-icon>edit</mat-icon></button>
+                        <button mat-icon-button onclick="this.disabled = true" (click)="delete(material)"><mat-icon style="color:red">delete</mat-icon></button>
+
+
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="view1" >
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view1" fxFlex="100px" style="    padding-left: 7px;">View</mat-header-cell>
+                    <mat-cell *matCellDef="let material" fxFlex="100px">
+                        <button mat-icon-button style="color: #2e9be5;" (click)="openView(material.Id)">
+                            <mat-icon>history</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+                <!-- <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="action"></mat-header-cell>
+                    <mat-cell *matCellDef="let material"> -->
+
+                        <!-- <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                            (click)="$event.stopPropagation();">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+
+                        <mat-menu #moreMenu="matMenu">
+
+                            <button mat-menu-item aria-label="Edit" (click)="createContact(material.Id,material)">
+                                <mat-icon>note_add</mat-icon>
+                                <span>Add Contact</span>
+                            </button>
+
+                            <button mat-menu-item aria-label="remove" (click)="createBank(material.Id,material)">
+                                <mat-icon>note_add</mat-icon>
+                                <span>Add Bank</span>
+                            </button>
+                        </mat-menu> -->
+
+
+
+                    <!-- </mat-cell>
+                </ng-container> -->
+
+
+
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index" class="product">
+                </mat-row>
+
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="8" showFirstLastButtons></mat-paginator>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<fuse-sidebar name="addvendorDetails" position="right" class="width-500 p-12 bg-white">
+    <h3><strong> Add Client </strong></h3>
+    <form class="example-form"  [formGroup]="clintForm">
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label>Client Name</mat-label>
+                <input type="text" placeholder="" matInput formControlName="Name" />
+            </mat-form-field>
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label>ClientType</mat-label>
+                <!-- <input type="text" placeholder="" matInput formControlName="ClientType" /> -->
+                <mat-select placeholder="Choose ClientType" formControlName="ClientTypeId">
+                        <mat-option *ngFor="let item of ClientType" [value]="item.ClientType">
+                        {{item.ClientType}}
+                        </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field fxFlex="50" appearance="outline">
+                    <mat-label>ServiceTaxNo</mat-label>
+                    <input type="text" placeholder="" matInput formControlName="ServiceTaxNo" />
+                </mat-form-field>
+                <mat-form-field fxFlex="50" appearance="outline">
+                    <mat-label>Email ID </mat-label>
+                    <input type="text" placeholder="" matInput formControlName="EmailID" />
+                </mat-form-field>
+            </div>
+
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label>GST</mat-label>
+                <input type="text" placeholder="" matInput formControlName="GST"/>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label>PAN</mat-label>
+                <input type="text" placeholder="" matInput name="pan" formControlName="PanNo"/>
+            </mat-form-field>
+
+        </div>
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                <mat-label>State</mat-label>
+                <mat-select placeholder="Select State" (selectionChange)="getCity($event.value)" formControlName="StateID">
+                        <mat-option *ngFor="let state of stateList" [value]="state.ID">
+                          {{state.Name}}
+                        </mat-option>
+                      </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline">
+                <mat-label>City</mat-label>
+                <mat-select placeholder="Select City" formControlName="CityId" formControlName="CityID">
+                        <mat-option *ngFor="let city of cityList" [value]="city.ID">
+                          {{city.Name}}
+                        </mat-option>
+                      </mat-select>
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="70" class="pr-24" appearance="outline">
+                <mat-label>Mobile No</mat-label>
+                <input type="text" placeholder="" matInput formControlName="MobileNo"/>
+            </mat-form-field>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="100" class="pr-24" appearance="outline">
+                <mat-label>Address</mat-label>
+                <input type="text" placeholder="" matInput  formControlName="Address"/>
+            </mat-form-field>
+
+        </div>
+
+
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <button mat-raised-button cdkFocusInitial color="accent" onclick="this.disabled = true" [disabled]="!clintForm.valid" (click)="saveClient()" id="condition">Save</button>
+        </div>
+    </form>
+</fuse-sidebar>

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Hi Admin</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formVar">
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+  <mat-form-field>
+    <input matInput placeholder="Enter Password" formControlName="password" type="password">
+  </mat-form-field>
+        </div>
+</form>
+</div>
+<div mat-dialog-actions>
+  
+  <button mat-button mat-dialog-close cdkFocusInitial>cancel</button>
+  <button mat-button (click)="onNoClick()">ok</button>
+</div>

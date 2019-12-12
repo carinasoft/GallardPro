@@ -1,0 +1,304 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                    Materials List
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input (keyup)=search($event) placeholder="Search material">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+            <div style="text-align: end">
+            <button mat-raised-button type="button" style="" (click)="openForm()" >
+                Add New
+            </button>
+            &nbsp;
+            <button mat-raised-button type="button" style="" (click)="downloadCSV()">
+                Export
+            </button>
+        </div>
+        </div>
+
+        <mat-card style="text-align: center " *ngIf="openFormInput">
+            <div class="content-card" style="text-align: center ">
+                <div style="text-align: center;" class="text-center">
+                    <mat-card-content style="text-align: center;    margin-left: 1px;">
+                        <form class="" [formGroup]="orderForm">
+                            <mat-form-field fxFlex="20" class="pr-24" appearance="outline">
+                                <mat-label>ItemName</mat-label>
+                                <input type="text" placeholder="" matInput formControlName="ItemName">
+                            </mat-form-field>
+                            <mat-form-field fxFlex="20" class="pr-24" appearance="outline">
+                                <mat-label>CategoryId</mat-label>
+                                <!-- <mat-select placeholder="Choose Category" formControlName="CategoryId">
+                                        <mat-option *ngFor="let item of categoryList" [value]="item">
+                                        {{item.CategoryName}}
+                                        </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+                            <input type="text" placeholder="Type to search.." formControlName="CategoryId" matInput  [matAutocomplete]="materialDD">
+                            <mat-autocomplete #materialDD="matAutocomplete" >
+                                <mat-option *ngFor="let item of categoryList1 | async" [value]="item.CategoryName" (onSelectionChange)="onSelectVendor(item)">
+                                {{item.CategoryName}}
+                                </mat-option>
+                            </mat-autocomplete>
+                             <button type="button" mat-icon-button *ngIf="(categoryList1 | async) && !(categoryList1 | async).length && orderForm.get('CategoryId').value" matSuffix>
+                            <mat-icon  (click)="addVendorDetail()">person_add</mat-icon>
+                            </button> 
+                          </mat-form-field>
+
+                            <mat-form-field fxFlex="20" class="pr-24" appearance="outline">
+                                <mat-label>UOMID</mat-label>
+                                <!-- <mat-select placeholder="Choose UOM" formControlName="UOMID">
+                                        <mat-option *ngFor="let item of unitList" [value]="item">
+                                        {{item.UOM}}
+                                        </mat-option>
+                                    </mat-select> -->
+                               
+                     <input type="text" placeholder="Type to search.." formControlName="UOMID" matInput  [matAutocomplete]="materialDDD">
+                            <mat-autocomplete #materialDDD="matAutocomplete" >
+                                <mat-option *ngFor="let item of unitList1 | async" [value]="item.UOM" (onSelectionChange)="onSelectVendor1(item)">
+                                {{item.UOM}}
+                                </mat-option>
+                            </mat-autocomplete>
+                             <button type="button" mat-icon-button *ngIf="(unitList1 | async) && !(unitList1 | async).length && orderForm.get('UOMID').value" matSuffix>
+                            <mat-icon  (click)="addVendorDetail1()">person_add</mat-icon>
+                            </button> 
+
+                            </mat-form-field>
+                            <mat-form-field fxFlex="20" class="pr-24" appearance="outline">
+                                <mat-label>HsnCode</mat-label>
+                                <input type="text" placeholder="" matInput formControlName="HsnCode">
+                            </mat-form-field>
+                            <mat-form-field fxFlex="20" class="pr-24" appearance="outline">
+                                    <mat-label>GST %</mat-label>
+                    <mat-select placeholder="Choose GST" formControlName="Gst">
+                        <mat-option *ngFor="let item of gstList" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                                  <!-- //  <input type="text" placeholder="" matInput formControlName="Gst"> -->
+                            </mat-form-field>
+                            <br>
+                            <br>
+                           <div class="" style="        margin-left: -611px;">
+                               <br>
+                               <br>
+                               <br>
+                               <br>
+                                <button style="width: 114px;" mat-raised-button onclick="this.disabled = true" type="button" color="accent" [disabled]="orderForm.invalid" (click)="addMaterials()" >
+                                        Add
+                                 </button>
+                                 &nbsp;
+                                 <button style="width: 100px;" mat-raised-button type="button" color="warn" (click)="cancelForm()">
+                                      Cancel
+                                 </button>
+                           </div>
+                        </form>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-card>
+
+
+
+        <div class="content-card" >
+            <mat-table class="products-table" #table [dataSource]="listData" matSort 
+                fusePerfectScrollbar (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="10" fxFlex="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10" fxFlex="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="material">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="material" >Material</mat-header-cell>
+                    <mat-cell *matCellDef="let material" >
+                        <p *ngIf="!material.isEditable" class="text-truncate">{{material.ItemName}}</p>
+                        <div *ngIf="material.isEditable">
+                                <mat-form-field fxFlex="70" class="pr-24" appearance="outline">
+                                <input type="text" placeholder="" matInput [(ngModel)]="material.ItemName">
+                                </mat-form-field>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="category">Category</mat-header-cell>
+                    <mat-cell *matCellDef="let material" >
+                        <p *ngIf="!material.isEditable" class="text-truncate">{{material.CategoryName}}</p>
+                        <div *ngIf="material.isEditable">
+                        <mat-form-field fxFlex="70" class="pr-24" appearance="outline">
+                                <mat-label>CategoryId</mat-label>
+                                <input type="text" placeholder="Type to search.." [(ngModel)]="material.CategoryName" matInput  [matAutocomplete]="materialDD">
+                            <mat-autocomplete #materialDD="matAutocomplete" [displayWith]="selectUnit.bind(this)">
+                                <mat-option *ngFor="let item of categoryList1 | async" [value]="item.CategoryName" (onSelectionChange)="onSelectVendor(item)">
+                                {{item.CategoryName}}
+                                </mat-option>
+                            </mat-autocomplete>
+                             <button type="button" mat-icon-button *ngIf="(categoryList1 | async) && !(categoryList1 | async).length && orderForm.get('CategoryId').value" matSuffix>
+                            <mat-icon  (click)="addVendorDetail()">person_add</mat-icon>
+                            </button> 
+                                <!-- <mat-select placeholder="Choose Category"  [(ngModel)]="material.CategoryName">
+                                        <mat-option *ngFor="let item of categoryList" [value]="item">
+                                        {{item.CategoryName}}
+                                        </mat-option>
+                                </mat-select> -->
+                            </mat-form-field>
+                            </div>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="unit">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="unit" fxFlex="">Unit</mat-header-cell>
+                    <mat-cell *matCellDef="let material" fxFlex="">
+                        <p *ngIf="!material.isEditable" class="text-truncate">{{material.UOM}}</p>
+                        <div *ngIf="material.isEditable">
+                                <mat-form-field fxFlex="100" class="pr-24" appearance="outline">
+                                <mat-label>UOM</mat-label>
+                                <input type="text" placeholder="Type to search.." [(ngModel)]="material.UOM" matInput  [matAutocomplete]="materialDDD">
+                            <mat-autocomplete #materialDDD="matAutocomplete" [displayWith]="selectUnit1.bind(this)">
+                                <mat-option *ngFor="let item of unitList1 | async" [value]="item.UOM" (onSelectionChange)="onSelectVendor1(item)">
+                                {{item.UOM}}
+                                </mat-option>
+                            </mat-autocomplete>
+                             <button type="button" mat-icon-button *ngIf="(unitList1 | async) && !(unitList1 | async).length && orderForm.get('UOMID').value" matSuffix>
+                            <mat-icon  (click)="addVendorDetail1()">person_add</mat-icon>
+                            </button> 
+                                <!-- <mat-select placeholder="Choose GST" [(ngModel)]="material.UOM">
+                                    <mat-option *ngFor="let item of unitList" [value]="item">
+                                            {{item.UOM}}
+                                    </mat-option>
+                                </mat-select> -->
+                                </mat-form-field>
+                                </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hsn">
+                    <mat-header-cell *matHeaderCellDef>HSN Code</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p *ngIf="!material.isEditable" class="text-truncate">{{material.HsnCode}}</p>
+                        <div *ngIf="material.isEditable">
+                                <mat-form-field  fxFlex="70" class="pr-24" appearance="outline" >
+                              <input type="text" [(ngModel)]="material.HsnCode" matInput>
+                                </mat-form-field>
+                            </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="gst">
+                    <mat-header-cell *matHeaderCellDef>GST</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p *ngIf="!material.isEditable" class="text-truncate">{{material.Gst}}%</p>
+                        <div *ngIf="material.isEditable">
+                        <mat-form-field fxFlex="100" class="pr-24" appearance="outline">
+                        <mat-label>GST %</mat-label>
+                        <mat-select placeholder="Choose GST" [(ngModel)]="material.Gst">
+                            <mat-option *ngFor="let item of gstList" [value]="item">
+                            {{item}}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="action" fxFlex="13">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let material" fxFlex="13" >
+
+
+                            <button mat-icon-button onclick="this.disabled = true" *ngIf="material.isEditable" (click)="save(material)" >
+                                    <mat-icon style="color: blue;">check</mat-icon>
+                                  </button>
+                                  <button mat-icon-button *ngIf="material.isEditable" (click)="close(material)" >
+                                      <mat-icon style="   color:red">close</mat-icon>
+                                  </button> 
+                                <button mat-icon-button *ngIf="!material.isEditable" (click)="editRow(material)">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+
+                        <button aria-label="Delete" *ngIf="!material.isEditable" onclick="this.disabled = true" (click)="deleteMaterial(material.RawMaterialId)" mat-icon-button>
+                            <mat-icon style="color: red;" class="box rotate" >delete</mat-icon>
+                        </button>
+
+                        <!-- <div fxFlex="row" fxLayoutAlign="end center">
+                             <button  aria-label="Edit" (click)="editMaterial(indent)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                             <button  aria-label="Delete" (click)="deleteMaterial(material.RawMaterialId)" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button> 
+                        </div> -->
+                    </mat-cell>
+                </ng-container>
+
+
+                <!--                 <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="50"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="Edit" (click)="editIndent(indent)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="remove"  (click)="deleteIndent(indent.IndentId)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container> -->
+                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index" class="product" matRipple>
+                </mat-row>
+
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="8" showFirstLastButtons></mat-paginator>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

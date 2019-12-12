@@ -1,0 +1,183 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                    Planning
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search" (keyup)="search($event)" placeholder="Search ">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                <button mat-raised-button type="button" (click)="downloadCSV()">
+                    Export
+                </button>
+            </div>
+
+        </div>
+
+<div class="content-card">
+            <form [formGroup]="planningForm">
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center stretch" style="border: 2px solid #ccc;">
+
+                    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em; margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Date of Planning</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="PlanDate" (ngModelChange) = "onSearchChange($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em; margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Contractor </mat-label>
+                        <mat-select formControlName="ContractorId" (ngModelChange) = "onSearchChange1($event)">
+                            <mat-option *ngFor="let con of contractorList" [value]="con.Id">{{con.Name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Search by Product </mat-label>
+                        <input type="text" placeholder="Type to search.." matInput formControlName="ProductId" (ngModelChange) = "onSearchChange3($event)"
+                            [matAutocomplete]="materialDD">
+                        <mat-autocomplete #materialDD="matAutocomplete">
+                            <mat-option *ngFor="let option of productListFilter | async" [value]="option.Name">
+                                {{option.Name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Search by Client Name</mat-label>
+                        <input type="text" placeholder="Type to search.." formControlName="ClientID" matInput (ngModelChange) = "onSearchChange4($event)"
+                            [matAutocomplete]="materialDD1">
+                        <mat-autocomplete #materialDD1="matAutocomplete">
+                            <mat-option *ngFor="let vendor of vendorList1 | async" [value]="vendor.Name">
+                                {{vendor.Name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em; position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Shift </mat-label>
+                        <mat-select formControlName="Shift" (ngModelChange) = "onSearchChange2($event)">
+                            <mat-option value="Day">Day</mat-option>
+                            <mat-option value="Night">Night</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+<!-- <button [disabled]="planningForm.invalid" mat-raised-button type="button" style="height: 37px;margin-top: 23px;background-image: linear-gradient( #039be5, #37b9e940); color: white" (click)="searchButton()">
+Search
+</button> -->
+</div>
+            
+</form>
+
+<div style="text-align: center;" *ngIf="loader">
+    <!-- <mat-spinner></mat-spinner> -->
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+  <div style="text-align: center;margin-top: 40px;" *ngIf="!listData && !loader">
+      <p style="color: red;"> *Please select required filds</p>
+    </div>
+
+
+
+<div class="example-container1 mat-elevation-z8" *ngIf="listData">
+                <mat-table [dataSource]="listData" class="mytable">
+                    <ng-container matColumnDef="selected">
+                        <mat-header-cell *matHeaderCellDef="let element" [style.width.percentage]="10">
+                            <mat-checkbox (change)="$event ? masterToggle() : null" (change)="select($event,element)" (click)="allDataSelect($event, element)"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" [style.width.percentage]="10"  [class.highlighted]="element.selected == true">
+                            <mat-checkbox (click)="$event.stopPropagation()" (click)="selectCompany($event, element)"
+                                (change)="$event ? selection.toggle(element) : null"
+                                [checked]="selection.isSelected(element)" [(ngModel)]="element.selected" class="checkboxCSS">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="WorkOrderNo">
+                        <mat-header-cell *matHeaderCellDef fxFlex="5">WOID</mat-header-cell>
+                        <mat-cell *matCellDef="let element" fxFlex="5" [class.highlighted]="element.selected == true">
+                            {{element.WOID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="OrderDate">
+                        <mat-header-cell *matHeaderCellDef fxFlex="10"> Order Date </mat-header-cell>
+                        <mat-cell *matCellDef="let element" fxFlex="10" [class.highlighted]="element.selected == true">
+                            {{moment(element.Orderdate).format("YYYY/MM/DD")}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Client PO No">
+                        <mat-header-cell *matHeaderCellDef fxFlex="14"> Client PO No</mat-header-cell>
+                        <mat-cell *matCellDef="let element" fxFlex="14" [class.highlighted]="element.selected == true">
+                            {{element.ClientPoNo}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Client Name">
+                        <mat-header-cell *matHeaderCellDef fxFlex="14"> Client Name </mat-header-cell>
+                        <mat-cell *matCellDef="let element" fxFlex="14" [class.highlighted]="element.selected == true"
+                           >
+                            <p>{{element.ClientName}} </p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Product">
+                        <mat-header-cell *matHeaderCellDef>Product Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true">
+                            {{element.ProductName}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Weight">
+                        <mat-header-cell *matHeaderCellDef fxFlex="7"> Weight </mat-header-cell>
+                        <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true" fxFlex="7">
+                            {{element.NetWeight}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="No.of Pieces">
+                        <mat-header-cell *matHeaderCellDef fxFlex="7"> No.of Pieces </mat-header-cell>
+                        <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true" fxFlex="7">
+                            {{element.NoofPieces}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Planned">
+                        <mat-header-cell *matHeaderCellDef fxFlex="7">Planned</mat-header-cell>
+                        <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true" fxFlex="7">
+                            {{element.Planned}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Pending">
+                        <mat-header-cell *matHeaderCellDef fxLayoutAlign="end center" fxFlex="8"> Pending for Planning
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true" fxFlex="8">
+                         <input type="text" placeholder="" [(ngModel)]="element.PendingforPlanning" matInput style="border: 1px solid #ccc;width: 60px;height: 30px; border-radius: 6px;padding: 4px;margin-top: 0px;">
+                        </mat-cell>
+                    </ng-container>
+
+                   
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+            </div>
+
+            <div class="text-center" style="margin-top: 10px;" *ngIf="dataValueHave">
+                <button mat-raised-button type="button" color="accent" (click)="submitButton()"
+                    onclick="this.disabled = true" id="condition">
+                    Submit
+                </button>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

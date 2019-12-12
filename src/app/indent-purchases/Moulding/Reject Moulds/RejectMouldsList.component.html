@@ -1,0 +1,114 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                  Reject Moulds List
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search"  placeholder="Search "  (keyup)="search($event)">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                 <!-- <button mat-raised-button type="button" (click)="Reject()">
+                    Reject
+                </button> 
+                &nbsp;
+                <button mat-raised-button type="button" >
+                    Export
+                </button> -->
+            </div>
+        </div>
+        <div class="content-card">
+
+
+
+
+            <mat-table [dataSource]="listData" class="mat-elevation-z8">
+
+            
+                <ng-container matColumnDef="sno">
+                  <mat-header-cell *matHeaderCellDef fxFlex="6"> S.No. </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i = index;" fxFlex="6"> {{i +1}} </mat-cell>
+                </ng-container>
+              
+            
+                <ng-container matColumnDef="MouldNo">
+                  <mat-header-cell *matHeaderCellDef fxFlex="7">Mould No.</mat-header-cell>
+                  <mat-cell *matCellDef="let element" fxFlex="7"> {{element.MouldNo}} </mat-cell>
+                </ng-container>
+         
+                <ng-container matColumnDef="WorkOrderNo">
+                  <mat-header-cell *matHeaderCellDef fxFlex="7">WOID</mat-header-cell>
+                  <mat-cell *matCellDef="let element" fxFlex="7"> {{element.WOID}} </mat-cell>
+                </ng-container>
+              
+                
+                <ng-container matColumnDef="ClientPONo">
+                  <mat-header-cell *matHeaderCellDef fxFlex="10" class="css">Client PO.No.</mat-header-cell>
+                  <mat-cell *matCellDef="let element" fxFlex="10" class="css"> {{element.ClientPoNo}} </mat-cell>
+                </ng-container>
+              
+                <ng-container matColumnDef="ClientName">
+                    <mat-header-cell *matHeaderCellDef fxFlex="12" class="css">Client Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="12" class="css"> {{element.ClientName}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="DateofMoulding">
+                    <mat-header-cell *matHeaderCellDef fxFlex="8">Date Of Moulding</mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="8"> {{moment(element.MouldingDate).format("DD/MM/YYYY")}} </mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="Contractor">
+                    <mat-header-cell *matHeaderCellDef fxFlex="9" class="css">Contractor Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="9" class="css"> {{element.ContractorName}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Product">
+                    <mat-header-cell *matHeaderCellDef class="css">Product</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ProductName}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Reason" >
+                    <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+                    <mat-cell *matCellDef="let element">  
+              <mat-form-field  fxFlex="100"  appearance="outline" *ngIf="element.isEditable">
+                 <input type="text" [(ngModel)]="element.Reason" matInput id="myInput">
+              </mat-form-field>
+
+                  
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef fxFlex="9">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="9"> 
+                        <button mat-icon-button *ngIf="element.isEditable" (click)="save(element)" onclick="this.disabled = true" ><mat-icon style="    color: blue;">check</mat-icon></button>
+                        <button mat-icon-button *ngIf="element.isEditable" (click)="close(element)" onclick="document.getElementById('myInput').value = ''">
+                            <mat-icon style="   color:red">close</mat-icon>
+                            </button> 
+                        <a  *ngIf="!element.isEditable"  (click)="Reject(element)">Reject</a>
+                    </mat-cell>
+                  </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+

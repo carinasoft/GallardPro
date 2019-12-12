@@ -1,0 +1,125 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+
+        <!-- <button mat-icon-button
+                class="secondary-text"
+                 aria-label="Palette" [routerLink]="['/indent/issue-stock']">
+            <mat-icon class="s-20">arrow_back</mat-icon>
+        </button> -->
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                    Total - Orders
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ">
+                </div>
+            </div>
+          
+           
+           
+
+        </div>
+        
+        <div class="content-card">
+
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+
+                       <ng-container matColumnDef="sno" >
+                            <mat-header-cell *matHeaderCellDef fxFlex="60px">S.No.</mat-header-cell>
+                            <mat-cell *matCellDef="let material;let i = index" fxFlex="60px">
+                                <p class="text-truncate">{{i+1}}</p>   
+                            </mat-cell>
+                        </ng-container>
+    
+                    <ng-container matColumnDef="workorderno" >
+                        <mat-header-cell *matHeaderCellDef fxFlex="60px">order no</mat-header-cell>
+                        <mat-cell *matCellDef="let material;let i = index" fxFlex="60px">
+                            <p class="text-truncate">1982</p>   
+                        </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="order-date" >
+                        <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">Order-Date</mat-header-cell>
+                        <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+                            <p class="text-truncate">02/02/2019</p>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Grade" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Grade">Client PO No.</mat-header-cell>
+                        <mat-cell *matCellDef="let material">
+                           <p class="text-truncate">JBHB/18-19/42</p>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Product Name" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Product Name">Client Name</mat-header-cell>
+                        <mat-cell *matCellDef="let material">
+                            <p class="text-truncate">Artech Engneering Works</p>
+                        </mat-cell>
+                    </ng-container>
+    
+    
+                   
+                  
+                    <ng-container matColumnDef="action" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="action" fxFlex="100px">Status</mat-header-cell>
+                        <mat-cell *matCellDef="let material" fxFlex="100px">
+                            <p class="text-truncate" style="    color: #249c97;">Gallard</p>   
+                        </mat-cell>
+                    </ng-container>
+                  
+    
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+
+           
+
+        </div>
+       
+    </div>
+    
+</div>
+
+
+
+
+
+

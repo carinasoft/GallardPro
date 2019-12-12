@@ -1,0 +1,551 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                    Specification
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search Specification...">
+                </div>
+            </div>
+            <div class="">
+                <!-- <button class="mr-12" mat-raised-button type="button" (click)="EditFormData(buttonName)">
+                    <mat-icon>launch</mat-icon> Edit {{buttonName}}
+              </button>  -->
+                <button class="mr-12" mat-raised-button type="button" (click)="openForm(buttonName)">
+                  <mat-icon>add_circle_outline</mat-icon> {{buttonName}}
+            </button>    
+            <button class="mr-12" mat-raised-button type="button" (click)="downloadCSV()">
+                   Export
+             </button> 
+             <!-- <button class="mr-12"  mat-icon-button type="button" (click)="createCasting()">
+                <mat-icon>add_circle_outline</mat-icon>  
+         </button>  -->
+                
+            </div>
+            <!-- / SEARCH -->
+          
+        </div>
+        <!-- / HEADER -->
+       
+        <!-- CONTENT CARD -->
+
+        <div class="content-card">
+
+<div class="content-card" *ngIf="!value">
+
+        <h3 style="color: #060606; text-align: center; font-size: 18px;font-weight: bold;"> 
+          <span>Grade Name: {{GradeNameDisplay}} 
+
+       
+      </span></h3>
+        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabClick($event)">
+                <mat-tab label="Chemical" >
+
+
+
+
+
+
+                        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" *ngIf="inputFormValue">
+                                <div>
+                              
+                                </div>
+                                <div fxFlex="80%" style="margin-top: 6px;">
+                                  <form class="" [formGroup]="orderForm">
+                                    <div formArrayName="items"
+                                    *ngFor="let item of orderForm.get('items')['controls']; let i = index;" >
+                                    <div [formGroupName]="i">
+                                      
+                                  
+                                  
+                                      <div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center"  style="margin-top:8px;     display: block !important;
+                                      text-align: center;     margin-bottom: -27px;">
+                                        <mat-form-field  fxFlex="40" class="pr-24" appearance="outline" >
+                                                <mat-label>Chemical</mat-label>
+                                               
+                              
+                                  <input type="text" placeholder="Chemical Name" formControlName="ChemicalID"  matInput  [disabled]='true' readonly>
+                                
+                                            </mat-form-field>
+                                            
+                                  
+                                    <mat-form-field  fxFlex="15" class="pr-24" appearance="outline">
+                                        <mat-label>Min Value</mat-label>
+                                        <input type="number" placeholder="" matInput formControlName="MinValue"> 
+                                       
+                                    </mat-form-field>
+                                    <mat-form-field  fxFlex="15" class="pr-24" appearance="outline">
+                                            <mat-label>Max Value</mat-label>
+                                            <input type="number" placeholder="" matInput formControlName="MaxValue"> 
+                                        </mat-form-field> 
+                              
+                                        <button mat-icon-button    color="primary" (click)="removeItem(i)" *ngIf="orderForm.get('items')['controls'].length > 1"><mat-icon style="color:red;">delete</mat-icon></button>
+                                  
+                                  </div>
+                                  </div> 
+                                  </div>
+                                  <div style="text-align: center"> 
+                                            <button mat-raised-button style="        width: 200px;
+                                            margin-top: 19px;" type="button" color="accent"  [disabled]="!orderForm.valid" (click)="addData()" *ngIf="formgroupButton" onclick="this.disabled = true">
+                                                Save
+                                            </button> 
+                                            &nbsp;&nbsp;  
+                                            <button mat-raised-button style="margin-top: 19px;" type="button" color="warn"   (click)="formClose()">
+                                           Cancel
+                                          </button>  
+                                  </div>
+                                  </form>
+                                </div>
+                                <div fxFlex="15%" style="flex: inherit;margin-left: 63px !important;margin-right: 6.5%;">
+                                  <div class="text-center" style="
+                                  margin-top: 6px;">
+                                    <button   mat-raised-button  color="accent" type="button" title="new item" (click)="addVendorDetail()">
+                                     Add Chemical <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                  <mat-nav-list style="text-align: end;">
+                                    <mat-list-item *ngFor="let vendor of camical; let i=index;" style="text-align: end; width: 176px;    
+                                    ">
+                                       <!-- <a matLine  (click)="patchValue(vendor)">
+                                            <button mat-raised-button   type="button" title="new item" style=" border-radius: 30px;background-color: #ebedef54;
+                                            margin-bottom: 3px;">
+                                              <mat-icon style="    margin-left: -8px;
+                                              ">add_circle_outline</mat-icon> {{vendor.Name}}
+                                        </button>
+
+                                      
+                                        </a> -->
+                                      
+                                        
+                                        <mat-chip-list class="mat-chip-list-stacked">
+                                          <mat-chip  selected  style="width: 150px;" (click)="patchValue(vendor)">
+                                           <div>{{vendor.Name}}</div> 
+                                          </mat-chip>
+                                        </mat-chip-list>
+                                        
+
+                                    </mat-list-item>
+                                  </mat-nav-list>
+                                </div>
+                                
+                              </div>
+
+<!----TABLE -->
+
+<mat-table class="products-table"
+#table [dataSource]="listData"
+matSort
+[@animateStagger]="{value:'50'}"
+fusePerfectScrollbar  (matSortChange)="sortData($event)" >
+
+
+
+<ng-container matColumnDef="id">
+<mat-header-cell *matHeaderCellDef mat-sort-header="id" [style.width.percentage]="10">SNo.</mat-header-cell>
+<mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+ <p class="text-truncate">{{i+1}}</p>
+</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="progress">
+<mat-header-cell *matHeaderCellDef mat-sort-header="progress">Chemical</mat-header-cell>
+<mat-cell *matCellDef="let indent">
+<p class="text-truncate" >{{indent.Name}}</p>
+</mat-cell>
+</ng-container>
+<ng-container matColumnDef="name">
+<mat-header-cell *matHeaderCellDef mat-sort-header="name">MinValue</mat-header-cell>
+<mat-cell *matCellDef="let indent">
+     <p  *ngIf="!indent.isEditable"> {{indent.MinValue}}</p>
+
+     <div *ngIf="indent.isEditable">
+         <mat-form-field  fxFlex="75" class="pr-24" appearance="outline" >
+         <input type="text" [(ngModel)]="indent.MinValue" matInput>
+         </mat-form-field>
+       </div>
+</mat-cell>
+</ng-container>
+<ng-container matColumnDef="name1">
+<mat-header-cell *matHeaderCellDef mat-sort-header="name1">MaxValue</mat-header-cell>
+<mat-cell *matCellDef="let indent">
+     <p  *ngIf="!indent.isEditable"> {{indent.MaxValue}}</p>
+
+     <div *ngIf="indent.isEditable">
+         <mat-form-field  fxFlex="75" class="pr-24" appearance="outline" >
+         <input type="text" [(ngModel)]="indent.MaxValue" matInput>
+         </mat-form-field>
+       </div>
+
+</mat-cell>
+</ng-container>
+<ng-container matColumnDef="color">
+<mat-header-cell *matHeaderCellDef mat-sort-header="color">Edit</mat-header-cell>
+<mat-cell *matCellDef="let indent">
+            <button mat-icon-button *ngIf="indent.isEditable" (click)="save(indent)" onclick="this.disabled = true"><mat-icon style="    color: blue;">check</mat-icon></button>
+<button mat-icon-button *ngIf="!indent.isEditable" (click)="editRow(indent)"><mat-icon>edit</mat-icon></button>
+<button mat-icon-button *ngIf="indent.isEditable" (click)="close(indent)" >
+<mat-icon style="   color:red">close</mat-icon>
+</button> 
+</mat-cell>
+</ng-container>
+<ng-container matColumnDef="color1">
+<mat-header-cell *matHeaderCellDef mat-sort-header="color1">Delete</mat-header-cell>
+<mat-cell *matCellDef="let indent">
+<button mat-icon-button (click)="delete(indent)" onclick="this.disabled = true"><mat-icon style="color:red">delete</mat-icon></button>
+</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="view">
+<mat-header-cell *matHeaderCellDef mat-sort-header="view"></mat-header-cell>
+<mat-cell *matCellDef="let indent">
+     <div fxFlex="row" fxLayoutAlign="end center">
+      <button mat-icon-button (click)="openView()" style="color: #2e9be5;">
+             <mat-icon>history</mat-icon>                  
+           </button> 
+           <button class="mr-12"  mat-raised-button type="button" (click)="createCasting(indent)">
+                 <mat-icon>add_circle_outline</mat-icon>  Chemical
+          </button> 
+          <button class="mr-12" mat-raised-button type="button" (click)="MechanicalList(indent)">
+                 <mat-icon>add_circle_outline</mat-icon>Mechanical
+       </button>  
+           </div>
+
+</mat-cell>
+</ng-container>
+
+<mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+<mat-row *matRowDef="let indent; columns: displayedColumns;"
+  class="product">
+</mat-row>
+
+</mat-table>
+
+<!-- <mat-paginator #paginator
+    [length]="gradelist.length"
+    [pageIndex]="0"
+    [pageSize]="50"
+    [pageSizeOptions]="[1, 50, 100, 250]">
+  </mat-paginator> -->
+
+<!---Table close -->
+                </mat-tab>
+                <mat-tab label="Mechanical" >
+
+
+                        <form class="" [formGroup]="orderFormMechanical" *ngIf="inputFormValue1">
+                                <div formArrayName="items"
+                                *ngFor="let item of orderFormMechanical.get('items')['controls']; let i = index;" >
+                                <div [formGroupName]="i">
+                              <div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center" style="margin-top:8px;     display: block !important;
+                              text-align: center;     margin-bottom: -27px;">
+                                <mat-form-field fxFlex="35" class="pr-24" appearance="outline">
+                                  <mat-label>Chemical</mat-label>
+                                  <input type="text" placeholder="Chemical Name" formControlName="ChemicalID"  matInput [disabled]='true' readonly>
+                                </mat-form-field>
+                          
+                          
+                                <mat-form-field fxFlex="15" class="pr-24" appearance="outline">
+                                  <mat-label>Min Value</mat-label>
+                                  <input type="number" placeholder="" matInput formControlName="MinValue">
+                          
+                                </mat-form-field>
+                                <mat-form-field fxFlex="15" class="pr-24" appearance="outline">
+                                  <mat-label>Max Value</mat-label>
+                                  <input type="number" placeholder="" matInput formControlName="MaxValue">
+                                </mat-form-field>
+                              </div>
+                          
+                              </div>
+                            </div>
+                            </form>
+                         
+                          <div style="text-align: center" *ngIf="inputFormValue1">
+                          <button mat-raised-button type="button" onclick="this.disabled = true" color="accent" (click)="addMechanicalData()" style="    width: 200px;" [disabled]="!orderFormMechanical.valid">
+                            Save
+                          </button>
+                          &nbsp;&nbsp;  
+                          <button mat-raised-button style="margin-top: 19px;" type="button" color="warn"   (click)="formClose()">
+                         Cancel
+                        </button>  
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                        <mat-table class="products-table"
+                        #table [dataSource]="mechanicalData"
+                        matSort
+                        [@animateStagger]="{value:'50'}"
+                        fusePerfectScrollbar  (matSortChange)="sortData($event)" >
+                        
+                        
+                        
+                        <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="id" [style.width.percentage]="10">SNo.</mat-header-cell>
+                        <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+                         <p class="text-truncate">{{i+1}}</p>
+                        </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="progress">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="progress">Chemical</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate" >{{indent.Name}}</p>
+                        </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="name">MinValue</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                             <p  *ngIf="!indent.isEditable"> {{indent.MinValue}}</p>
+                        
+                             <div *ngIf="indent.isEditable">
+                                 <mat-form-field  fxFlex="75" class="pr-24" appearance="outline" >
+                                 <input type="text" [(ngModel)]="indent.MinValue" matInput>
+                                 </mat-form-field>
+                               </div>
+                        </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="name1">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="name1">MaxValue</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                             <p  *ngIf="!indent.isEditable"> {{indent.MaxValue}}</p>
+                        
+                             <div *ngIf="indent.isEditable">
+                                 <mat-form-field  fxFlex="75" class="pr-24" appearance="outline" >
+                                 <input type="text" [(ngModel)]="indent.MaxValue" matInput>
+                                 </mat-form-field>
+                               </div>
+                        
+                        </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="color">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="color">Edit</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                                    <button mat-icon-button *ngIf="indent.isEditable" onclick="this.disabled = true" (click)="save(indent)" ><mat-icon style="    color: blue;">check</mat-icon></button>
+                        <button mat-icon-button *ngIf="!indent.isEditable" (click)="editRow(indent)"><mat-icon>edit</mat-icon></button>
+                        <button mat-icon-button *ngIf="indent.isEditable" (click)="close(indent)" >
+                        <mat-icon style="   color:red">close</mat-icon>
+                        </button> 
+                        </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="color1">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="color1">Delete</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                        <button mat-icon-button (click)="delete(indent)" onclick="this.disabled = true"><mat-icon style="color:red">delete</mat-icon></button>
+                        </mat-cell>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="view">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="view"></mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                             <div fxFlex="row" fxLayoutAlign="end center">
+                              <button mat-icon-button (click)="openView()" style="color: #2e9be5;">
+                                     <mat-icon>history</mat-icon>                  
+                                   </button> 
+                                   <button class="mr-12"  mat-raised-button type="button" (click)="createCasting(indent)">
+                                         <mat-icon>add_circle_outline</mat-icon>  Chemical
+                                  </button> 
+                                  <button class="mr-12" mat-raised-button type="button" (click)="MechanicalList(indent)">
+                                         <mat-icon>add_circle_outline</mat-icon>Mechanical
+                               </button>  
+                                   </div>
+                        
+                        </mat-cell>
+                        </ng-container>
+                        
+                        <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                        
+                        <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                          class="product">
+                        </mat-row>
+                        
+                        </mat-table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </mat-tab>
+               
+              </mat-tab-group>
+                </div>
+
+
+        </div>
+     
+        <div class="content-card" >
+           
+              
+
+
+            <!-- <mat-table class="products-table"
+                       #table [dataSource]="gradelist"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)" >
+
+               
+
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="id" [style.width.percentage]="10">SNo.</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="progress">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="progress">Chemical</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate" >{{indent.Name}}</p>
+                    </mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="name">MinValue</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                            <p  *ngIf="!indent.isEditable"> {{indent.MinValue}}</p>
+                   
+                            <div *ngIf="indent.isEditable">
+                                <mat-form-field  fxFlex="100" class="pr-24" appearance="outline" >
+                                <input type="text" [(ngModel)]="indent.MinValue" matInput>
+                                </mat-form-field>
+                              </div>
+                    </mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="name1">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="name1">MaxValue</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                            <p  *ngIf="!indent.isEditable"> {{indent.MaxValue}}</p>
+                   
+                            <div *ngIf="indent.isEditable">
+                                <mat-form-field  fxFlex="100" class="pr-24" appearance="outline" >
+                                <input type="text" [(ngModel)]="indent.MaxValue" matInput>
+                                </mat-form-field>
+                              </div>
+  
+                    </mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="color">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="color">Edit</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                                   <button mat-icon-button *ngIf="indent.isEditable" (click)="save(indent)" ><mat-icon style="    color: blue;">check</mat-icon></button>
+                <button mat-icon-button *ngIf="!indent.isEditable" (click)="editRow(indent)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button *ngIf="indent.isEditable" (click)="close(indent)" >
+                    <mat-icon style="   color:red">close</mat-icon>
+                </button> 
+                    </mat-cell>
+                </ng-container>
+                  <ng-container matColumnDef="color1">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="color1">Delete</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <button mat-icon-button (click)="delete(indent)"><mat-icon style="color:red">delete</mat-icon></button>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="view">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                            <div fxFlex="row" fxLayoutAlign="end center">
+                             <button mat-icon-button (click)="openView()" style="color: #2e9be5;">
+                                    <mat-icon>history</mat-icon>                  
+                                  </button> 
+                                  <button class="mr-12"  mat-raised-button type="button" (click)="createCasting(indent)">
+                                        <mat-icon>add_circle_outline</mat-icon>  Chemical
+                                 </button> 
+                                 <button class="mr-12" mat-raised-button type="button" (click)="MechanicalList(indent)">
+                                        <mat-icon>add_circle_outline</mat-icon>Mechanical
+                              </button>  
+                                  </div>
+                      
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product">
+                </mat-row>
+
+            </mat-table> -->
+        </div>
+
+<!-------------------------------------------------------------------------------------------------->
+
+
+
+<!-------------------------------------------------------------------------------------------------->
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+<fuse-sidebar name="addvendorDetails"  position="right" >
+        <h3><strong> Add chemical </strong></h3>
+        
+        <form class="" [formGroup]="indentFormAddChemical">     
+        <div class="text-center" fxLayoutAlign="center center">
+          <mat-form-field  fxFlex="70" class="pr-24" appearance="outline"> 
+            <mat-label> chemical</mat-label>   
+            <input type="text" placeholder=" chemical " formControlName="Name" matInput> 
+          </mat-form-field>
+          &nbsp;
+      </div>
+      
+        <div fxLayoutAlign="center center">
+        <button mat-raised-button cdkFocusInitial onclick="this.disabled = true" color="accent" (click)="addChemical()" [disabled]="!indentFormAddChemical.valid">Save</button>
+      </div>
+      </form>
+      </fuse-sidebar>
+      

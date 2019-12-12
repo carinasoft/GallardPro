@@ -1,0 +1,171 @@
+<div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+  
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2 mat-dialog-title color="primary"> </h2>
+                </span>
+
+               
+            </div>
+            <!-- <div class=""  fxFlex="1" style="flex: 1 1 100%;box-sizing: border-box;max-width: 0%;padding-left: 525px;">
+               
+                    <button  mat-raised-button type="button" color="primary" (click)="downloadCSV()">
+                        Export
+                </button> 
+             
+            </div> -->
+            
+            <div fxFlex="4">
+                    <button  style="    margin-left: -88px;" mat-raised-button type="button" (click)="convert()">
+                            Print
+                    </button> 
+                    &nbsp;
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                    width: 33px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>     
+                    </button>    
+                    </div>
+            </div></div>
+
+
+
+
+
+
+
+  <mat-dialog-content class="mat-typography" id="obrz"> 
+        <!-- <td colspan="2">
+                <table class="table table-bordered">
+                    <tbody><tr>
+                        <th>Work Order ID</th>
+                        <td style="border: 1px solid #ddd;">
+                            <span id="MainContent_fv_WorkDetails_wo_idLabel">666</span>
+                        </td>
+                        <th>Order Date</th>
+                        <td style="border: 1px solid #ddd;">
+                            <span id="MainContent_fv_WorkDetails_wo_dateLabel">12/02/2019</span>
+                        </td>
+                        <th>Date of Delivery</th>
+                        <td style="border: 1px solid #ddd;">
+                            <span id="MainContent_fv_WorkDetails_do_deliveryLabel">23/02/2019</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Client PO No.</th>
+                        <td style="border: 1px solid #ddd;">
+                            <span id="MainContent_fv_WorkDetails_client_po_noLabel">GSL 04</span>
+                        </td>
+                        <th>Client Name</th>
+                        <td style="border: 1px solid #ddd;">
+                            <span id="MainContent_fv_WorkDetails_client_nameLabel">Tefcon Bearing</span>
+                        </td>
+                        <th>PO File</th>
+                        <td style="border: 1px solid #ddd;">
+                            <a id="MainContent_fv_WorkDetails_HyperLink1" href="#" data-original-title="" title=""><span class="text-danger"><i class="fa fa-fw fa-warning"></i>Not Available</span></a>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+                -->
+
+
+
+
+
+                <section fxLayout="row wrap" fxLayoutAlign="center center">
+                        <mat-card fxFlex="500px" fxFlex.xs="100%">
+                            <mat-card-title>Approve Detail</mat-card-title>
+                            <mat-card-content>
+                              <div fxLayout="column wrap" fxLayoutGap="40px">
+                                <div fxLayout="row wrap" fxFlex>
+                                  <div fxFlex><strong>Work Order ID:</strong></div>
+                                  <div fxFlex>666</div>
+                                </div>
+                          
+                                <div fxLayout="row wrap" fxFlex>
+                                  <div fxFlex><strong>Client Name:</strong></div>
+                                  <div fxFlex>Tefcon Bearing</div>
+                                </div>
+                          
+                                <div fxLayout="row wrap" fxFlex >
+                                  <div fxFlex><strong>Client PO No.:</strong></div>
+                                  <div fxFlex class="beginner-color">GSL 04</div>
+                                </div>
+                                <div fxLayout="row wrap" fxFlex>
+                                    <div fxFlex><strong>Order Date:</strong></div>
+                                    <div fxFlex class="beginner-color">12/02/2019</div>
+                                </div>
+                                <div fxLayout="row wrap" fxFlex>
+                                    <div fxFlex><strong>Date of Delivery:</strong></div>
+                                    <div fxFlex class="beginner-color">23/02/2019</div>
+                                </div>
+                                <div fxLayout="row wrap" fxFlex>
+                                    <div fxFlex><strong>PO File:</strong></div>
+                                    <div fxFlex class="beginner-color"> <a id="MainContent_fv_WorkDetails_HyperLink1" href="#" data-original-title=""
+                                            title=""><span class="text-danger"><i class="fa fa-fw fa-warning"></i>Not Available</span></a></div>
+                                </div>
+                                <div fxLayout="row wrap" fxFlex>
+                                        <div fxFlex><strong>Mobile No:</strong></div>
+                                        <div fxFlex class="beginner-color"> 970066750</div>
+                                    </div>
+                                    <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Email ID:</strong></div>
+                                            <div fxFlex class="beginner-color">tefconbearing@gmail.com </div>
+                                        </div>
+
+
+
+
+
+
+
+                                <!-- <ng-template #advancedUser>
+                                  <div fxLayout="row wrap" fxFlex>
+                                    <div fxFlex><strong>Type of user:</strong></div>
+                                    <div fxFlex class="advanced-color">Advanced user</div>
+                                  </div>
+                                </ng-template> -->
+                              </div>
+                            </mat-card-content>
+                            <mat-card-actions>
+                              <!-- <mat-form-field>
+                                <mat-select placeholder="Show accounts" (selectionChange)="onChange($event)">
+                                  <mat-option *ngFor="let opt of selectOptions" [value]="opt.value">
+                                    opt.name
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field> -->
+                            </mat-card-actions> 
+                          </mat-card>
+                    </section>
+                    
+
+
+
+
+
+
+  </mat-dialog-content>
+
+  
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4" style="padding-top: 20px !important;     color: #ccc;">
+
+     
+        © 2019 Copyright:<a class="footer-copyright text-left" href="http://carinait.net/gallard">gallardsteel.com </a>- All right Reserved
+        
+    <span class="footer-copyright text-right" style="float: right;     color: #ccc;">
+       Powered by<a href="http://carinait.net"> carinait</a>
+    </span>
+    
+
+  </footer>
+  <!-- Footer -->

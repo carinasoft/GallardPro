@@ -1,0 +1,132 @@
+<!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="space-around center">
+        <div fxFlex="97"><h2 mat-dialog-title>Update Indent</h2>
+          
+      </div>
+        <div fxFlex="3">
+      
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>                  
+        </button>    
+        </div>
+      
+      </div> -->
+
+      <div class="center">
+
+        
+          <div class="header accent"
+               fxLayout="column" fxLayoutAlign="center center"
+               fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+    
+          
+              <div class="logo mb-24 mb-md-0"
+                   fxLayout="row" fxLayoutAlign="start center">
+                  <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                      <h2 mat-dialog-title color="primary"> &nbsp;Update Indent</h2>
+                  </span>
+  
+                 
+              </div>
+          
+              
+              <div fxFlex="4">
+                    
+                      <button mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                      width: 33px;">
+                        <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>                  
+                      </button>    
+                      </div>
+              </div></div>
+
+
+
+  <section class="collapse-pane">
+    <h3 class="mb-0"><strong></strong></h3>
+            
+  </section>
+ <section>  
+  <mat-dialog-content class="mat-typography">
+
+    <mat-table class="products-table mb-48 pb-24"
+             #table [dataSource]="data.indentList"
+             fusePerfectScrollbar>
+
+      <ng-container matColumnDef="serial">
+          <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">S no.</mat-header-cell>
+          <mat-cell *matCellDef="let indent; let i = index" [style.width.percentage]="10">
+              <p class="text-truncate">{{i + 1}}</p>
+          </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef  [style.width.percentage]="10">PO Date</mat-header-cell>
+          <mat-cell *matCellDef="let indent" [style.width.percentage]="10">
+              <p class="text-truncate">{{moment(indent.CreateDate).format("MM/DD/YYYY")}}</p>
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             <p class="text-truncate">{{indent.ItemName}}</p>
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+          <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             <p class="text-truncate">{{indent.CategoryName}}</p>
+          </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="number">
+          <mat-header-cell *matHeaderCellDef>Indent No.</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             <p class="text-truncate">{{indent.IndentId}}</p>
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="qty">
+          <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             
+ <input type="number" name="{{indent.IndentId}}" [(ngModel)]="indent.Quantity" class="table_input" />{{indent.UOM}}
+          </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+          <mat-header-cell *matHeaderCellDef>Unit</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             <p class="text-truncate"></p>
+          </mat-cell>
+      </ng-container>  
+      <ng-container matColumnDef="newqty">
+     
+     
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+              <div fxFlex="row" fxLayoutAlign="end center">
+              &nbsp;<button mat-raised-button type="button" onclick="this.disabled = true" color="accent" (click)="updateData(indent.IndentId)">Update</button>
+            </div>
+            </mat-cell>
+      
+   
+</ng-container>
+     
+      
+
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+      <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+               class="product"
+               matRipple>
+      </mat-row>
+
+  </mat-table>
+</mat-dialog-content>
+</section>
+
+
+    

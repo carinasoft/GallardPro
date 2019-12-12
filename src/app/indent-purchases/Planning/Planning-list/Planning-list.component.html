@@ -1,0 +1,355 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                   Planning
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search"  placeholder="Search ">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                <!-- <button mat-raised-button type="button" (click)="createProduct()">
+                    Add Heat
+                </button> -->
+                &nbsp;
+                <button mat-raised-button type="button" >
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="content-card">
+<form>
+<div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+
+
+    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                margin-top: -1.25em;
+                position: relative;margin-top: 17px;">
+        <mat-label>Date From</mat-label>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+ <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+            margin-top: -1.25em;
+            position: relative;margin-top: 17px;">
+        <mat-label>Date </mat-label>
+        <input matInput [matDatepicker]="picker2" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+        margin-top: -1.25em;
+        position: relative;margin-top: 17px;">
+        <mat-label>Contractor </mat-label>
+        <mat-select>
+            <mat-option value="Contractor 1">Contractor 1</mat-option>
+            <mat-option value="Contractor 2">Contractor  2</mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;margin-top: 17px;">
+        <mat-label>
+                Status </mat-label>
+        <mat-select>
+            <mat-option value="Complete">Complete</mat-option>
+            <mat-option value="Status">Status</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button type="button" color="secondary" style="    height: 37px;
+    margin-top: 23px;
+    color: green;">
+            View
+        </button>
+</div>
+</form>
+
+
+
+
+
+<div class="form-group">
+        <table class="table table-bordered">
+            <tbody><tr>
+                <th style="width: 25%;border: 1px solid #ddd;">Date of Planing</th>
+                <th style="width: 25%;border: 1px solid #ddd;">
+                    <label for="MainContent_ddl_Contractor" id="MainContent_lbl_Date">01/07/2018 - 31/07/2018</label>
+                </th>
+                <th style="width: 25%;border: 1px solid #ddd;">Contractor</th>
+                <th style="width: 25%;border: 1px solid #ddd;">
+                    <label for="MainContent_ddl_Contractor" id="MainContent_lbl_Contractor">Banwari</label>
+                </th>
+            </tr>
+        </tbody></table>
+    </div>
+
+
+
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index;"> {{i +1}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="MouldNo">
+                  <th mat-header-cell *matHeaderCellDef> Mould No. </th>
+                  <td mat-cell *matCellDef="let element"> {{element.MouldNo}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Date of Planning">
+                  <th mat-header-cell *matHeaderCellDef> Date of Planning </th>
+                  <td mat-cell *matCellDef="let element"> {{element.DateofPlanning}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="Work Order No.">
+                  <th mat-header-cell *matHeaderCellDef>Work Order No.</th>
+                  <td mat-cell *matCellDef="let element"> {{element.WorkOrderNo}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="Client PO No">
+                    <th mat-header-cell *matHeaderCellDef>Client PO No</th>
+                    <td mat-cell *matCellDef="let element"> {{element.ClientPONo}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="OrderDate">
+                    <th mat-header-cell *matHeaderCellDef> OrderDate </th>
+                    <td mat-cell *matCellDef="let element"> {{element.OrderDate}} </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="Client Name">
+                    <th mat-header-cell *matHeaderCellDef> Client Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ClientName}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Base">
+                    <th mat-header-cell *matHeaderCellDef> Base</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Base}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Grade">
+                    <th mat-header-cell *matHeaderCellDef>Grade</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Product">
+                        <th mat-header-cell *matHeaderCellDef>Product</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Product}} </td>
+                      </ng-container>
+    
+                      <ng-container matColumnDef="Weight">
+                        <th mat-header-cell *matHeaderCellDef> Weight </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Weight}} </td>
+                      </ng-container>
+    
+                      <ng-container matColumnDef="Notes">
+                        <th mat-header-cell *matHeaderCellDef> Notes </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Notes}} </td>
+                      </ng-container>
+
+                  <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef>View</th>
+                    <td mat-cell *matCellDef="let element">  
+
+                 
+                        <button mat-icon-button  ><mat-icon>edit</mat-icon></button>
+                          
+
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element"> 
+
+                        <button mat-icon-button ><mat-icon style="color:red">delete</mat-icon></button>
+                    </td>
+                  </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<fuse-sidebar name="addvendorDetails" position="right" class="width-500 p-12 bg-white">
+    <h3><strong> Add Heat
+        </strong></h3>
+    <form>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Date of Heat </mat-label>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Furnace</mat-label>
+                <mat-select>
+                    <mat-option value="1000">1000</mat-option>
+                    <mat-option value="500">500</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Code</mat-label>
+                <input type="text" placeholder="" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Type</mat-label>
+                <mat-select>
+                    <mat-option value="1000">ms</mat-option>
+                    <mat-option value="500">cs</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="47" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Grade</mat-label>
+                <mat-select>
+                    <mat-option value="10sdasd00">adads</mat-option>
+                    <mat-option value="5asdasdas00">csadsadsas</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Heat Time (Start)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Heat Time (End)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Tapping Time (Start)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Tapping Time (End)</mat-label>
+                <input type="time" atp-time-picker matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Power Reading (Start)</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Power Reading (End)</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Tapping Temperature</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+                   margin-top: -1.25em;
+                   position: relative;">
+                <mat-label>Pouring Temperature</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+        </div>
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+            <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;">
+                <mat-label>Spectrometer Result No.</mat-label>
+                <input type="text" matInput />
+            </mat-form-field>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" style="margin-top: 10px;">
+            <div class="text-center">
+                <button mat-raised-button cdkFocusInitial color="accent">Save</button>
+            </div>
+        </div>
+    </form>
+</fuse-sidebar>

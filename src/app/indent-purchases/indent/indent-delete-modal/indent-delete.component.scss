@@ -1,0 +1,11 @@
+/** No CSS for this example */
+.full-width-modal mat-dialog-actions {
+	background: #eee !important;
+    margin: 0 -25px;
+}
+:ng-host .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 10px 0;
+}
+.cdk-column-action {
+	max-width: 85px;
+}

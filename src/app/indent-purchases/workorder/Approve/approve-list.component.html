@@ -1,0 +1,269 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+
+    <div class="top-bg accent"></div>
+   
+    <div class="center">
+
+    
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+      
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+
+     
+                <span class="logo-text h1" >
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                        Approve-list
+                </span>
+            </div>
+           
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ">
+                </div>
+            </div>
+           
+
+        </div>
+  
+        <div class="content-card">
+
+                <mat-table class="products-table"
+                #table [dataSource]="dataSource1"
+                matSort
+                
+                fusePerfectScrollbar  (matSortChange)="sortData($event)">
+    
+                <!-- <ng-container matColumnDef="sno" >
+                     <mat-header-cell *matHeaderCellDef fxFlex="70px">S.No.</mat-header-cell>
+                     <mat-cell *matCellDef="let material;let i = index" fxFlex="70px">
+                         <p class="text-truncate">{{i+1}}</p>   
+                     </mat-cell>
+                 </ng-container> -->
+    
+         <ng-container matColumnDef="workorderno" >
+             <mat-header-cell *matHeaderCellDef >Work order no</mat-header-cell>
+             <mat-cell *matCellDef="let material;let i = index" >
+                 <p class="text-truncate">
+                     <a [routerLink]="" (click)="viewWorkOrder(material)">     
+                    {{material.WOID}}
+                         </a> 
+                </p>   
+             </mat-cell>
+         </ng-container>
+    
+         <ng-container matColumnDef="order-date" >
+             <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">Order-Date</mat-header-cell>
+             <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+                 <p class="text-truncate">{{moment(material.Orderdate).format('MM/DD/YYYY')}}</p>
+             </mat-cell>
+         </ng-container>
+    
+         <ng-container matColumnDef="Delivery Date" >
+             <mat-header-cell *matHeaderCellDef mat-sort-header="Delivery Date">Delivery Date</mat-header-cell>
+             <mat-cell *matCellDef="let material">
+                <p class="text-truncate">{{moment(material.Deliverydate).format('MM/DD/YYYY')}}</p>
+             </mat-cell>
+         </ng-container>
+    
+         <ng-container matColumnDef="Client PO No" >
+             <mat-header-cell *matHeaderCellDef mat-sort-header="Client PO No">Client PO No</mat-header-cell>
+             <mat-cell *matCellDef="let material">
+                 <p class="text-truncate">{{material.ClientPoNo}}</p>
+             </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="Client Name" >
+                 <mat-header-cell *matHeaderCellDef mat-sort-header="Client Name">Client Name</mat-header-cell>
+                 <mat-cell *matCellDef="let material">
+                     <p class="text-truncate">{{material.Name}}</p>
+                 </mat-cell>
+             </ng-container>
+    
+    
+         <ng-container matColumnDef="Entry Date" >
+             <mat-header-cell *matHeaderCellDef mat-sort-header="Entry Date">Entry Date</mat-header-cell>
+             <mat-cell *matCellDef="let material">
+                 <p class="text-truncate">{{moment(material.Entrydate).format('MM/DD/YYYY')}}</p>
+             </mat-cell>
+         </ng-container>
+    
+         <ng-container matColumnDef="Username" >
+                 <mat-header-cell *matHeaderCellDef mat-sort-header="Username">Design</mat-header-cell>
+                 <mat-cell *matCellDef="let material">
+                    
+                         <div ><mat-icon>
+                             <a href="/{{material.UploadPo}}" target="_blank">image</a></mat-icon></div>
+                 </mat-cell>
+             </ng-container>
+    
+          
+                     
+         <ng-container matColumnDef="view" >
+                 
+             <mat-header-cell *matHeaderCellDef mat-sort-header="view" fxFlex="100px">Status</mat-header-cell>
+             <mat-cell *matCellDef="let material" fxFlex="100px">
+                <!-- (click)="openApprove()" -->
+        <!-- <mat-icon style="color: #2e9be5;">history</mat-icon>  -->
+                             <p class="text-truncate">{{material.Status}}</p>
+    
+    
+                     </mat-cell>
+         
+         </ng-container>
+    
+     <ng-container matColumnDef="action" sticky>
+                
+             <mat-header-cell *matHeaderCellDef mat-sort-header="action" fxFlex="100px">Action</mat-header-cell>
+             <mat-cell *matCellDef="let material" fxFlex="100px">
+                    
+                    <button mat-icon-button (click)="delete(material)" onclick="this.disabled = true"><mat-icon style="color: red;" >delete</mat-icon></button>
+                    
+     <!--<button mat-icon-button (click)="viewWorkOrder(material)"><mat-icon style="color: #2e9be5;">history</mat-icon></button>-->
+     
+             </mat-cell>
+           
+         </ng-container> 
+       
+    
+    
+    
+    
+         <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+    
+         <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                  class="product">
+         </mat-row>
+    
+     </mat-table>
+    
+
+            <!-- <mat-table class="products-table"
+            #table [dataSource]="dataSource"
+            matSort
+            [@animateStagger]="{value:'50'}"
+            fusePerfectScrollbar  (matSortChange)="sortData($event)">
+           
+            <ng-container matColumnDef="sno" >
+                 <mat-header-cell *matHeaderCellDef fxFlex="70px">S.No.</mat-header-cell>
+                 <mat-cell *matCellDef="let material;let i = index" fxFlex="70px" >
+                     <p class="text-truncate">{{i+1}}</p>   
+                 </mat-cell>
+             </ng-container>
+           
+           <ng-container matColumnDef="workorderno" >
+           <mat-header-cell *matHeaderCellDef >Work order no</mat-header-cell>
+           <mat-cell *matCellDef="let material;let i = index" >
+             <p class="text-truncate">1982</p>   
+           </mat-cell>
+           </ng-container>
+           
+           <ng-container matColumnDef="order-date" >
+           <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">Order-Date</mat-header-cell>
+           <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+             <p class="text-truncate">02/02/2019</p>
+           </mat-cell>
+           </ng-container>
+           
+           <ng-container matColumnDef="Grade" >
+           <mat-header-cell *matHeaderCellDef mat-sort-header="Grade" fxFlex="100px">Grade</mat-header-cell>
+           <mat-cell *matCellDef="let material" fxFlex="100px">
+            <p class="text-truncate">IS 276- Grade VII</p>
+           </mat-cell>
+           </ng-container>
+           
+           <ng-container matColumnDef="Product Name" >
+           <mat-header-cell *matHeaderCellDef mat-sort-header="Product Name" fxFlex="90px">Product Name</mat-header-cell>
+           <mat-cell *matCellDef="let material" fxFlex="90px">
+             <p class="text-truncate">BULLET 20X10</p>
+           </mat-cell>
+           </ng-container>
+           
+           
+           <ng-container matColumnDef="Total Net Weight" >
+           <mat-header-cell *matHeaderCellDef mat-sort-header="quantity" fxFlex="100px">Net Weight</mat-header-cell>
+           <mat-cell *matCellDef="let material" fxFlex="100px">
+             <p class="text-truncate">175.000</p>
+           </mat-cell>
+           </ng-container>
+           
+           <ng-container matColumnDef="Notes" >
+             <mat-header-cell *matHeaderCellDef mat-sort-header="Notes" >Notes</mat-header-cell>
+             <mat-cell *matCellDef="let material" >
+                 <p class="text-truncate">29.5/19.5 </p>
+             </mat-cell>
+           </ng-container>
+           
+           <ng-container matColumnDef="No. of Ordered Pieces" >
+                 <mat-header-cell *matHeaderCellDef mat-sort-header="No. of Ordered Pieces">No.of Pieces</mat-header-cell>
+                 <mat-cell *matCellDef="let material">
+                     <p class="text-truncate">2</p>
+                 </mat-cell>
+             </ng-container>
+           
+             <ng-container matColumnDef="Planned" >
+                     <mat-header-cell *matHeaderCellDef mat-sort-header="Planned" >Planned</mat-header-cell>
+                     <mat-cell *matCellDef="let material">
+                         <p class="text-truncate">0</p>
+                     </mat-cell>
+                 </ng-container>
+                 <ng-container matColumnDef="status" >
+                         <mat-header-cell *matHeaderCellDef mat-sort-header="status" >Status</mat-header-cell>
+                         <mat-cell *matCellDef="let material">
+                             <p class="text-truncate" style="color:green;">Pending</p>
+                         </mat-cell>
+                     </ng-container>
+                 
+           <ng-container matColumnDef="view" >
+            
+           <mat-header-cell *matHeaderCellDef mat-sort-header="view" fxFlex="100px">Order stage</mat-header-cell>
+           <mat-cell *matCellDef="let material" fxFlex="100px">
+                 <button mat-icon-button [routerLink]="['/indent/work-order-status']"><mat-icon style="color: #2e9be5;" >history</mat-icon> </button>                   
+                 
+                 <button mat-icon-button (click)="open()">     
+                         <mat-icon>print</mat-icon>
+                        </button>
+                 </mat-cell>
+           
+           </ng-container>
+           
+           <ng-container matColumnDef="action" sticky>
+           <mat-header-cell *matHeaderCellDef mat-sort-header="action" fxFlex="100px">Action</mat-header-cell>
+           <mat-cell *matCellDef="let material" fxFlex="100px">
+                 <button mat-icon-button (click)="save()"><mat-icon  >edit</mat-icon></button>   
+                 <button mat-icon-button ><mat-icon style="color: red;" >delete</mat-icon></button>   
+              
+           </mat-cell>
+           </ng-container>
+
+           <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+           
+           <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+              class="product">
+           </mat-row>
+           
+           </mat-table> -->
+        
+
+
+
+        </div>
+       
+    </div>
+    
+</div>
+
+
+
+
+
+

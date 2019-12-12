@@ -1,0 +1,174 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+  
+    <div class="top-bg accent"></div>
+   
+
+ 
+    <div class="center">
+
+       
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+           
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                                Chemical
+                </span>
+            </div>
+           
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ...">
+                </div>
+            </div>
+            <div class="">
+                    <!-- <button mat-raised-button type="button" (click)="createChemical()">
+                        Add New 
+                    </button> -->
+                    <button mat-raised-button type="button" (click)="openForm()">
+                        Add New 
+                    </button>
+                    &nbsp;
+                    <button mat-raised-button type="button" (click)="downloadCSV()">
+                            Export
+                        </button>
+                
+            </div>
+           
+
+        </div>
+
+
+
+
+
+        <mat-card style="text-align: center " *ngIf="inputFormValue">
+            <div class="content-card" style="text-align: center;margin-bottom: -45px; " *ngIf="inputFormValue">
+                <div style="text-align: center;" class="text-center">
+                        <mat-card-content style="text-align: center;    margin-left: 269px;">
+                    <form class="" [formGroup]="chemicalForm">
+                     <mat-form-field fxFlex="30" class="pr-24" appearance="outline">
+                     <mat-label>Chemical</mat-label>
+                    <input type="text" placeholder="" matInput formControlName="Name">
+                    </mat-form-field>
+    
+                    &nbsp;&nbsp;
+                    <span>
+              <button mat-raised-button onclick="this.disabled = true" type="button" color="accent" (click)="addChemical()" [disabled]="chemicalForm.invalid">
+                  Add
+                </button>
+                   &nbsp;
+                   <button mat-raised-button type="button" color="warn" (click)="cancelForm()">
+                     Cancel
+                   </button>
+                    </span>
+                    </form>
+                    </mat-card-content>
+                </div>
+            </div>
+    </mat-card>
+
+
+
+
+
+
+
+
+       
+        <div class="content-card">
+           
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+               
+
+
+                
+
+                <ng-container matColumnDef="S.NO.">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="S.NO." [style.width.percentage]="10">SNo.</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Casting Base">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Casting Base">Chemical</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p *ngIf="!indent.isEditable" class="text-truncate">{{indent.Name}}</p>
+                       <div *ngIf="indent.isEditable">
+                            <mat-form-field  fxFlex="100" class="pr-24" appearance="outline">
+                        <input type="text" [(ngModel)]="indent.Name" matInput>
+                        </mat-form-field>
+                    
+                   
+                      </div>
+                    </mat-cell>
+                </ng-container>
+
+               
+
+                <ng-container matColumnDef="Action">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Action">Action</mat-header-cell>
+                    <!-- </div> -->
+                    <mat-cell *matCellDef="let indent">
+                            <!-- <div fxFlex="row" fxLayoutAlign="end center"> -->
+
+                                    <button mat-icon-button onclick="this.disabled = true" *ngIf="indent.isEditable" (click)="save(indent)" >
+                                        <mat-icon style="    color: blue;">check</mat-icon>
+                                    </button>
+                                    <button mat-icon-button *ngIf="indent.isEditable" (click)="close(indent)" >
+                                            <mat-icon style="   color:red">close</mat-icon>
+                                        </button>
+                                    <button mat-icon-button *ngIf="!indent.isEditable" (click)="editRow(indent)">
+                                      <mat-icon>edit</mat-icon>
+                                   
+                                  </button>
+      
+                                  <button mat-icon-button (click)="delete(indent)" onclick="this.disabled = true">
+                                      <mat-icon style="color:red">delete</mat-icon>
+                                    
+                                  </button>
+                             
+                              <!-- <button mat-icon-button *ngIf="indent.isEditable" (click)="save(indent)" ><mat-icon style="    color: blue;">check</mat-icon></button>
+                              <button mat-icon-button *ngIf="!indent.isEditable" (click)="editRow(indent)"><mat-icon>edit</mat-icon></button>
+                              <button mat-icon-button (click)="delete(indent)"><mat-icon style="color:red">delete</mat-icon></button>
+                      -->
+                    </mat-cell>
+                </div>
+                </ng-container>
+
+                
+
+
+               
+               
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+        </div>
+    </div>
+    
+</div>

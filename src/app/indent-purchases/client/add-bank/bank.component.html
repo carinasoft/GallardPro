@@ -1,0 +1,170 @@
+<div class="center">
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+    <h2 mat-dialog-title color="primary"  style="margin-top: 7px;
+    margin-left: 9px;">Add bank Details</h2>
+   
+                </span>
+            </div>  
+            <div fxFlex="4">                
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 30px;
+                    width: 30px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>                  
+                    </button>    
+                    </div>
+            </div></div>
+
+       
+       <form class="" style="margin-top: 15px;" [formGroup]="contactForm">
+            
+
+            <!-- {   "Id":2, "BankName":"SBI","BranchName": "Godha Colony",
+            "AccountNumber": "1236547899","AccountHolderName":"Rajesh",
+            "BranchAddress":"Indore","BankAcType":"Saing","MICRCode":"88888","BSRCode":"132547" -->
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Bank Name</mat-label>
+                     <input type="text" placeholder="Bank Name" matInput  formControlName="BankName" >
+                </mat-form-field>
+                <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                        <mat-label>Branch Name</mat-label>
+                        <input type="text" placeholder="Branch Name" matInput    formControlName="BranchName" />
+                </mat-form-field>             
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                    <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                        <mat-label>Account Number</mat-label>
+                         <input type="text" placeholder="Account Number" matInput  formControlName="AccountNumber" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                            <mat-label>Account Holder Name </mat-label>
+                            <input type="text" placeholder="Account Holder Name " matInput    formControlName="AccountHolderName" />
+                    </mat-form-field>             
+                </div>
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                        <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                            <mat-label>Branch Address </mat-label>
+                             <input type="text" placeholder="Branch Address " matInput  formControlName="BranchAddress" >
+                        </mat-form-field>
+                     <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                                <mat-label>IFSC Code </mat-label>
+                                <input type="text" placeholder="IFSC Code " matInput    formControlName="IFCSCode" />
+                        </mat-form-field>              
+                    </div>
+                    <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                            <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                                <mat-label>MICR Code</mat-label>
+                                 <input type="text" placeholder="MICR Code" matInput  formControlName="MICRCode" >
+                            </mat-form-field>
+                            <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                                    <mat-label>BSR code </mat-label>
+                                    <input type="text" placeholder="BSR code " matInput    formControlName="BSRCode" />
+                            </mat-form-field>             
+                        </div>
+
+
+
+
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">               
+                        <mat-form-field>
+                                <mat-label>Bank A/c Type</mat-label>
+                                <select matNativeControl required  formControlName="BankAcType" >
+                                  <option value="saving">saving</option>
+                                  <option value="loan">loan</option>
+                                  <option value="current">current</option>
+                                  
+                                </select>   
+                            </mat-form-field>  
+                    </div>
+                
+
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button type="button" color="accent" onclick="this.disabled = true" (click)="addBankData()">
+                    Save
+                </button>
+            </div>
+
+        </form>
+
+
+
+<!-- <fuse-sidebar name="rawMaterialForm" position="right" class="width-400 p-24 bg-white">
+  
+       <form class="example-form" [formGroup]="addMaterialForm">
+            <div class="h2 mb-12">Add Material</div>
+
+            
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="70" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input type="text" placeholder="Raw Material Name" matInput formControlName="ItemName" />
+              </mat-form-field>
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Category</mat-label>
+
+                 <input type="text" placeholder="Category" matInput formControlName="CategoryId" [matAutocomplete]="category"> 
+                     <mat-autocomplete #category="matAutocomplete" [displayWith]="selectCategory.bind(this)">
+                        <mat-option *ngFor="let category of (categoryFilter | async)" [value]="category.CategoryId">
+                        {{ category.CategoryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(categoryFilter | async) && !(categoryFilter | async).length && addMaterialForm.get('CategoryId').value" matSuffix>
+                    <mat-icon  (click)="addCategory()">add_circle_outline</mat-icon>
+                    </button>
+               </mat-form-field>
+            </div>
+            
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Unit</mat-label>
+
+                    <input type="text" placeholder="Unit of measurment" matInput formControlName="UOMID"  [matAutocomplete]="unit">
+                    <mat-autocomplete #unit="matAutocomplete" [displayWith]="selectUnit.bind(this)">
+                        <mat-option *ngFor="let option of (unitFilter | async)" [value]="option.UOMID">
+                        {{option.UOM}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(unitFilter | async) && !(unitFilter | async).length && addMaterialForm.get('UOMID').value" matSuffix>
+                    <mat-icon  (click)="addUnit()">add_circle_outline</mat-icon>
+                    </button>
+
+              </mat-form-field> 
+            </div> 
+
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+
+                 <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>GST %</mat-label>
+                    <mat-select placeholder="Choose GST" formControlName="Gst">
+                        <mat-option *ngFor="let item of gstList" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                 <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>HSN Code</mat-label>
+                    <input type="text" placeholder="HSN Code" matInput formControlName="HsnCode">
+                </mat-form-field> 
+
+
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button type="button" color="accent" (click)="addRawMaterial()" [disabled]="addMaterialForm.invalid">
+                    Save
+                </button>
+            </div>
+
+</form>
+
+</fuse-sidebar> -->

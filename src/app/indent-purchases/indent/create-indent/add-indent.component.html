@@ -1,0 +1,204 @@
+<div class="center">
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+    <h2 mat-dialog-title color="primary" *ngIf="!isUpdate" style="margin-top: 7px;
+    margin-left: 9px;">Add Indent</h2>
+    <h2 mat-dialog-title color="primary" *ngIf="isUpdate">Update Indent</h2>
+                </span>
+            </div>  
+            <div fxFlex="4">                
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 30px;
+                    width: 30px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>                  
+                    </button>    
+                    </div>
+            </div></div>
+
+
+
+
+
+
+       
+       
+       
+       <form class="" [formGroup]="indentForm" style="margin-top: 15px;">
+            <!-- <div class="h2 mb-12" *ngIf="!isUpdate">Add Indent</div>
+            <div class="h2 mb-12" *ngIf="isUpdate">Update Indent</div> -->
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field appearance="outline" fxFlex="50" class="pr-24">
+                    <mat-label>Date of Requirment</mat-label>
+                    <input matInput [matDatepicker]="datePicker" placeholder="Date" formControlName="CreateDate">
+                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+        
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Material Name</mat-label>
+                    <input type="text" placeholder="Type to search.." matInput formControlName="RawMaterialId" [matAutocomplete]="materialDD">
+                    <mat-autocomplete #materialDD="matAutocomplete">
+                        <mat-option *ngFor="let option of materialFilter | async" [value]="option.ItemName" (onSelectionChange)="onSelectMaterial(option)">
+                        {{option.ItemName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-icon-button *ngIf="(materialFilter | async) && !(materialFilter | async).length && indentForm.get('RawMaterialId').value" matSuffix>
+                    <mat-icon  (click)="openRawMaterialForm()">add_circle_outline</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Category</mat-label>
+                    <mat-select placeholder="Category" formControlName="CategoryId" readonly>
+                        <mat-option *ngFor="let item of categoryList" [value]="item.CategoryId">
+                        {{item.CategoryName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Stock Unit</mat-label>
+                    <mat-select placeholder="Unit" formControlName="UOMID">
+                        <mat-option *ngFor="let item of unitList" [value]="item.UOMID">
+                        {{item.UOM}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Quantity</mat-label>
+
+                        <input type="text" placeholder="Quantity" matInput formControlName="Quantity">
+                </mat-form-field>
+
+
+                <!-- <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>HSN Code</mat-label>
+                    <input type="text" placeholder="HSN Code" matInput formControlName="HsnCode">
+                </mat-form-field> -->
+
+                <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                        <input type="text" placeholder="StkUID" matInput formControlName="IndentId" disabled />
+                </mat-form-field>
+
+                <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Priority</mat-label>
+                    <mat-select placeholder="Priority" formControlName="Priority" name="priority">
+                        <mat-option *ngFor="let item of priority" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+                <!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+
+                 <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                        <input type="text" placeholder="StkUID" matInput formControlName="IndentId" disabled />
+                </mat-form-field> 
+
+                 <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>GST %</mat-label>
+                    <mat-select placeholder="Choose GST" formControlName="Gst">
+                        <mat-option *ngFor="let item of gstList" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> 
+
+
+
+            </div> -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-dialog-close mat-raised-button type="button" onclick="this.disabled = true" color="accent" (click)="addNewIndent()" [disabled]="!indentForm.valid"  *ngIf="!isUpdate">
+                    Save
+                </button>
+
+                <button mat-raised-button type="button" color="accent" (click)="updateIndent()" [disabled]="!indentForm.valid" *ngIf="isUpdate">
+                    Update
+                </button>
+            </div>
+
+        </form>
+
+
+
+<fuse-sidebar name="rawMaterialForm" position="right" class="width-400 p-24 bg-white">
+  
+       <form class="example-form" [formGroup]="addMaterialForm">
+            <div class="h2 mb-12">Add Material</div>
+
+            
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="70" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input type="text" placeholder="Raw Material Name" matInput formControlName="ItemName" />
+              </mat-form-field>
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Category</mat-label>
+
+                 <input type="text" placeholder="Category" matInput formControlName="CategoryId" [matAutocomplete]="category"> 
+                     <mat-autocomplete #category="matAutocomplete" [displayWith]="selectCategory.bind(this)">
+                        <mat-option *ngFor="let category of (categoryFilter | async)" [value]="category.CategoryId">
+                        {{ category.CategoryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(categoryFilter | async) && !(categoryFilter | async).length && addMaterialForm.get('CategoryId').value" matSuffix>
+                    <mat-icon  (click)="addCategory()">add_circle_outline</mat-icon>
+                    </button>
+               </mat-form-field>
+            </div>
+            
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Unit</mat-label>
+
+                    <input type="text" placeholder="Unit of measurment" matInput formControlName="UOMID"  [matAutocomplete]="unit">
+                    <mat-autocomplete #unit="matAutocomplete" [displayWith]="selectUnit.bind(this)">
+                        <mat-option *ngFor="let option of (unitFilter | async)" [value]="option.UOMID">
+                        {{option.UOM}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <button type="button" mat-icon-button *ngIf="(unitFilter | async) && !(unitFilter | async).length && addMaterialForm.get('UOMID').value" matSuffix>
+                    <mat-icon  (click)="addUnit()">add_circle_outline</mat-icon>
+                    </button>
+
+              </mat-form-field> 
+            </div> 
+
+            <div class="" fxflex="1 0 auto" fxlayout="column" fxlayoutalign="start center">
+
+                 <mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>GST %</mat-label>
+                    <mat-select placeholder="Choose GST" formControlName="Gst">
+                        <mat-option *ngFor="let item of gstList" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                 <mat-form-field   fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>HSN Code</mat-label>
+                    <input type="text" placeholder="HSN Code" matInput formControlName="HsnCode">
+                </mat-form-field> 
+
+
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button type="button" color="accent" (click)="addRawMaterial()" [disabled]="addMaterialForm.invalid">
+                    Save
+                </button>
+            </div>
+
+</form>
+
+</fuse-sidebar>

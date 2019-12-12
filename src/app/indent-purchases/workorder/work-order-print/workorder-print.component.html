@@ -1,0 +1,251 @@
+<div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+  
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2 mat-dialog-title color="primary"> &nbsp;</h2>
+                </span>
+
+               
+            </div>
+           
+            
+            <div fxFlex="4">
+                    <button  style="    margin-left: -88px;" mat-raised-button type="button" (click)="convert()">
+                            Print
+                    </button> 
+                    &nbsp;
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                    width: 33px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>     
+                    </button>    
+                    </div>
+            </div></div>
+
+  <mat-dialog-content class="mat-typography" id="obrz"> 
+  
+        <!-- <div class="row">
+                <div class="col-75">
+                  <div class="container">
+                    <form action="/action_page.php">
+              
+                      <div class="row">
+                        <div class="col-50" style="    border: 1px solid #ccc;
+                        margin-top: 3px;">
+                          <h3></h3>
+                          <label for="fname"><i class="fa fa-user"></i> Work Order ID</label>
+                          <strong>10123</strong>
+                          
+                          <label for="email"><i class="fa fa-envelope"></i>Client PO No.</label>
+                          <strong>by message</strong>  
+                          
+                          <label for="email"><i class="fa fa-envelope"></i> GST</label>
+                          <strong>554545645455657</strong>  
+                          <label for="email"><i class="fa fa-envelope"></i> Order Date</label>
+                          <strong>02/11/2017</strong>      
+                        </div>
+              
+                        <div class="col-50" style="    border: 1px solid #ccc;
+                        margin-top: 3px;">
+                         
+                          <label for="fname"></label>
+                          
+                          <label for="cname">Client Name</label>
+                         <strong>JAW CRUSH ENGINEERS</strong>
+                         <label for="email"><i class="fa fa-envelope"></i> Mobile No</label>
+                          <strong>5552452545</strong>  
+                          <label for="email"><i class="fa fa-envelope"></i> Email ID</label>
+                          <strong>dsfsd@gmail.com</strong>
+                         <label for="cname">PO File</label>
+                         <strong>5454/rtf/56</strong>
+                         <label for="cname">Date of Delivery</label>
+                         <strong>12/11/2017</strong>
+                          
+                       
+                        </div>
+              
+                      </div>
+                      
+                      
+                    </form>
+                  </div>
+                </div>
+              </div> -->
+
+
+
+
+              <section fxLayout="row wrap" fxLayoutAlign="center center">
+                  <mat-card fxFlex="500px" fxFlex.xs="100%">
+                      <mat-card-title> </mat-card-title>
+                      <mat-card-content>
+                        <div fxLayout="column wrap" fxLayoutGap="40px">
+                          <div fxLayout="row wrap" fxFlex>
+                            <div fxFlex><strong>Work Order ID:</strong></div>
+                            <div fxFlex>666</div>
+                          </div>
+                    
+                          <div fxLayout="row wrap" fxFlex>
+                            <div fxFlex><strong>Client Name:</strong></div>
+                            <div fxFlex>Tefcon Bearing</div>
+                          </div>
+                    
+                          <div fxLayout="row wrap" fxFlex >
+                            <div fxFlex><strong>Client PO No.:</strong></div>
+                            <div fxFlex class="beginner-color">GSL 04</div>
+                          </div>
+                          <div fxLayout="row wrap" fxFlex >
+                              <div fxFlex><strong>GST:</strong></div>
+                              <div fxFlex class="beginner-color">23ALZPS0227M1ZJ</div>
+                            </div>
+                          <div fxLayout="row wrap" fxFlex>
+                              <div fxFlex><strong>Order Date:</strong></div>
+                              <div fxFlex class="beginner-color">12/02/2019</div>
+                          </div>
+                          <div fxLayout="row wrap" fxFlex>
+                              <div fxFlex><strong>Date of Delivery:</strong></div>
+                              <div fxFlex class="beginner-color">23/02/2019</div>
+                          </div>
+                          <div fxLayout="row wrap" fxFlex>
+                              <div fxFlex><strong>PO File:</strong></div>
+                              <div fxFlex class="beginner-color"> <a id="MainContent_fv_WorkDetails_HyperLink1" href="#" data-original-title=""
+                                      title=""><span class="text-danger"><i class="fa fa-fw fa-warning"></i>Not Available</span></a></div>
+                          </div>
+                          <div fxLayout="row wrap" fxFlex>
+                                  <div fxFlex><strong>Mobile No:</strong></div>
+                                  <div fxFlex class="beginner-color"> 970066750</div>
+                              </div>
+                              <div fxLayout="row wrap" fxFlex>
+                                      <div fxFlex><strong>Email ID:</strong></div>
+                                      <div fxFlex class="beginner-color">tefconbearing@gmail.com </div>
+                                  </div>
+                        </div>
+                      </mat-card-content>
+                      <mat-card-actions>
+                      
+                      </mat-card-actions> 
+                    </mat-card>
+              </section>
+              
+
+         
+<!--  =================================                 Print Table  Data      ========================================== -->
+
+<mat-table class="products-table mb-48 pb-24"
+                         #table [dataSource]="data.indentList"
+                         fusePerfectScrollbar  style="    
+                         MARGIN-TOP: 8px;">
+  
+                  <ng-container matColumnDef="serial" >
+                    <mat-header-cell *matHeaderCellDef>S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">1</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="date" >
+                    <mat-header-cell *matHeaderCellDef> Casting Base</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Casting Base</p>
+                    </mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="name" >
+                    <mat-header-cell *matHeaderCellDef>Grade</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Grade</p>
+                  
+                  
+                    </mat-cell>
+                  
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="category" >
+                    <mat-header-cell *matHeaderCellDef>Product</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Net Weight" >
+                    <mat-header-cell *matHeaderCellDef>Net Weight</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Gross Weight" >
+                    <mat-header-cell *matHeaderCellDef>Gross Weight</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Total Net Weight" >
+                    <mat-header-cell *matHeaderCellDef>Total Net Weight</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Total Gross Weight" >
+                    <mat-header-cell *matHeaderCellDef>Total Gross Weight</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="No. of Pieces" >
+                    <mat-header-cell *matHeaderCellDef>No. of Pieces</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Rate / KG" >
+                    <mat-header-cell *matHeaderCellDef>Rate / KG</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Estimate Price" >
+                    <mat-header-cell *matHeaderCellDef>Estimate Price</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="Notes" >
+                    <mat-header-cell *matHeaderCellDef>Notes</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                      <p class="text-truncate">Product</p>
+                    </mat-cell>
+                  </ng-container>
+                
+                  <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true" style="border: 1px solid #ccc;">
+
+                      
+                  </mat-header-row>
+  
+                   <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                  class="product"
+                  matRipple>
+         </mat-row> 
+       
+              </mat-table>
+<!-- =============================================================================================================-->
+  </mat-dialog-content>
+
+  
+
+
+<footer class="page-footer font-small special-color-dark pt-4" style="padding-top: 20px !important;     color: #ccc;">
+
+     
+        © 2019 Copyright:<a class="footer-copyright text-left" href="http://carinait.net/gallard">gallardsteel.com </a>- All right Reserved
+        
+    <span class="footer-copyright text-right" style="float: right;     color: #ccc;">
+       Powered by<a href="http://carinait.net"> carinait</a>
+    </span>
+    
+
+  </footer>
+  <!-- Footer -->

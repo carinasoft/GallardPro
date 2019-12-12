@@ -1,0 +1,423 @@
+
+<!-- <mat-progress-bar [value]="progresValue" *ngIf="progresValue > 0">
+  </mat-progress-bar> -->
+  <div class="spinnerLoading" *ngIf="spinnerValue" >
+      <mat-spinner></mat-spinner>
+      <br>
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div>
+
+  <div class="center" *ngIf="!spinnerValue">
+    
+    
+      <!-- HEADER -->
+      <div class="header accent"
+           fxLayout="column" fxLayoutAlign="center center"
+           fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+          <!-- APP TITLE -->
+          <div class="logo mb-24 mb-md-0"
+               fxLayout="row" fxLayoutAlign="start center">
+              <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                  <h2 mat-dialog-title color="primary">Generate Purchase Order</h2>
+              </span>
+          </div>
+
+          </div></div>
+
+
+
+<mat-dialog-content class="mat-typography" *ngIf="!spinnerValue">
+   
+  <section class="collapse-pane">
+    <h3 class="mb-0"><strong>Supplier Details</strong></h3>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" [formGroup]="createOrderForm">
+               
+                 <mat-form-field  fxFlex="30" class="pr-12" appearance="outline" *ngIf="!data.isUpdate">
+                    <mat-label>Full Name</mat-label>
+                   
+   
+
+                    <input type="text" placeholder="Type to search.." formControlName="SupplierId" matInput  [matAutocomplete]="materialDD">
+                    <mat-autocomplete #materialDD="matAutocomplete" >
+                        <mat-option *ngFor="let vendor of vendorList1 | async" [value]="vendor.VendorName" (onSelectionChange)="onSelectVendor(vendor)">
+                        {{vendor.VendorName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-icon-button *ngIf="(vendorList1 | async) && !(vendorList1 | async).length && createOrderForm.get('SupplierId').value" matSuffix>
+                    <mat-icon  (click)="addVendorDetail()">person_add</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+
+                  <mat-form-field  fxFlex="30" class="pr-12" appearance="outline" *ngIf="data.isUpdate">
+                    <mat-label>Full Name</mat-label>
+                    <input type="text" placeholder="Type to search.." formControlName="SupplierId" matInput  [matAutocomplete]="materialDD" >
+                    <mat-autocomplete #materialDD="matAutocomplete" >
+                        <mat-option *ngFor="let vendor of vendorList1 | async" [value]="vendor.VendorId" (onSelectionChange)="onSelectVendor(vendor)">
+                        {{vendor.VendorName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <button type="button" mat-icon-button *ngIf="(vendorList1 | async) && !(vendorList1 | async).length && createOrderForm.get('SupplierId').value" matSuffix>
+                    <mat-icon  (click)="addVendorDetail()">person_add</mat-icon>
+                    </button>
+                  </mat-form-field>
+
+                <button mat-icon-button (click)="showVendorDetail()" class="mt-8" *ngIf="vendorDetails.VendorName">
+                  <mat-icon>remove_red_eye</mat-icon>                  
+                </button>
+
+
+            
+                <mat-form-field  fxFlex="35" appearance="outline">
+                  <mat-label>Terms of Delivery</mat-label>
+                  <textarea  type="text" placeholder="Terms of delivery" matInput formControlName="TermsofDelivery"></textarea>
+              </mat-form-field>
+            
+            </div>
+
+     
+
+  </section>
+
+
+  <section class="collapse-pane">
+    <h3 class="mb-0"><strong>Purchase Order Details</strong></h3>
+
+      <div class="" [formGroup]="createOrderForm">
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                  <mat-label>PO Date</mat-label>
+
+                    <input matInput [matDatepicker]="datePicker" placeholder="MM/DD/YYYY" formControlName="PODate">
+                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                  <mat-label>PO Number</mat-label>
+                  <input type="text" placeholder="PO Number" matInput formControlName="PONumber"/>
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                  <mat-label>Suppliers Ref. / Order No. </mat-label>
+                  <input type="text" placeholder="Suppliers Ref. / Order No." matInput formControlName="SupplierRef"/>
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                  <mat-label>Dipatch Through</mat-label>
+                  <input type="text" placeholder="Dispatch Through" matInput formControlName="Despatchhrough"/>
+              </mat-form-field>
+              <mat-form-field  fxFlex="20" class="pr-24" appearance="outline">
+                  <mat-label>Payment Terms</mat-label>
+                  <input type="number" placeholder="No. of days" matInput formControlName="PaymentTerms"/>
+              </mat-form-field>
+
+            </div>
+
+      </div>
+  </section>
+  
+   
+ <section>
+  
+              <mat-table class="products-table mat-elevation-z8 mb-48 pb-24"
+                       #table [dataSource]="data.indentList"
+                       fusePerfectScrollbar>
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent; let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i + 1}}</p>
+                    </mat-cell>
+                </ng-container>
+      
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="qty">
+                    <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                        <input type="number" name="{{indent.IndentId}}" [(ngModel)]="indent.OrderQuantity" class="table_input" (ngModelChange)="calculateTotal(indent)" />
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="unit">
+                    <mat-header-cell *matHeaderCellDef>Unit</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.UOM}}</p>
+                    </mat-cell>
+                </ng-container> 
+                
+                 <ng-container matColumnDef="tax">
+                  <mat-header-cell *matHeaderCellDef>GST</mat-header-cell>
+                  <mat-cell *matCellDef="let indent;let i = index">
+                    <p class="text-truncate">{{indent.Gst}}</p>
+                  </mat-cell>
+              </ng-container> 
+
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef>Price per Item</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                      <input type="number" name="{{indent.price}}" class="table_input" [(ngModel)]="indent.Price" (blur)="getPriceHistory(indent.RawMaterialId, i)" (ngModelChange)="calculateTotal(indent)" />
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Basic">
+                    <mat-header-cell *matHeaderCellDef>Basic</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                      <p class="text-truncate">{{indent.Basic?indent.Basic:'0'}}</p>
+                    </mat-cell>
+                </ng-container> 
+                <ng-container matColumnDef="Tax">
+                    <mat-header-cell *matHeaderCellDef>Tax</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                      <p class="text-truncate">{{indent.TaxonBasic?indent.TaxonBasic:'0'}}</p>
+                    </mat-cell>
+                </ng-container> 
+
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                        <ng-container *ngIf="indent.total">
+                            {{ indent.total?indent.total:'0' }}
+                        </ng-container>
+
+                       <ng-container *ngIf="!indent.total">
+                            {{ 0 }}
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+
+                        <button mat-icon-button (click)="removeIndent(indent.RawMaterialId,i)">
+                          <mat-icon style="color: red;">delete</mat-icon>                  
+                        </button>
+
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+
+          </section>
+       
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button *ngIf="!data.isUpdate"  onclick="this.disabled = true"  cdkFocusInitial color="accent" (click)="generateOrder(id)" [disabled]="createOrderForm.invalid">Generate</button>
+  <button mat-button *ngIf="data.isUpdate"  [mat-dialog-close]="true"  cdkFocusInitial color="accent" (click)="updateOrder()" [disabled]="createOrderForm.invalid">Update</button>
+
+
+
+</mat-dialog-actions>
+
+
+<fuse-sidebar name="vendorDetailsAside" [folded]="isVendorDetailShown" position="right" class="width-400 p-12 bg-white">
+  <h3><strong>Vendor Details</strong></h3>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>Supplier ID</mat-label>
+                  <input type="text" placeholder="Supplier ID" matInput [(ngModel)]="vendorDetails.VendorId" name="supplierId" disabled />
+              </mat-form-field>
+              <mat-form-field  fxFlex="50" appearance="outline">
+                  <mat-label>ClientTypeId</mat-label>
+                  <input type="text" placeholder="Email ID" matInput [(ngModel)]="vendorDetails.ClientTypeId" name="ClientTypeId" disabled />
+              </mat-form-field>
+              
+            </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>ServiceTaxNo</mat-label>
+                    <input type="text" placeholder="Supplier ID" matInput [(ngModel)]="vendorDetails.ServiceTaxNo" name="ServiceTaxNo" disabled />
+                </mat-form-field>
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Email ID</mat-label>
+                    <input type="text" placeholder="Email ID" matInput [(ngModel)]="vendorDetails.Email" name="emailId" disabled />
+                </mat-form-field>
+              </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>Mobile No.</mat-label>
+                  <input type="text" placeholder="Mobile No." matInput [(ngModel)]="vendorDetails.MobileNumber" name="MobileNumber" disabled />
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="50" appearance="outline">
+                  <mat-label>PAN</mat-label>
+                  <input type="text" placeholder="PAN" matInput name="pan" [(ngModel)]="vendorDetails.PanNo" disabled />
+              </mat-form-field>   
+ 
+            </div>
+
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>State</mat-label>
+                  <input type="text" placeholder="state" matInput name="state" [(ngModel)]="vendorDetails.StateName" disabled />
+    
+
+              </mat-form-field>
+
+
+              <mat-form-field  fxFlex="50"  appearance="outline">
+                  <mat-label>GSTIN</mat-label>
+                  <input type="text" placeholder="GSTIN" matInput name="gst" [(ngModel)]="vendorDetails.GST" disabled />
+              </mat-form-field>
+
+            </div>
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input type="text" placeholder="city" name="cityName" matInput  [(ngModel)]="vendorDetails.CityName" disabled/>
+               
+              </mat-form-field>
+              <mat-form-field  fxFlex="50" appearance="outline">
+                  <mat-label>Pincode</mat-label>
+                  <input type="text" placeholder="Pincode" name="pincode" matInput  [(ngModel)]="vendorDetails.Pincode" disabled/>
+              </mat-form-field>             
+              </div>
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <textarea placeholder="Address" matInput cols="2"  [(ngModel)]="vendorDetails.Address" name="Address" disabled></textarea>
+              </mat-form-field>
+
+</div>          
+
+</fuse-sidebar>
+
+<fuse-sidebar name="priceHistory" position="right" class="width-400 p-12">
+    <h3 class="mb-0"><strong>Material History</strong></h3>
+    <ul>
+      <li>
+      </li>
+    </ul>
+</fuse-sidebar>
+
+
+
+
+
+
+
+
+
+
+
+<fuse-sidebar name="addvendorDetails" [folded]="isVendorDetailShown" position="right" class="width-500 p-12 bg-white">
+  <h3><strong> Add Vendor </strong></h3>
+  <form class="example-form" [formGroup]="addVendorForm">
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>Client Name</mat-label>
+                  <input type="text" placeholder=" " matInput formControlName="VendorName"  />
+              </mat-form-field>
+              <mat-form-field fxFlex="50" appearance="outline">
+                  <mat-label>ClientType</mat-label>
+                  <mat-select placeholder="Choose ClientType" formControlName="ClientTypeId">
+                          <mat-option *ngFor="let item of ClientType" [value]="item.ClientType">
+                          {{item.ClientType}}
+                          </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50"  appearance="outline">
+                    <mat-label>GSTIN</mat-label>
+                    <input type="text" placeholder="GSTIN" matInput formControlName="GST"  />
+                </mat-form-field>
+
+              <mat-form-field  fxFlex="50" appearance="outline">
+                  <mat-label>Email ID</mat-label>
+                  <input type="text" placeholder="" matInput formControlName="Email"  />
+              </mat-form-field>
+ 
+            </div>
+
+
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>Service tax number</mat-label>
+                  <input type="text" placeholder="" matInput formControlName="ServiceTaxNo"  />
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="50" appearance="outline">
+                  <mat-label>PAN</mat-label>
+                  <input type="text" placeholder="PAN" matInput formControlName="PanNo"  />
+              </mat-form-field>   
+ 
+            </div>
+
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>State</mat-label>
+
+                  <mat-select placeholder="Select State" (selectionChange)="getCity($event.value)" formControlName="StateId" >
+                    <mat-option *ngFor="let state of stateList" [value]="state.ID">
+                      {{state.Name}}
+                    </mat-option>
+                  </mat-select>
+
+              </mat-form-field>
+
+              <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                  <mat-label>City</mat-label>
+                  <mat-select placeholder="Select City" formControlName="CityId" >
+                    <mat-option *ngFor="let city of cityList" [value]="city.ID">
+                      {{city.Name}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+             
+
+            </div>
+
+      
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="100" class="pr-24" appearance="outline">
+                    <mat-label>Mobile number</mat-label>
+                    <input type="text" placeholder="" matInput formControlName="MobileNumber"  />
+                </mat-form-field>
+  
+               
+   
+              </div>
+  
+
+
+
+            <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+
+              <mat-form-field  fxFlex="100" appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <textarea placeholder="Address" matInput cols="2"  formControlName="Address" ></textarea>
+              </mat-form-field>
+
+</div>          
+  
+  <button mat-raised-button cdkFocusInitial color="accent" (click)="AddVendorData()" [disabled]="addVendorForm.invalid">Save</button>
+</form>
+</fuse-sidebar>

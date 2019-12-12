@@ -1,0 +1,446 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+   
+    <div class="top-bg accent"></div>
+   
+
+   
+    <div class="center">
+
+       
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                  Product-list
+                </span>
+            </div>
+            
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search Product...">
+                </div>
+            </div>
+            <div class="">
+                <button mat-raised-button type="button" (click)="downloadCSV()">
+                    Export
+                </button>
+                &nbsp;
+                    <button mat-raised-button type="button" (click)="createProduct()">
+                        New Product
+                    </button>
+                    &nbsp;
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                    (click)="$event.stopPropagation();">
+                <mat-icon class="secondary-text" style="color: rgb(113, 6, 6);">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+
+                    <button mat-menu-item [routerLink]="['/indent/zero-list']">
+                            
+                            <span> Zero Weight</span>
+                        </button>
+
+                <!-- <button mat-menu-item [routerLink]="['/indent/update-list']">
+                   
+                    <span> Update Weight</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/indent/product-register']">
+                   
+                  <span> Product Register</span>
+              </button> -->
+            </mat-menu>
+            </div>
+            
+
+        </div>
+       
+        <div class="content-card">
+           
+            <mat-table class="products-table"
+                       #table [dataSource]="listData"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)" style="width: 100%;
+                       table-layout: fixed;">
+
+
+                
+
+                <ng-container matColumnDef="S.NO.">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="S.NO." [style.width.percentage]="10" class="css">SNo.</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10" class="css">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Product Name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Product Name" class="css">Product Name</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" class="css">
+                       <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                       <div >{{indent.Name}}</div>
+       
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Net Weight">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header="Net Weight" class="css">Net Weight</mat-header-cell>
+                  <mat-cell *matCellDef="let indent" class="css">
+                     <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                     <div >{{indent.NetWeight}}</div>
+      
+                  </mat-cell>
+              </ng-container>
+              
+              <ng-container matColumnDef="Gross Weight">
+                <mat-header-cell *matHeaderCellDef mat-sort-header="Gross Weight">Gross Weight</mat-header-cell>
+                <mat-cell *matCellDef="let indent">
+                   <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                   <div >{{indent.GrossWeight}}</div>
+   
+                </mat-cell>
+            </ng-container>
+
+
+
+
+
+            <!-- <ng-container matColumnDef="Length">
+              <mat-header-cell *matHeaderCellDef mat-sort-header="Length">Length</mat-header-cell>
+              <mat-cell *matCellDef="let indent">
+                 
+                 <div >{{indent.Length}}</div>
+  
+              </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="Width">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Weight">Width</mat-header-cell>
+            <mat-cell *matCellDef="let indent">
+               
+               <div >{{indent.Width}}</div>
+
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Height">
+          <mat-header-cell *matHeaderCellDef mat-sort-header="Height">Height</mat-header-cell>
+          <mat-cell *matCellDef="let indent">
+             
+             <div >{{indent.Height}}</div>
+
+          </mat-cell>
+      </ng-container> -->
+
+      <ng-container matColumnDef="Design">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="Design">Design</mat-header-cell>
+        <mat-cell *matCellDef="let indent">
+           <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+           <div *ngIf="indent.Design">
+              <a href="/{{indent.Design}}" target="_blank"><mat-icon>image</mat-icon></a>
+            
+            </div>
+
+<!-- <input type="file" [(ngModel)]="indent.ItemName"> -->
+<!-- <td-file-upload #fileUpload [(ngModel)]="files" defaultColor="accent" activeColor="warn" cancelColor="primary" (select)="selectEvent($event)"
+  (upload)="uploadEvent($event)" (cancel)="cancelEvent()" accept=".ext,.anotherExt" [disabled]="disabled" multiple>
+  <mat-icon>file_upload</mat-icon><span>{{ files?.name }}</span>
+  <ng-template td-file-input-label>
+    <mat-icon>attach_file</mat-icon>
+    <span>
+      Choose a file...
+    </span>
+  </ng-template>
+</td-file-upload> -->
+
+        </mat-cell>
+    </ng-container>
+
+
+
+
+
+
+                <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Action">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <button mat-icon-button (click)="editRow(indent)"><mat-icon>edit</mat-icon>  </button>
+                        <button mat-icon-button (click)="deleteRow(indent)" onclick="this.disabled = true">
+                            <mat-icon style="color: red">delete</mat-icon>                  
+                          </button>
+                         
+                    </mat-cell>
+                </ng-container>
+
+                
+
+
+               
+               
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="8" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="S.NO.">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+          <input [(ngModel)]="row.ItemName" placeholder="Name" [disabled]="!row.editing" matInput>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Casting Base">
+      <mat-header-cell *matHeaderCellDef> Age </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+          <input type="number" [(ngModel)]="row.ItemName" placeholder="Age"  [disabled]="!row.editing" matInput>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Action">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="accent" (click)="dataSource.createNew()"><i class="fa fa-plus mat-icon"></i></button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button *ngIf="!row.editing" mat-icon-button color="primary" focusable="false" (click)="row.startEdit()">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+        <button *ngIf="row.editing" mat-icon-button color="primary" focusable="false" (click)="row.confirmEditCreate()">
+              <i class="fa fa-check mat-icon"></i>
+            </button>
+        <button mat-icon-button color="primary" focusable="false" (click)="row.cancelOrDelete()">
+              <i class="fa fa-times mat-icon"></i>
+            </button>
+      </mat-cell>
+    </ng-container>
+   
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table> -->
+
+
+  <!-- add New Product -->
+
+
+ 
+  <fuse-sidebar name="addvendorDetails"  position="right" class="width-500 p-12 bg-white">
+    <h3><strong> Add Product </strong></h3>
+    <form class="example-form" [formGroup]="productForm">
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Product Name</mat-label>
+                    <input type="text" placeholder=" " matInput  formControlName="Name"/>
+                </mat-form-field>
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Net Weight<small>(in Kgs.)</small> </mat-label>
+                    <input type="text" placeholder="Net Weight(in Kgs.)" matInput  formControlName="NetWeight"/>
+                </mat-form-field>
+              </div>
+  
+             
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Gross Weight <small>(in Kgs.)</small></mat-label>
+                    <input type="text" placeholder="Gross Weight(in Kgs.) " matInput  formControlName="GrossWeight"/>
+                </mat-form-field>
+  
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Length <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Length (in inch.)" matInput name="pan"  formControlName="Length"/>
+                </mat-form-field>   
+   
+              </div>
+  
+  
+  
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Width <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Width (in inch.)" matInput   formControlName="Width"/>
+                </mat-form-field>
+  
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Height <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Height (in inch.)" matInput  formControlName="Height" />
+                </mat-form-field>   
+   
+              </div>
+  
+  
+             
+  
+              <!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50"  appearance="outline">
+                    <mat-label>GSTIN</mat-label>
+                    <input type="text" placeholder="GSTIN" matInput   />
+                </mat-form-field>
+  
+              </div>
+  
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+  
+               
+             <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Pincode</mat-label>
+                    <input type="text" placeholder="Pincode" name="pincode" matInput   />
+                </mat-form-field>              
+                </div> -->
+  
+  
+  
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                
+                      <mat-label>Upload Design</mat-label>
+                      <!-- <input type="file" id="avatar" (change)="onFileChange($event)" #fileInput formControlName="UploadedImage" > -->
+                      
+                      <input type="file" (change)="fileChange($event)"  #myInput>
+     
+                </div>
+    
+  
+  
+  
+                      
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" style="text-align: center">
+    <button mat-raised-button cdkFocusInitial color="accent" (click)="uploadFiles()" onclick="this.disabled = true" [disabled]="!productForm.valid"  style="    margin-top: 25px;
+    text-align: center;
+    width: 232px;" id="condition">Save</button>
+    </div>
+  </form>
+  </fuse-sidebar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <fuse-sidebar name="addvendorDetails1"  position="right" class="width-500 p-12 bg-white">
+      <h3><strong> Edit Product {{EditId}}</strong></h3>
+      <form class="example-form" >
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Product Name</mat-label>
+                      <input type="text" placeholder=" " matInput  [(ngModel)]="EditName" name="EditName"/>
+                  </mat-form-field>
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Net Weight<small>(in Kgs.)</small> </mat-label>
+                      <input type="text" placeholder="Net Weight(in Kgs.)" matInput  [(ngModel)]="EditNetWeight" name="EditNetWeight"/>
+                  </mat-form-field>
+                </div>
+    
+               
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Gross Weight <small>(in Kgs.)</small></mat-label>
+                      <input type="text" placeholder="Gross Weight(in Kgs.) " matInput  [(ngModel)]="EditGrossWeight" name="EditGrossWeight"/>
+                  </mat-form-field>
+    
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Length <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Length (in inch.)" matInput   [(ngModel)]="EditLength" name="EditLength"/>
+                  </mat-form-field>   
+     
+                </div>
+    
+    
+    
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Width <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Width (in inch.)" matInput   [(ngModel)]="EditWidth" name="EditWidth"/>
+                  </mat-form-field>
+    
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Height <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Height (in inch.)" matInput  [(ngModel)]="EditHeight" name="EditHeight" />
+                  </mat-form-field>   
+     
+                </div>
+    
+    
+               
+    
+                <!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50"  appearance="outline">
+                      <mat-label>GSTIN</mat-label>
+                      <input type="text" placeholder="GSTIN" matInput   />
+                  </mat-form-field>
+    
+                </div>
+    
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    
+                 
+               <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Pincode</mat-label>
+                      <input type="text" placeholder="Pincode" name="pincode" matInput   />
+                  </mat-form-field>              
+                  </div> -->
+    
+    
+    
+                  <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  
+                        <mat-label>Upload Design</mat-label> 
+                        <input type="file" (change)="fileChange($event)"  >
+                        <div class=""  style="text-align: center">
+                    <img src="/{{EditImage}}" height="50" width="50" >
+                  </div>
+                  </div>
+      
+    
+    
+    
+                        
+                  <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" style="text-align: center">
+      <button mat-raised-button cdkFocusInitial color="accent" (click)="updateProduct()"   style="    margin-top: 25px;
+      text-align: center;
+      width: 232px;" id="condition">Update</button>
+      </div>
+    </form>
+    </fuse-sidebar>

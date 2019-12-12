@@ -1,0 +1,156 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+
+                 <button mat-icon-button
+                 class="secondary-text"
+                  aria-label="Palette" [routerLink]="['/indent/issue-stock']">
+             <mat-icon class="s-20">arrow_back</mat-icon>
+         </button>
+                <span class="logo-text h1" >
+                    Item Issued
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search">                </div>
+            </div>
+            <!-- <button mat-raised-button type="button" [routerLink]="['/indent/stock-list']">
+                    Manage Inventory
+            </button> -->
+<!--             <button mat-raised-button type="button" (click)="generateOrder()">
+                    Generate Order
+            </button>
+ -->            <!-- / SEARCH -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" >
+
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="IssuedDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="IssuedDate" [style.width.percentage]="10">S.No.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent; let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="IssuedTo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="IssuedTo" [style.width.percentage]="10">Issued To</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.Name}}</p>
+                    </mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="material">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="name">Material</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="quantity">Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="category text-truncate">
+                            {{indent.Quantity}} ({{ indent.UOM}})
+                        </p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="category">Category</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.CategoryName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="view">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view"></mat-header-cell>
+                    <mat-cell *matCellDef="let material" >
+                            <div fxFlex="row" fxLayoutAlign="end center">
+                        <button mat-icon-button (click)="getHistory(material.RawMaterialId)" style="color: #2e9be5;">
+                            <mat-icon>history</mat-icon>                  
+                          </button>
+                          </div>
+                    </mat-cell>
+                </ng-container>
+
+<!--                 <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="50"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="Edit" (click)="editIndent(indent)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="remove"  (click)="deleteIndent(indent.IndentId)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+ -->                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product"
+                         matRipple>
+                </mat-row>
+
+            </mat-table>
+
+            <!-- <mat-paginator #paginator
+                           [length]="dataSource.filteredData.length"
+                           [pageIndex]="0"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator> -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

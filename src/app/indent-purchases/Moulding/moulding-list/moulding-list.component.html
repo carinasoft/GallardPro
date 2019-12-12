@@ -1,0 +1,375 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+  <div class="top-bg accent"></div>
+  <div class="center">
+    <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+      fxLayoutAlign.gt-sm="space-between center">
+      <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+        <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          Moulding list
+        </span>
+      </div>
+
+
+      <!-- <div class="search-wrapper mx-32 mx-md-0">
+        <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon>search</mat-icon>
+          <input name="search" placeholder="Search " (keyup)="search($event)">
+        </div>
+      </div> -->
+
+
+      <div class="" style="text-align: end">
+        &nbsp;
+      </div>
+
+
+    </div>
+    <div class="content-card">
+      <div class="example-roll">
+      <form [formGroup]="mouldingForm">
+        <div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center stretch" style="border: 2px solid #ccc;"> 
+
+          <mat-form-field fxFlex="20" class="pr-24" appearance="outline" 
+          style="padding: 0 .75em 0 .75em;margin-top:-1.25em;position:relative;margin-top:17px;opacity:1;">
+            <mat-label>Date of Planning</mat-label>
+            <input matInput  [matDatepicker]="picker1" formControlName="PlanDate" (ngModelChange) = "onSearchChange($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 > </mat-datepicker>
+          </mat-form-field>
+
+
+          <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                              margin-top: -1.25em;
+                              position: relative;margin-top: 17px;opacity: 1;">
+            <mat-label>Contractor </mat-label>
+            <mat-select formControlName="ContractorId" (ngModelChange) = "onSearchChange1($event)">
+              <mat-option *ngFor="let con of contractorList" [value]="con.Id">{{con.Name}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+
+
+          <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                          margin-top: -1.25em;
+                          position: relative;margin-top: 17px;opacity: 1;">
+            <mat-label>Shift </mat-label>
+            <mat-select formControlName="Shift" (ngModelChange) = "onSearchChange2($event)">
+              <mat-option value="Day">Day</mat-option>
+              <mat-option value="Night">Night</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <!-- <button mat-raised-button type="button" style="    height: 37px;
+                          margin-top: 23px;
+                          background-image: linear-gradient( #039be5, #37b9e940); color: white" (click)="searchButton()">
+          Search loader
+          </button> -->
+        </div>
+        
+      </form>
+
+
+     
+      <div style="text-align: center;" *ngIf="loader">
+          <!-- <mat-spinner></mat-spinner> -->
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+
+        <div style="text-align: center;margin-top: 50px;" *ngIf="!listData && !loader">
+            <p style="color: red;"> *Please select required filds</p>
+          </div>
+
+      <div class="example-container1 mat-elevation-z8"  *ngIf="listData">
+        
+          <mat-table mat-table [dataSource]="listData"  class="mytable">
+
+
+
+
+            <!-- <ng-container matColumnDef="selected1">
+              <mat-header-cell *matHeaderCellDef="let element" [style.width.percentage]="10" fxFlex="7">
+                <mat-checkbox (change)="$event ? masterToggle() : null" (change)="select($event,element)" (click)="allDataSelect($event, element)"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              >
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element"  fxFlex="7" [class.highlighted]="element.selected == true">
+                <mat-checkbox (click)="$event.stopPropagation()" (click)="selectCompany($event, element)"
+                              (change)="$event ? selection.toggle(element) : null"
+                              [checked]="selection.isSelected(element)"
+                              [(ngModel)]="element.selected" class="checkboxCSS">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container> -->
+
+
+
+
+              <!-- <ng-container matColumnDef="selected">
+                  <mat-header-cell *matHeaderCellDef [style.width.percentage]="10"></mat-header-cell>
+                  <mat-cell *matCellDef="let element" [style.width.percentage]="10" fxFlex="7"> 
+                      <mat-checkbox [(ngModel)]="element.selected" >
+                      </mat-checkbox>
+                  </mat-cell>
+              </ng-container> -->
+           
+    
+            <ng-container matColumnDef="DateofMoulding" >
+              <mat-header-cell *matHeaderCellDef fxFlex="10">Date of Moulding</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="10" [class.highlighted]="element.selected == true">
+                <input type="text" placeholder="" matInput style="border: 1px solid #ccc;;width:86px;
+                height: 31px; border-radius: 5px;" [(ngModel)]="element.MouldingDate"
+                      >
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="MouldNo" >
+              <mat-header-cell *matHeaderCellDef fxFlex="9">Mould No.</mat-header-cell>
+              <mat-cell *matCellDef="let element"  fxFlex="9" [class.highlighted]="element.selected == true">
+    
+    
+                <input type="text" placeholder="" matInput [(ngModel)]="element.MouldNo" style="border: 1px solid #ccc;;
+                    width: 86px;
+                    height: 31px; border-radius: 5px;" >
+    
+              </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="Hardness" >
+                <mat-header-cell *matHeaderCellDef fxFlex="9">Hardness</mat-header-cell>
+                <mat-cell *matCellDef="let element" fxFlex="9" [class.highlighted]="element.selected == true">
+      
+      
+                  <input type="text" placeholder="" matInput [(ngModel)]="element.Hardness" style="border: 1px solid #ccc;;
+                      width: 86px;
+                      height: 31px; border-radius: 5px;">
+      
+                </mat-cell>
+              </ng-container>
+            <ng-container matColumnDef="Check Status" >
+              <mat-header-cell *matHeaderCellDef fxFlex="9">Check Status</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="9" [class.highlighted]="element.selected == true">
+                <select [(ngModel)]="element.CheckStatus" style="border: 1px solid #ccc;;
+                    width: 86px;
+                    height: 31px; border-radius: 5px;">
+                  <option value="OK">OK</option>
+                  <option value="NOT OK">NOT OK</option>
+    
+                </select>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Remarks" >
+              <mat-header-cell *matHeaderCellDef fxFlex="10">Remarks</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="10" [class.highlighted]="element.selected == true">
+                <select [(ngModel)]="element.Remarks" style="border: 1px solid #ccc;;
+                      width: 84px;
+                      height: 31px; border-radius: 5px;">
+                  <option value="Cracks">Cracks</option>
+                  <option value="Damaged by Edges">Damaged by Edges</option>
+                  <option value="Not in Perfect Shape">Not in Perfect Shape</option>
+                </select>
+              </mat-cell>
+            </ng-container>
+    
+    
+            <ng-container matColumnDef="Base" >
+              <mat-header-cell *matHeaderCellDef fxFlex="9" >Base</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="9" class="css" [class.highlighted]="element.selected == true"> {{element.BaseName}} </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="Grade" >
+              <mat-header-cell *matHeaderCellDef fxFlex="8">Grade</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="15" [class.highlighted]="element.selected == true"> {{element.GradeName}} </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="Product" >
+                <mat-header-cell *matHeaderCellDef fxFlex="10">Product</mat-header-cell>
+                <mat-cell *matCellDef="let element" fxFlex="8" [class.highlighted]="element.selected == true"> {{element.ProductName}} </mat-cell>
+              </ng-container>
+    
+          
+            <ng-container matColumnDef="WorkOrderNo" >
+              <mat-header-cell *matHeaderCellDef fxFlex="5">WOID</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="3" [class.highlighted]="element.selected == true"> {{element.WOID}} </mat-cell>
+            </ng-container>
+    
+       
+            <ng-container matColumnDef="Orderdate" >
+                <mat-header-cell *matHeaderCellDef fxFlex="8">Order Date</mat-header-cell>
+                <mat-cell *matCellDef="let element" fxFlex="9" [class.highlighted]="element.selected == true"> {{element.Orderdate}} </mat-cell>
+              </ng-container>
+    
+            <ng-container matColumnDef="ClientPONo" >
+              <mat-header-cell *matHeaderCellDef fxFlex="8" >Client Po.No.</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="9" class="css" [class.highlighted]="element.selected == true"> {{element.ClientPoNo}} </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="ClientName" >
+              <mat-header-cell *matHeaderCellDef fxFlex="7">Name</mat-header-cell>
+              <mat-cell *matCellDef="let element" fxFlex="8" [class.highlighted]="element.selected == true"> {{element.ClientName}} </mat-cell>
+            </ng-container>
+         
+    
+              <ng-container matColumnDef="Cancel" >
+                <mat-header-cell *matHeaderCellDef fxFlex="5" >Cancel</mat-header-cell>
+                <mat-cell *matCellDef="let element" fxFlex="5" [class.highlighted]="element.selected == true">
+                    <div fxFlex="row" fxLayoutAlign="end center"> 
+                    <button mat-icon-button onclick="this.disabled = true" 
+                    (click)="delete(element)"><mat-icon style="color:red">delete</mat-icon></button>
+                    </div>
+                </mat-cell>
+              </ng-container>
+    
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true" style=" min-width: 1123px; 
+            width:100%;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" style=" min-width: 1123px; 
+            width:100%;"></mat-row>
+          </mat-table>
+
+
+<div style="text-align: center" *ngIf="valueData">
+    <button mat-raised-button type="button" (click)="MoveToProduction()" color="accent" onclick="this.disabled = true" id="condition">
+                          MoveToProduction
+    </button>
+&nbsp;&nbsp;
+    <button mat-raised-button type="button" (click)="MoveToNextDay()" color="accent" >
+      Move To Next Day
+</button>
+</div>
+
+
+      <!-- <mat-table mat-table [dataSource]="dataSource" class="mat-elevation-z8" class="mytable">
+
+
+          <ng-container matColumnDef="selected">
+              <mat-header-cell *matHeaderCellDef [style.width.percentage]="10"></mat-header-cell>
+              <mat-cell *matCellDef="let element" [style.width.percentage]="10" fxFlex="4"> 
+                  <mat-checkbox [(ngModel)]="element.selected" >
+                  </mat-checkbox>
+              </mat-cell>
+          </ng-container>
+       
+
+        <ng-container matColumnDef="DateofMoulding" >
+          <mat-header-cell *matHeaderCellDef fxFlex="7">Date of Moulding</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8">
+            <input type="text" placeholder="" matInput style="border: 2px solid;width: 82px;
+            height: 31px; border-radius: 5px;" [(ngModel)]="element.MouldingDate"
+                  >
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MouldNo" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">Mould No.</mat-header-cell>
+          <mat-cell *matCellDef="let element"  fxFlex="8">
+
+
+            <input type="text" placeholder="" matInput [(ngModel)]="element.MouldNo" style="border: 2px solid;
+                width: 82px;
+                height: 31px; border-radius: 5px;" >
+
+          </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="Hardness" >
+            <mat-header-cell *matHeaderCellDef fxFlex="8">Hardness</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="8">
+  
+  
+              <input type="text" placeholder="" matInput [(ngModel)]="element.Hardness" style="border: 2px solid;
+                  width: 82px;
+                  height: 31px; border-radius: 5px;">
+  
+            </mat-cell>
+          </ng-container>
+        <ng-container matColumnDef="Check Status" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">Check Status</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8">
+            <select [(ngModel)]="element.CheckStatus" style="border: 2px solid;
+                width: 82px;
+                height: 31px; border-radius: 5px;">
+              <option value="OK">OK</option>
+              <option value="NOT OK">NOT OK</option>
+
+            </select>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Remarks" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">Remarks</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8">
+            <select [(ngModel)]="element.Remarks" style="border: 2px solid;
+                  width: 79px;
+                  height: 31px; border-radius: 5px;">
+              <option value="Cracks">Cracks</option>
+              <option value="Damaged by Edges">Damaged by Edges</option>
+              <option value="Not in Perfect Shape">Not in Perfect Shape</option>
+            </select>
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Base" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">Base</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8"> {{element.BaseName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Grade" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">Grade</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8"> {{element.GradeName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Product" >
+            <mat-header-cell *matHeaderCellDef fxFlex="8">Product</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="8"> {{element.ProductName}} </mat-cell>
+          </ng-container>
+
+      
+        <ng-container matColumnDef="WorkOrderNo" >
+          <mat-header-cell *matHeaderCellDef fxFlex="4">WOID</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="3"> {{element.WOID}} </mat-cell>
+        </ng-container>
+
+   
+        <ng-container matColumnDef="Orderdate" >
+            <mat-header-cell *matHeaderCellDef fxFlex="8">Orderdate</mat-header-cell>
+            <mat-cell *matCellDef="let element" fxFlex="8"> {{element.Orderdate}} </mat-cell>
+          </ng-container>
+
+        <ng-container matColumnDef="ClientPONo" >
+          <mat-header-cell *matHeaderCellDef fxFlex="8">ClientPo.No.</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8"> {{element.ClientPoNo}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ClientName" >
+          <mat-header-cell *matHeaderCellDef fxFlex="7">Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" fxFlex="8"> {{element.ClientName}} </mat-cell>
+        </ng-container>
+     
+
+          <ng-container matColumnDef="Cancel" >
+            <mat-header-cell *matHeaderCellDef  fxLayoutAlign="end center">Cancel</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div fxFlex="row" fxLayoutAlign="end center"> 
+                <button mat-icon-button onclick="this.disabled = true" 
+                (click)="delete(element)"><mat-icon style="color:red">delete</mat-icon></button>
+                </div>
+            </mat-cell>
+          </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table> -->
+      </div>
+
+<!-- <div style="text-align: center">
+    <button mat-raised-button type="button" color="accent" (click)="MoveToProduction()">
+MoveToProduction
+</button>
+</div> -->
+
+
+    </div>
+  </div>
+</div>

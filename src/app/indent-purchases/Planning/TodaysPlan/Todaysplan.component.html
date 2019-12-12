@@ -1,0 +1,156 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48" >
+    <div class="top-bg accent"></div>
+    <div class="center" >
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center" >
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1">
+                    Todays Plan
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0" id="printPageButton">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center" id="printPageButton">
+                    <mat-icon id="printPageButton">search</mat-icon>
+                    <input name="search" (keyup)="search($event)" placeholder="Search " id="printPageButton">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                <!-- <button mat-raised-button type="button" (click)="createProduct()">
+                    Add Heat
+                </button> -->
+                &nbsp;
+                <button mat-raised-button type="button" (click)="convert()" id="printPageButton">
+                    Print
+                </button>
+            </div>
+        </div>
+
+        <div class="content-card" >
+
+
+                <div style="text-align: center" id="printPageButton">
+                        <form [formGroup]="todayPlanForm">
+                            <div class="" fxflex="1 0 auto" fxLayoutAlign="center stretch" [@fadeInOut] style="border: 2px solid #ccc;">
+                                <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                margin-top: -1.25em;
+                position: relative;margin-top: 17px;opacity: 1;" [@fadeInOut]>
+                                    <mat-label>Date of Planning</mat-label>
+                                    <input matInput [matDatepicker]="picker1" placeholder="Choose a date"
+                                        formControlName="PlanDate" (ngModelChange) = "onSearchChange($event)">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+        
+                                <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+        margin-top: -1.25em;
+        position: relative;margin-top: 17px;opacity: 1;">
+                                    <mat-label>Contractor </mat-label>
+                                    <mat-select formControlName="ContractorId" (ngModelChange) = "onSearchChange1($event)">
+                                        <mat-option *ngFor="let con of contractorList" [value]="con.Id">{{con.Name}}
+                                        </mat-option>
+        
+                                    </mat-select>
+                                </mat-form-field>
+        
+                                <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+        margin-top: -1.25em;
+        position: relative;margin-top: 17px;opacity: 1;">
+                                    <mat-label>Shift </mat-label>
+                                    <mat-select formControlName="Shift" (ngModelChange) = "onSearchChange2($event)">
+                                        <mat-option value="Day">Day</mat-option>
+                                        <mat-option value="Night">Night</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+        
+        
+                                <!-- <button mat-raised-button type="button" [disabled]="!todayPlanForm.valid" style="    height: 37px;
+        margin-top: 23px;
+        background-image: linear-gradient( #039be5, #37b9e940); color: white" (click)="searchButton()">
+                                    Search
+                                </button> -->
+                            </div>
+                        </form>
+                    </div>
+
+                    <div style="text-align: center;" *ngIf="loader">
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    </div>
+                    
+                      <div style="text-align: center;margin-top: 40px;" *ngIf="!listData && !loader">
+                          <p style="color: red;"> *Please select required filds</p>
+                        </div>
+
+            <mat-table [dataSource]="listData" class="mat-elevation-z8" *ngIf="listData">
+                <ng-container matColumnDef="sno">
+                    <mat-header-cell *matHeaderCellDef>S.No.</mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i =index;"> {{i+1}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="WorkOrderNo">
+                    <mat-header-cell *matHeaderCellDef>WOID</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.WOID}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Client Name">
+                    <mat-header-cell *matHeaderCellDef class="css"> Client Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ClientName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Mould No">
+                    <mat-header-cell *matHeaderCellDef>Mould No.</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.MouldNo?element.MouldNo:'-'}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Product">
+                    <mat-header-cell *matHeaderCellDef class="css">Product Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ProductName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Grade">
+                    <mat-header-cell *matHeaderCellDef class="css">Grade</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.GradeName}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Weight">
+                    <mat-header-cell *matHeaderCellDef>Weight </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.NetWeight}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="No.of Pieces">
+                    <mat-header-cell *matHeaderCellDef>Notes</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.Note}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Action" >
+                    <mat-header-cell *matHeaderCellDef id="printPageButton">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let element" id="printPageButton">
+                        <button mat-menu-item aria-label="remove" (click)="removeTodayPlan(element)">
+                            <mat-icon style="color: red">delete</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="loading">
+                    <mat-footer-cell *matFooterCellDef colspan="6">
+                        No data.
+                    </mat-footer-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="noData">
+                    <mat-footer-cell *matFooterCellDef colspan="6">
+                      No data.
+                    </mat-footer-cell>
+                  </ng-container> -->
+               
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <!-- <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+                <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.length==0)}"></mat-footer-row> -->
+
+            </mat-table>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

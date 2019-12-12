@@ -1,0 +1,184 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+
+        <!-- <button mat-icon-button
+                class="secondary-text"
+                 aria-label="Palette" [routerLink]="['/indent/issue-stock']">
+            <mat-icon class="s-20">arrow_back</mat-icon>
+        </button> -->
+                <span class="logo-text h1" >
+                Manage Stock
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search stock">
+                </div>
+            </div>
+            <!-- <button mat-raised-button type="button" style="" (click)="downloadCSV()">
+                export
+        </button> -->
+        <div style="text-align: end">
+            <button mat-raised-button type="button"  (click)="openStockIssueModal()">
+                    Issue Stock
+            </button>
+            &nbsp;
+            <button mat-raised-button type="button" [routerLink]="['/indent/stock-list']">
+                Issue
+            </button>
+            &nbsp;
+            <button mat-raised-button type="button" style="" (click)="downloadCSV()">
+               Export
+        </button>
+            <!-- / SEARCH -->
+        </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" >
+
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="10"></mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" [style.width.px]="10" [@EnterLeave1]="'flyIn1'">
+                        <!-- <p class="text-truncate">{{i+1}}</p> -->
+                        <mat-checkbox [(ngModel)]="material.selected" [disabled]="material.Quantity=='0'?true:false">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="material">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="material">Material</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                       <p class="text-truncate">{{material.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="category">Category</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate">{{material.CategoryName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="quantity">Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate">{{material.Quantity}} ({{material.UOM}})</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="view">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view"></mat-header-cell>
+                    <mat-cell *matCellDef="let material" >
+                            <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button (click)="openView(material.RawMaterialId)" style="color: #2e9be5;">
+                                    <mat-icon>history</mat-icon>                  
+                                  </button>
+                                  </div>
+                       <!-- //.// <a class="text-truncate" (click)="openView(material.RawMaterialId)">view</a> -->
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="action">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                           <button  aria-label="Edit" (click)="editMaterial(indent)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+ 
+                            <button  aria-label="Delete" (click)="deleteMaterial(material.RawMaterialId)" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </mat-cell>
+                </ng-container> -->
+
+
+<!--                 <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="50"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="Edit" (click)="editIndent(indent)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="remove"  (click)="deleteIndent(indent.IndentId)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container> -->
+                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+
+            <!-- <mat-paginator #paginator
+                           [length]="dataSource.filteredData.length"
+                           [pageIndex]="0"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator> -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

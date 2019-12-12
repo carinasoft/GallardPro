@@ -1,0 +1,162 @@
+<div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+  
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2 mat-dialog-title color="primary"> &nbsp;Specification history</h2>
+                </span>
+
+               
+            </div>
+            <!-- <div class=""  fxFlex="1" style="flex: 1 1 100%;box-sizing: border-box;max-width: 0%;padding-left: 525px;">
+               
+                    <button  mat-raised-button type="button" color="primary" (click)="downloadCSV()">
+                        Export
+                </button> 
+             
+            </div> -->
+            
+            <div fxFlex="4">
+                    <button  style="    margin-left: -88px;" mat-raised-button type="button" (click)="convert()">
+                            Print
+                    </button> 
+                    &nbsp;
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                    width: 33px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>     
+                    </button>    
+                    </div>
+            </div></div>
+
+
+
+
+
+
+<!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="space-around center">
+    <div fxFlex="97"><h2 mat-dialog-title></h2>
+        <h2 mat-dialog-title style="text-align: center">{{data.data.ItemName}}&nbsp;
+             <span>Balance Quantity:{{data.data.Quantity}}({{data.data.UOM}})</span></h2></div>
+    
+  </div> -->
+  <mat-dialog-content class="mat-typography" id="obrz"> 
+  
+                <mat-table class="products-table mb-48 pb-24"
+                         #table [dataSource]="data.indentList"
+                         fusePerfectScrollbar >
+  
+                  <ng-container matColumnDef="serial">
+                      <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">S no.</mat-header-cell>
+                      <mat-cell *matCellDef="let indent; let i = index" [style.width.percentage]="10">
+                          <p class="text-truncate">{{i + 1}}</p>
+                      </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="chemical">
+                      <mat-header-cell *matHeaderCellDef  [style.width.percentage]="10"> Chemical</mat-header-cell>
+                      <mat-cell *matCellDef="let indent" [style.width.percentage]="10">
+                          <p class="text-truncate">{{moment(indent.CreatedDate).format("MM/DD/YYYY")}}</p>
+                      </mat-cell>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="minvalue">
+                      <mat-header-cell *matHeaderCellDef>Min-Value</mat-header-cell>
+                      <mat-cell *matCellDef="let indent">
+                         <p class="text-truncate" >{{indent.Type == 'Purchase'?indent.Quantity:0}}</p>
+
+                         
+                      </mat-cell>
+                      <mat-cell mat-footer-cell *matFooterCellDef> Total </mat-cell>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="maxvalue">
+                      <mat-header-cell *matHeaderCellDef>Max-Value</mat-header-cell>
+                      <mat-cell *matCellDef="let indent">
+                         <p class="text-truncate" >{{indent.Type == 'Issue'?indent.Quantity:0}}</p>
+                      </mat-cell>
+                  </ng-container>
+
+                  
+                  <ng-container matColumnDef="standerdvalue">
+                    <mat-header-cell *matHeaderCellDef>Standerd-Value</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate" >{{indent.Type == 'Issue'?indent.Quantity:0}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="50">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                        
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text" style="color: rgb(113, 6, 6);">more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+
+                                    <button mat-menu-item aria-label="Edit" >
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Edit</span>
+                                        </button>
+
+                                
+                                <button mat-menu-item aria-label="remove"  >
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+
+  
+  
+                  
+  
+   
+                  <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true">
+
+                      
+                  </mat-header-row>
+  
+                   <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                  class="product"
+                  matRipple>
+         </mat-row> 
+       
+              </mat-table>
+
+
+
+             
+              
+
+              
+                 
+
+  </mat-dialog-content>
+
+  
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4" style="padding-top: 20px !important;     color: #ccc;">
+
+     
+        © 2019 Copyright:<a class="footer-copyright text-left" href="http://carinait.net/gallard">gallardsteel.com </a>- All right Reserved
+        
+    <span class="footer-copyright text-right" style="float: right;     color: #ccc;">
+       Powered by<a href="http://carinait.net"> carinait</a>
+    </span>
+    
+
+  </footer>
+  <!-- Footer -->

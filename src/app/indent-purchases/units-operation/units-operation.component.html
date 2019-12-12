@@ -1,0 +1,167 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+   
+    <div class="top-bg accent"></div>
+   
+    <div class="center">
+
+      
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                    Unit of Measurment
+                </span>
+            </div>
+            
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input (keyup)="search($event)" placeholder="Search units" />
+                </div>
+            </div>
+          
+           
+            <div style="text-align: end">
+        <button mat-raised-button type="button" style="" (click)="openForm()" >
+                Add New
+         </button>
+         &nbsp;
+         <button mat-raised-button type="button"  (click)="downloadCSV()" >
+             export
+     </button>
+    </div>
+        </div>
+
+        <mat-card style="text-align: center " *ngIf="inputFormValue">
+        <div class="content-card" style="text-align: center;margin-bottom: -45px; " *ngIf="inputFormValue">
+            <div style="text-align: center;" class="text-center">
+                    <mat-card-content style="text-align: center;    margin-left: 269px;">
+                <form class="" [formGroup]="orderForm">
+                 <mat-form-field fxFlex="30" class="pr-24" appearance="outline">
+                 <mat-label>UOM</mat-label>
+                <input type="text" placeholder="" matInput formControlName="UOM">
+                </mat-form-field>
+
+                &nbsp;&nbsp;
+                <span>
+                        <button style="width: 101px;
+                        margin-top: 8px;" mat-raised-button onclick="this.disabled = true" type="button" color="accent" (click)="addUOM()" [disabled]="orderForm.invalid">
+                                Add
+                         </button>
+                         &nbsp;
+                         <button style="width: 101px;
+                         margin-top: 8px;" mat-raised-button type="button" color="warn" (click)="cancelForm()">
+                              Cancel
+                         </button>
+                </span>
+                </form>
+                </mat-card-content>
+            </div>
+        </div>
+</mat-card>
+
+
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" >
+
+            <mat-table class="products-table"
+                       #table [dataSource]="listData"
+                       matSort
+                      
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef  [style.width.percentage]="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let unit;let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="name">Name</mat-header-cell>
+                    <mat-cell *matCellDef="let unit">
+                       <p *ngIf="!unit.isEditable" class="text-truncate">{{unit.UOM}}</p>
+
+                       <div *ngIf="unit.isEditable">
+                            <mat-form-field  fxFlex="100" class="pr-24" appearance="outline" >
+                          <input type="text" [(ngModel)]="unit.UOM" matInput>
+                            </mat-form-field>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="action" fxFlex="10">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let unit" fxFlex="15" >
+                        <div fxFlex="row" fxLayoutAlign="end center">
+  <button mat-icon-button *ngIf="unit.isEditable" onclick="this.disabled = true" (click)="save(unit)" >
+      <mat-icon style="color: blue;">check</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="unit.isEditable" (click)="close(unit)" >
+        <mat-icon style="   color:red">close</mat-icon>
+    </button> 
+  <button mat-icon-button *ngIf="!unit.isEditable" (click)="editRow(unit)">
+      <mat-icon>edit</mat-icon>
+    </button>
+  <button  *ngIf="!unit.isEditable" aria-label="Delete" onclick="this.disabled = true" (click)="deleteUnit(unit.UOMID)" mat-icon-button>
+         <mat-icon style="color: red;">delete</mat-icon>
+  </button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+
+<!--                 <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef [style.width.px]="50"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.px]="50">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+                                <button mat-menu-item aria-label="Edit" (click)="editIndent(indent)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+
+                                <button mat-menu-item aria-label="remove"  (click)="deleteIndent(indent.IndentId)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container> -->
+                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

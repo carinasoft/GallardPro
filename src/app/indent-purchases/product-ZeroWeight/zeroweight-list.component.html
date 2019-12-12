@@ -1,0 +1,377 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+   
+    <div class="top-bg accent"></div>
+   
+
+   
+    <div class="center">
+
+       
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                        <span class="mat-button-wrapper">
+                        <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                        </span>
+                        <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                        <div class="mat-button-focus-overlay"></div></button>
+                 Zero Weight - list
+                </span>
+            </div>
+            
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ...">
+                </div>
+            </div>
+            <div class="">
+                <button mat-raised-button type="button" (click)="downloadCSV()">
+                    Export
+                </button>
+                &nbsp;
+                    
+            </div>
+            
+
+        </div>
+       
+        <div class="content-card">
+           
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+
+                
+
+                <ng-container matColumnDef="S.NO.">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="S.NO." [style.width.percentage]="10">SNo.</mat-header-cell>
+                    <mat-cell *matCellDef="let i = index;" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i+1}}</p>
+                    </mat-cell>
+                </ng-container>
+               
+                <ng-container matColumnDef="Product Code">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Product Code">Product Code</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                       <div *ngIf="!indent.isEditable">{{indent.ProductId}}</div>
+        <div *ngIf="indent.isEditable">
+          <input type="text" [(ngModel)]="indent.ItemName">
+        </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Product Name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Product Name">Product Name</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                       <div *ngIf="!indent.isEditable">{{indent.Name}}</div>
+        <div *ngIf="indent.isEditable">
+          <input type="text" [(ngModel)]="indent.ItemName">
+        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Net Weight">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header="Net Weight">Net Weight</mat-header-cell>
+                  <mat-cell *matCellDef="let indent">
+                     <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                     <div *ngIf="!indent.isEditable">{{indent.NetWeight}}</div>
+      <div *ngIf="indent.isEditable">
+        <input type="text" [(ngModel)]="indent.ItemName">
+      </div>
+                  </mat-cell>
+              </ng-container>
+              
+              <ng-container matColumnDef="Bunch Weight">
+                <mat-header-cell *matHeaderCellDef mat-sort-header="Bunch Weight">Bunch Weight</mat-header-cell>
+                <mat-cell *matCellDef="let indent">
+                   <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+                   <div *ngIf="!indent.isEditable">{{indent.GrossWeight}}</div>
+    <div *ngIf="indent.isEditable">
+      <input type="text" [(ngModel)]="indent.ItemName">
+    </div>
+                </mat-cell>
+            </ng-container>
+
+
+
+
+
+
+      <ng-container matColumnDef="Design">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="Design">Design</mat-header-cell>
+        <mat-cell *matCellDef="let indent">
+           <!-- <p class="text-truncate">{{indent.ItemName}}</p> -->
+           <div *ngIf="indent.Design">
+              <a href="/{{indent.Design}}" target="_blank"><mat-icon>image</mat-icon></a>
+            
+            </div>
+<!-- <div *ngIf="indent.isEditable">
+<input type="file" [(ngModel)]="indent.ItemName">
+</div> -->
+        </mat-cell>
+    </ng-container>
+
+
+
+
+
+
+                <ng-container matColumnDef="Action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Action">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <button mat-icon-button (click)="editRow(indent)"><mat-icon>edit</mat-icon>  </button>
+                     <button mat-icon-button (click)="deleteRow(indent)">
+                            <mat-icon style="color:red">delete</mat-icon>                  
+                          </button>
+                          <!-- <button mat-icon-button (click)="editRow(indent)"> <mat-icon>edit</mat-icon></button>  -->
+                    </mat-cell>
+                </ng-container>
+
+                
+
+
+               
+               
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="S.NO.">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+          <input [(ngModel)]="row.ItemName" placeholder="Name" [disabled]="!row.editing" matInput>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Casting Base">
+      <mat-header-cell *matHeaderCellDef> Age </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-form-field floatLabel="{{ row.editing ? 'float' : 'never'}}">
+          <input type="number" [(ngModel)]="row.ItemName" placeholder="Age"  [disabled]="!row.editing" matInput>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Action">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="accent" (click)="dataSource.createNew()"><i class="fa fa-plus mat-icon"></i></button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button *ngIf="!row.editing" mat-icon-button color="primary" focusable="false" (click)="row.startEdit()">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+        <button *ngIf="row.editing" mat-icon-button color="primary" focusable="false" (click)="row.confirmEditCreate()">
+              <i class="fa fa-check mat-icon"></i>
+            </button>
+        <button mat-icon-button color="primary" focusable="false" (click)="row.cancelOrDelete()">
+              <i class="fa fa-times mat-icon"></i>
+            </button>
+      </mat-cell>
+    </ng-container>
+   
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table> -->
+
+
+  <!-- add New Product -->
+
+
+ 
+  <fuse-sidebar name="addvendorDetails"  position="right" class="width-500 p-12 bg-white">
+    <h3><strong> Add Vendor </strong></h3>
+    <form class="example-form" >
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Product Name</mat-label>
+                    <input type="text" placeholder=" " matInput  />
+                </mat-form-field>
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Net Weight<small>(in Kgs.)</small> </mat-label>
+                    <input type="text" placeholder="Net Weight(in Kgs.)" matInput  />
+                </mat-form-field>
+              </div>
+  
+  
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Gross Weight <small>(in Kgs.)</small></mat-label>
+                    <input type="text" placeholder="Gross Weight(in Kgs.) " matInput  />
+                </mat-form-field>
+  
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Length <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Length (in inch.)" matInput name="pan"  />
+                </mat-form-field>   
+   
+              </div>
+  
+  
+  
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                    <mat-label>Width <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Width (in inch.)" matInput   />
+                </mat-form-field>
+  
+                <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Height <small>(in inch.)</small></mat-label>
+                    <input type="text" placeholder="Height (in inch.)" matInput   />
+                </mat-form-field>   
+   
+              </div>
+  
+  
+             
+  
+              <!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                <mat-form-field  fxFlex="50"  appearance="outline">
+                    <mat-label>GSTIN</mat-label>
+                    <input type="text" placeholder="GSTIN" matInput   />
+                </mat-form-field>
+  
+              </div>
+  
+              <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+  
+               
+             <mat-form-field  fxFlex="50" appearance="outline">
+                    <mat-label>Pincode</mat-label>
+                    <input type="text" placeholder="Pincode" name="pincode" matInput   />
+                </mat-form-field>              
+                </div> -->
+  
+  
+  
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  
+                      <mat-label>Upload Design</mat-label>
+                      <input type="file" placeholder=""   />
+                
+    
+                 
+     
+                </div>
+    
+  
+  
+  
+                      
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    <button mat-raised-button cdkFocusInitial color="accent"  >Save</button>
+    </div>
+  </form>
+  </fuse-sidebar>
+
+
+
+
+  
+  <fuse-sidebar name="addvendorDetails1"  position="right" class="width-500 p-12 bg-white">
+      <h3><strong> Edit Product {{EditId}}</strong></h3>
+      <form class="example-form" >
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Product Name</mat-label>
+                      <input type="text" placeholder=" " matInput  [(ngModel)]="EditName" name="EditName"/>
+                  </mat-form-field>
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Net Weight<small>(in Kgs.)</small> </mat-label>
+                      <input type="text" placeholder="Net Weight(in Kgs.)" matInput  [(ngModel)]="EditNetWeight" name="EditNetWeight"/>
+                  </mat-form-field>
+                </div>
+    
+               
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Gross Weight <small>(in Kgs.)</small></mat-label>
+                      <input type="text" placeholder="Gross Weight(in Kgs.) " matInput  [(ngModel)]="EditGrossWeight" name="EditGrossWeight"/>
+                  </mat-form-field>
+    
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Length <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Length (in inch.)" matInput   [(ngModel)]="EditLength" name="EditLength"/>
+                  </mat-form-field>   
+     
+                </div>
+    
+    
+    
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50" class="pr-24" appearance="outline">
+                      <mat-label>Width <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Width (in inch.)" matInput   [(ngModel)]="EditWidth" name="EditWidth"/>
+                  </mat-form-field>
+    
+                  <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Height <small>(in inch.)</small></mat-label>
+                      <input type="text" placeholder="Height (in inch.)" matInput  [(ngModel)]="EditHeight" name="EditHeight" />
+                  </mat-form-field>   
+     
+                </div>
+    
+    
+               
+    
+                <!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  <mat-form-field  fxFlex="50"  appearance="outline">
+                      <mat-label>GSTIN</mat-label>
+                      <input type="text" placeholder="GSTIN" matInput   />
+                  </mat-form-field>
+    
+                </div>
+    
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    
+                 
+               <mat-form-field  fxFlex="50" appearance="outline">
+                      <mat-label>Pincode</mat-label>
+                      <input type="text" placeholder="Pincode" name="pincode" matInput   />
+                  </mat-form-field>              
+                  </div> -->
+    
+    
+    
+                  <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+                  
+                        <mat-label>Upload Design</mat-label> 
+                        <input type="file"   >
+                        <div class=""  style="text-align: center">
+                    <img src="/{{EditImage}}" height="50" width="50" >
+                  </div>
+                  </div>
+      
+    
+    
+    
+                        
+                  <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center" style="text-align: center">
+      <button mat-raised-button cdkFocusInitial color="accent" (click)="updateProduct()"  style="    margin-top: 25px;
+      text-align: center;
+      width: 232px;">Update</button>
+      </div>
+    </form>
+    </fuse-sidebar>

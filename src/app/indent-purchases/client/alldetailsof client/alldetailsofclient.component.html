@@ -1,0 +1,304 @@
+<div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+  
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2 mat-dialog-title color="primary"> &nbsp;Client Details</h2>
+                </span>
+
+               
+            </div>
+            <!-- <div class=""  fxFlex="1" style="flex: 1 1 100%;box-sizing: border-box;max-width: 0%;padding-left: 525px;">
+               
+                    <button  mat-raised-button type="button" color="primary" (click)="downloadCSV()">
+                        Export
+                </button> 
+             
+            </div> -->
+            
+            <div fxFlex="4">
+                    <button class="doNotPrint" style="    margin-left: -88px;" mat-raised-button type="button" (click)="convert()">
+                            Print
+                    </button> 
+                    &nbsp;
+                    <button class="doNotPrint" mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                    width: 33px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>     
+                    </button>    
+                    </div>
+            </div></div>
+
+
+
+
+
+
+
+  <mat-dialog-content class="mat-typography" id="obrz"> 
+  
+        <div class="row">
+                <div class="col-75">
+                  <div class="container">
+                    <form >
+              
+                      <div class="row">
+                        <div class="col-50">
+                          <!-- <h3></h3>
+                          <label for="fname"><i class="fa fa-user"></i> Client ID</label>
+                          <strong>10123</strong>
+                          
+                          <label for="email"><i class="fa fa-envelope"></i> Client Name</label>
+                          <strong>Gallard Steel Limited</strong>  
+                          <label for="email"><i class="fa fa-envelope"></i> GSTIN</label>
+                          <strong>56456</strong>  
+                          <label for="email"><i class="fa fa-envelope"></i> PAN</label>
+                          <strong>514445454</strong>   -->
+
+
+
+                        <!-- <section fxLayout="row wrap" fxLayoutAlign="center center">
+                            <mat-card fxFlex="500px" fxFlex.xs="100%">
+                                <mat-card-title> Account Details:</mat-card-title>
+                                <mat-card-content>
+                        
+                                    <div fxLayout="column wrap" fxLayoutGap="40px">
+                        
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Client ID:</strong></div>
+                                            <div fxFlex>{{myJsonString.Id}}</div>
+                                        </div>
+                        
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Client Name:</strong></div>
+                                            <div fxFlex>{{myJsonString.Name}}</div>
+                                        </div>
+                        
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>GSTIN:</strong></div>
+                                            <div fxFlex>{{myJsonString.GST}}</div>
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>PAN:</strong></div>
+                                            <div fxFlex>{{myJsonString.PanNo}}</div>
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Address:</strong></div>
+                                            <div fxFlex>{{myJsonString.Address}}</div>
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Mobile No:</strong></div>
+                                            <div fxFlex>{{myJsonString.MobileNo}} </div>
+                                        </div>
+                        
+                                        <div fxLayout="row wrap" fxFlex>
+                                            <div fxFlex><strong>Email Address:</strong></div>
+                                            <div fxFlex>{{myJsonString.EmailID}}</div>
+                                        </div>
+                                        <div fxLayout="row wrap" fxFlex>
+                                                <div fxFlex><strong></strong></div>
+                                                <div fxFlex> </div>
+                                            </div>
+                        
+                                    </div>
+                                </mat-card-content>
+                        
+                            </mat-card>
+                        </section> -->
+
+                        <div>
+                                <Strong>Client Details</Strong>
+                        </div>
+                        <table style="width:100% ;border: 1px solid black;
+                        border-collapse: collapse; margin-top: 10px;">
+                            <tr class="trTABAL">
+                              <td class="tdTABLE">Client ID:</td>
+                              <td class="tdTABLE1">{{myJsonString.Id}}</td>
+                              <td class="tdTABLE">Client Name:</td>
+                              <td class="tdTABLE1">{{myJsonString.Name}}</td>
+                            </tr>
+                            <tr class="trTABAL">
+                                <td class="tdTABLE">GSTIN:</td>
+                                <td class="tdTABLE1">{{myJsonString.GST}}</td>
+                                <td class="tdTABLE">PAN:</td>
+                                <td class="tdTABLE1">{{myJsonString.PanNo}}</td>
+                            </tr>
+                            <tr class="trTABAL">
+                                <td class="tdTABLE">Address:</td>
+                                <td class="tdTABLE1">{{myJsonString.Address}}</td>
+                                <td class="tdTABLE">Mobile No:</td>
+                                <td class="tdTABLE1">{{myJsonString.MobileNo}}</td>
+                            </tr>
+                            <tr class="trTABAL">
+                                <td class="tdTABLE">Email Address:</td>
+                                <td class="tdTABLE1">{{myJsonString.EmailID}}</td>
+                                <!-- <td class="tdTABLE">50</td>
+                                <td class="tdTABLE">Smith</td> -->
+                              </tr>
+                          </table>
+
+                          <div>
+                                <Strong>Contact Details</Strong>
+                        </div>
+
+                          <table style="width:100% ;border: 1px solid black;
+                        border-collapse: collapse; margin-top: 10px;">
+                            <tr class="trTABAL">
+                              <td class="tdTABLE">ContactName:</td>
+                              <td class="tdTABLE1">{{myJsonString.ContactName}}</td>
+                              <td class="tdTABLE">ContactNoe:</td>
+                              <td class="tdTABLE1">{{myJsonString.ContactNo}}</td>
+                            </tr>
+                            <tr class="trTABAL">
+                                <td class="tdTABLE">AlternateContact:</td>
+                                <td class="tdTABLE1">{{myJsonString.AlternateContact}}</td>
+                                <td class="tdTABLE">Designation:</td>
+                                <td class="tdTABLE1">{{myJsonString.Designation}}</td>
+                            </tr>
+                            <tr class="trTABAL">
+                                <td class="tdTABLE">ContactEmail:</td>
+                                <td class="tdTABLE1">{{myJsonString.ContactEmail}}</td>
+                                <!-- <td class="tdTABLE">Mobile No:</td>
+                                <td class="tdTABLE1">{{myJsonString.MobileNo}}</td> -->
+                            </tr>
+                            <!-- <tr class="trTABAL">
+                                <td class="tdTABLE">Email Address:</td>
+                                <td class="tdTABLE1">{{myJsonString.EmailID}}</td>
+                               <td class="tdTABLE">50</td>
+                                <td class="tdTABLE">Smith</td> 
+                              </tr> -->
+                          </table>
+
+
+
+
+                          <div>
+                                <Strong>Bank Details</Strong>
+                        </div>
+
+                          <table style="width:100% ;border: 1px solid black;
+                          border-collapse: collapse; margin-top: 10px;">
+                              <tr class="trTABAL">
+                                <td class="tdTABLE">BankName:</td>
+                                <td class="tdTABLE1">{{myJsonString.BankName}}</td>
+                                <td class="tdTABLE">BranchName:</td>
+                                <td class="tdTABLE1">{{myJsonString.BranchName}}</td>
+                              </tr>
+                              <tr class="trTABAL">
+                                  <td class="tdTABLE">AccountNumber:</td>
+                                  <td class="tdTABLE1">{{myJsonString.AccountNumber}}</td>
+                                  <td class="tdTABLE">AccountHolderName:</td>
+                                  <td class="tdTABLE1">{{myJsonString.AccountHolderName}}</td>
+                              </tr>
+                              <tr class="trTABAL">
+                                  <td class="tdTABLE">BranchAddress:</td>
+                                  <td class="tdTABLE1">{{myJsonString.BranchAddress}}</td>
+                                  <td class="tdTABLE">BankAcType:</td>
+                                  <td class="tdTABLE1">{{myJsonString.BankAcType}}</td>
+                              </tr>
+                              <tr class="trTABAL">
+                                  <td class="tdTABLE">MICRCode:</td>
+                                  <td class="tdTABLE1">{{myJsonString.MICRCode}}</td>
+                                  <td class="tdTABLE">BSRCode</td>
+                                  <td class="tdTABLE">{{myJsonString.BSRCode}}</td> 
+                                </tr>
+                                <tr class="trTABAL">
+                                    <td class="tdTABLE">IFCSCode:</td>
+                                    <td class="tdTABLE1">{{myJsonString.IFCSCode}}</td>
+                                    
+                                  </tr>
+                            </table>
+
+
+
+
+                        </div>
+                        <!-- <div class="col-50">
+                                <label for="fname"></label>
+                                <section fxLayout="row wrap" fxLayoutAlign="center center">
+                                        <mat-card fxFlex="500px" fxFlex.xs="100%">
+                                            <mat-card-title> Bank Details:</mat-card-title>
+                                            <mat-card-content>
+                                    
+                                                <div fxLayout="column wrap" fxLayoutGap="40px">
+                                    
+                                                    <div fxLayout="row wrap" fxFlex>
+                                                        <div fxFlex><strong>Client ID:</strong></div>
+                                                        <div fxFlex>1222</div>
+                                                    </div>
+                                    
+                                                    <div fxLayout="row wrap" fxFlex>
+                                                            <div fxFlex><strong></strong></div>
+                                                            <div fxFlex> </div>
+                                                        </div>
+                                    
+                                                </div>
+                                            </mat-card-content>
+                                    
+                                        </mat-card>
+                                    </section>
+            
+
+                                    <section fxLayout="row wrap" fxLayoutAlign="center center">
+                                            <mat-card fxFlex="500px" fxFlex.xs="100%">
+                                                <mat-card-title> Contact Details:</mat-card-title>
+                                                <mat-card-content>
+                                        
+                                                    <div fxLayout="column wrap" fxLayoutGap="40px">
+                                        
+                                                        <div fxLayout="row wrap" fxFlex>
+                                                            <div fxFlex><strong>Client ID:</strong></div>
+                                                            <div fxFlex>1222</div>
+                                                        </div>
+                                        
+                                                        <div fxLayout="row wrap" fxFlex>
+                                                                <div fxFlex><strong></strong></div>
+                                                                <div fxFlex> </div>
+                                                            </div>
+                                        
+                                                    </div>
+                                                </mat-card-content>
+                                        
+                                            </mat-card>
+                                        </section>
+                        
+                          
+                       
+                        </div> -->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              
+               
+              </div>
+
+  
+  
+  
+   
+
+
+              
+  </mat-dialog-content>
+
+  
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4" style="padding-top: 20px !important;     color: #ccc;">
+
+     
+        © 2019 Copyright:<a class="footer-copyright text-left" href="http://carinait.net/gallard">gallardsteel.com </a>- All right Reserved
+        
+    <span class="footer-copyright text-right" style="float: right;     color: #ccc;">
+       Powered by<a href="http://carinait.net"> carinait</a>
+    </span>
+    
+
+  </footer>
+  <!-- Footer -->

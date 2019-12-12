@@ -1,0 +1,164 @@
+<div class="center">
+
+        
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+  
+        
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2 mat-dialog-title color="primary"> &nbsp;History ({{data?.indentList[0]?.ItemName}})</h2>
+                </span>
+
+               
+            </div>
+        
+            
+            <div fxFlex="4">
+                    <button  style="    margin-left: -88px;" mat-raised-button type="button"  (click)="downloadCSV()">
+                            Export
+                    </button> 
+                    &nbsp;
+                    <button mat-icon-button mat-dialog-close style="background: red;height: 33px;
+                    width: 33px;">
+                      <mat-icon style="margin: 0px 0px 8px 0px;">close</mat-icon>                  
+                    </button>    
+                    </div>
+            </div></div>
+
+
+
+<!-- <div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="space-around center">
+  <div fxFlex="97"><h2 mat-dialog-title>History ({{data?.indentList[0]?.ItemName}})</h2>
+    <button class="mr-12" mat-raised-button type="button" (click)="downloadCSV()">
+            Export
+    </button>
+</div>
+  <div fxFlex="3">
+
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>                  
+  </button>    
+  </div>
+
+</div> -->
+<mat-dialog-content class="mat-typography">
+
+              <mat-table class="products-table mb-48 pb-24"
+                       #table [dataSource]="data.indentList"
+                       fusePerfectScrollbar>
+
+                <ng-container matColumnDef="serial">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">S no.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent; let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">{{i + 1}}</p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef  [style.width.percentage]="10">Date</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.percentage]="10">
+                        <p class="text-truncate">{{moment(indent.CreateDate).format("MM/DD/YYYY")}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Material</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.CategoryName}}</p>
+                    </mat-cell>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="number">
+                    <mat-header-cell *matHeaderCellDef>Indent No.</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.IndentId}}</p>
+                    </mat-cell>
+                </ng-container>
+<!-- 
+                <ng-container matColumnDef="supplier">
+                    <mat-header-cell *matHeaderCellDef>Supplier</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{vendorDetails.VendorName}}</p>
+                    </mat-cell>
+                </ng-container>
+ -->
+                <ng-container matColumnDef="qty">
+                    <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        {{indent.Quantity}} ({{indent.UOM}})
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>RefIndent</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                           <p class="text-truncate">{{indent.RefIndent}}</p>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="category">
+                        <mat-header-cell *matHeaderCellDef>RefPO</mat-header-cell>
+                        <mat-cell *matCellDef="let indent">
+                           <p class="text-truncate">{{indent.RefPO}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+
+
+                <ng-container matColumnDef="unit">
+                    <mat-header-cell *matHeaderCellDef>Unit</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate"></p>
+                    </mat-cell>
+                </ng-container>                
+<!-- 
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+                    <mat-cell *matCellDef="let indent;let i = index">
+                      {{indent.Price}}
+                    </mat-cell>
+                </ng-container>
+ -->
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product"
+                         matRipple>
+                </mat-row>
+
+            </mat-table>
+
+
+
+
+
+</mat-dialog-content>
+
+
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4" style="padding-top: 10px !important;     color: #ccc;">
+
+     
+        © 2019 Copyright:<a class="footer-copyright text-left" href="http://carinait.net/gallard">gallardsteel.com </a>- All right Reserved
+        
+    <span class="footer-copyright text-right" style="float: right;     color: #ccc;">
+       Powered by<a href="http://carinait.net"> carinait</a>
+    </span>
+    
+
+  </footer>
+  <!-- Footer -->

@@ -1,0 +1,222 @@
+ <div class="example-container mat-elevation-z8">
+        <div class="example-loading-shade"
+             *ngIf="!indentList ">
+          <mat-spinner *ngIf="indentList"></mat-spinner>
+          <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+            GitHub's API rate limit has been reached. It will be reset in one minute.
+          </div>
+        </div> 
+
+
+
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                    Indent
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0" style="flex-direction: row;box-sizing: border-box;display: -webkit-inline-box !important;">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search Indent">
+                </div>
+            </div>
+            <div class="">
+                    <!-- <a href="#" class="export">Export Table data into Excel</a>
+                    <button class="mr-12" mat-raised-button type="button" (click)="exportTableToCSV('indent-list.csv')">
+                            Export121212
+                    </button> -->
+                <button class="mr-12" mat-raised-button type="button" (click)="downloadCSV()">
+                        Export
+                </button>
+                <button class="mr-12" mat-raised-button type="button" (click)="generateOrder()">
+                        Generate Order
+                </button>
+                <!-- <button class="mr-12" mat-raised-button type="button" (click)="deleteMultipleIndent()">
+                        Delete Multiple
+                </button> -->
+               
+                <button mat-raised-button type="button" (click)="createIndent()">
+                        Add Indent
+                </button>
+            </div>
+            <!-- / SEARCH -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" id="content" >
+            <!-- <table id="table"> -->
+            <mat-table class="products-table"
+                       #table [dataSource]="listData"
+                       matSort
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)" id="table"
+                       >
+                       
+                <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="5"></mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.percentage]="5"  [@EnterLeave1]="'flyIn1'"> <!--[@EnterLeave1]="'flyIn1'"-->
+                        <mat-checkbox [(ngModel)]="indent.selected" [disabled]="indent.Quantity=='0'?true:false">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="IndentDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="IndentDate" [style.width.percentage]="10">Date</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" [style.width.percentage]="10">
+                        <p class="text-truncate">{{moment(indent.CreateDate).format('MM/DD/YYYY')}}</p>
+                    </mat-cell>
+                </ng-container> -->
+           
+                <ng-container matColumnDef="material">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="name">Material  </mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                           <p class="text-truncate">  {{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+           
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="category">Category</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.CategoryName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="quantity" fxFlex="18">Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="category text-truncate">
+                                 {{indent.Quantity}} ({{ indent.UOM}})
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="priority">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="priority">Priority</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="category text-truncate" [ngClass]="{'text-danger': indent.Priority === 'urgent', 'text-success': indent.Priority === 'normal'}">
+                            {{indent.Priority}}
+                        </p>
+                    </mat-cell>
+                </ng-container> [style.width.px]="30"-->
+
+
+                <ng-container matColumnDef="action" >
+                    <mat-header-cell *matHeaderCellDef fxFlex="8">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let indent" fxFlex="13" >
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                        <button mat-icon-button (click)="getIndentHistory(indent.RawMaterialId)">
+                          <mat-icon style="color: #2e9be5;  ">history</mat-icon>                  
+                        </button>
+                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                    (click)="$event.stopPropagation();">
+                                <mat-icon class="secondary-text" >more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #moreMenu="matMenu">
+
+                                    <button mat-menu-item aria-label="Edit" (click)="editIndent(indent.RawMaterialId)">
+                                            <mat-icon style="color:blue">edit</mat-icon>
+                                            <span>Edit</span>
+                                        </button>
+
+                                  <!-- <button mat-menu-item aria-label="Edit" (click)="editIndent(indent)">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                </button> -->
+  
+                                <!-- <button mat-menu-item aria-label="remove"  (click)="deleteIndent_History(indent.IndentId)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Remove</span>
+                                </button> -->
+                                <button  mat-menu-item aria-label="remove"  (click)="deleteIndent_History(indent.RawMaterialId)">
+                                    <mat-icon class="box rotate" style="color: red">delete</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+                <!-- Active Column -->
+                <!-- <ng-container matColumnDef="active">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Active</mat-header-cell>
+                    <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
+                        <mat-icon *ngIf="product.active" class="active-icon green-600 s-16">check</mat-icon>
+                        <mat-icon *ngIf="!product.active" class="active-icon red-500 s-16">close</mat-icon>
+                    </mat-cell>
+                </ng-container> -->
+
+               
+            
+
+
+
+                <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                          Loading data...
+                        </mat-footer-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                          No data.
+                        </mat-footer-cell>
+                      </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                      <mat-row *matRowDef="let indent; columns: displayedColumns; let i = index"
+                               class="product"  >
+                      </mat-row>
+                    <!-- [ngClass]="{'highlight': i < newRowIndex}"
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </tr> -->
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.length==0)}"></mat-footer-row>
+
+
+            </mat-table>
+        <!-- </table> -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+             <!-- <mat-paginator #paginator
+                           [length]="dataSource.length"
+                           [pageIndex]="1"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>  -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>
+
+
+
+
+
+
+<script>
+        function bgChange(bg) {
+          document.body.style.background = bg;
+        }
+        </script>

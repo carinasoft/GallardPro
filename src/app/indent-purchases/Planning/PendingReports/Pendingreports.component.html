@@ -1,0 +1,170 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" >
+                        Planning Reports
+                    <!-- Planning Reports -/{{from}}-{{to}} -->
+                </span>
+            </div>
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search" (keyup)="search($event)"  placeholder="Search ">
+                </div>
+            </div>
+            <div class="" style="text-align: end">
+                <!-- <button mat-raised-button type="button" (click)="createProduct()">
+                    Add Heat
+                </button> -->
+                &nbsp;
+                <button mat-raised-button type="button" (click)="downloadCSV()">
+                    Export
+                </button>
+            </div>
+        </div>
+        <div class="content-card">
+
+
+
+
+            <form [formGroup]="planningReportsForm">
+                <div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center stretch" style="border: 2px solid #ccc;"> 
+
+
+                    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                                        margin-top: -1.25em;
+                                        position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Date From</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="PlanDate" (ngModelChange) = "onSearchChange($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                    margin-top: -1.25em;
+                    position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Date To</mat-label>
+                        <input matInput [matDatepicker]="picker11" formControlName="PlanDate1" (ngModelChange) = "onSearchChange1($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                        <mat-datepicker #picker11></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                                margin-top: -1.25em;
+                                position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Contractor </mat-label>
+                        <mat-select formControlName="ContractorId" (ngModelChange) = "onSearchChange2($event)">
+                            <mat-option *ngFor="let con of contractorList" [value]="con.Id">{{con.Name}}</mat-option>
+
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+                            margin-top: -1.25em;
+                            position: relative;margin-top: 17px;opacity: 1;">
+                        <mat-label>Status </mat-label>
+                        <mat-select formControlName="Shift" (ngModelChange) = "onSearchChange3($event)">
+                            <mat-option value="complete">complete</mat-option>
+                            <mat-option value="pending">pending</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <!-- <button mat-raised-button type="button" style="    height: 37px;
+                            margin-top: 23px;
+                            background-image: linear-gradient( #039be5, #37b9e940); color: white" (click)="searchButton()">
+                        Search
+                    </button> -->
+                </div>
+            </form>
+
+
+
+
+
+
+
+
+            <div style="text-align: center;" *ngIf="loader">
+                <!-- <mat-spinner></mat-spinner> -->
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+      
+              <div style="text-align: center;margin-top: 40px;" *ngIf="!listData && !loader">
+                  <p style="color: red;"> *Please select required filds</p>
+                </div>
+      
+
+
+
+
+
+            <mat-table [dataSource]="listData" class="mat-elevation-z8" *ngIf="listData">
+
+
+
+                <ng-container matColumnDef="WorkOrderNo">
+                    <mat-header-cell *matHeaderCellDef>WOID</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.WOID}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="MouldNo">
+                    <mat-header-cell *matHeaderCellDef>Mould No.</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.MouldNo?element.MouldNo:'-'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="OrderDate">
+                    <mat-header-cell *matHeaderCellDef>Date of Planning</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{moment(element.PlanningDate).format("DD/MM/YYYY")}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="DateofMoulding">
+                    <mat-header-cell *matHeaderCellDef>Date of Moulding</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.MouldingDate?moment(element.MouldingDate).format("DD/MM/YYYY"):'-'}} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Client PO No">
+                    <mat-header-cell *matHeaderCellDef class="css">Client PO No</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ClientPoNo}} </mat-cell>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="Client Name">
+                    <mat-header-cell *matHeaderCellDef class="css"> Client Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ClientName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Contractor">
+                    <mat-header-cell *matHeaderCellDef>Contractor</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.ContractorName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Product">
+                    <mat-header-cell *matHeaderCellDef class="css">Product</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css"> {{element.ProductName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Weight">
+                    <mat-header-cell *matHeaderCellDef>Weight </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.NetWeight}} </mat-cell>
+                </ng-container>
+
+              
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

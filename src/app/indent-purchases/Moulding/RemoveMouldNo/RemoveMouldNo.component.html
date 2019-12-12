@@ -1,0 +1,182 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+    <div class="top-bg accent"></div>
+    <div class="center">
+        <div class="header accent" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="space-between center">
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        Remove Mould No
+                </span>
+            </div>
+            <!-- <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input name="search"  placeholder="Search ">
+                </div>
+            </div> -->
+            <div class="" style="text-align: end">
+                <!-- <button mat-raised-button type="button" (click)="createProduct()">
+                    Add Heat
+                </button> -->
+                &nbsp;
+                <!-- <button mat-raised-button type="button" >
+                    Export
+                </button> -->
+            </div>
+        </div>
+        <div class="content-card">
+<form  [formGroup]="planningForm">
+<div class="" fxflex="1 0 auto" fxlayout="row" fxLayoutAlign="center stretch" style="border: 2px solid #ccc;"> 
+
+<mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+    <mat-label>Date of form</mat-label>
+    <input matInput [matDatepicker]="picker11" formControlName="PlanDate" (ngModelChange) = "onSearchChange($event)">
+    <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+    <mat-datepicker #picker11></mat-datepicker>
+</mat-form-field>   
+
+<mat-form-field fxFlex="20" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+        <mat-label>Date of to</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="PlanDate" (ngModelChange) = "onSearchChange1($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+<mat-form-field fxFlex="15" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;margin-top: -1.25em;position: relative;margin-top: 17px;opacity: 1;">
+        <mat-label>Mould no.</mat-label>
+            <input matInput  formControlName="MouldNo" (ngModelChange) = "onSearchChange2($event)">
+</mat-form-field>
+  
+<!-- <button mat-raised-button type="button"  style="height: 37px;margin-top: 23px;background-image: linear-gradient( #039be5, #37b9e940); color: white"  (click)="searchButton()">
+            Search
+</button> -->
+
+</div>
+</form>
+
+
+<div style="text-align: center;" *ngIf="loader">
+    <!-- <mat-spinner></mat-spinner> -->
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+  <div style="text-align: center;margin-top: 40px;" *ngIf="!dataSource && !loader">
+      <p style="color: red;"> *Please select required filds</p>
+    </div>
+
+
+
+
+
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="dataSource">
+            
+                <!-- <ng-container matColumnDef="selected">
+                    <th mat-header-cell *matHeaderCellDef [style.width.percentage]="5"></th>
+                    <th mat-cell *matCellDef="let element" [style.width.percentage]="5">
+                        <mat-checkbox [(ngModel)]="element.selected">
+                        </mat-checkbox>
+                    </th>
+                </ng-container> -->
+                <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef="let element">
+                      <mat-checkbox (change)="$event ? masterToggle() : null" (change)="select($event,element)" (click)="allDataSelect($event, element)"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    >
+                      </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true">
+                      <mat-checkbox (click)="$event.stopPropagation()" (click)="selectCompany($event, element)"
+                                    (change)="$event ? selection.toggle(element) : null"
+                                    [checked]="selection.isSelected(element)"
+                                    [(ngModel)]="element.selected"
+                                    class="checkboxCSS">
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+            
+                <ng-container matColumnDef="WorkOrderNo">
+                    <mat-header-cell *matHeaderCellDef >Date Of Moulding</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true"> {{moment(element.MouldingDate).format("YYYY/MM/DD")}} </mat-cell>
+                </ng-container>
+            
+            
+                <ng-container matColumnDef="OrderDate">
+                    <mat-header-cell *matHeaderCellDef class="css">  Mould No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css" [class.highlighted]="element.selected == true"> {{element.MouldNo}} </mat-cell>
+                </ng-container>
+            
+            
+            
+            
+                <ng-container matColumnDef="Client PO No">
+                    <mat-header-cell *matHeaderCellDef class="css">Product Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css" [class.highlighted]="element.selected == true"> {{element.ProductName}} </mat-cell>
+                </ng-container>
+            
+            
+            
+                <ng-container matColumnDef="Client Name">
+                    <mat-header-cell *matHeaderCellDef>WOID</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true"> {{element.WOID}} </mat-cell>
+                </ng-container>
+            
+            
+            
+                <ng-container matColumnDef="Product">
+                    <mat-header-cell *matHeaderCellDef>Order Date</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [class.highlighted]="element.selected == true"> {{moment(element.Orderdate).format("YYYY/MM/DD")}} </mat-cell>
+                </ng-container>
+            
+                <!-- <ng-container matColumnDef="Weight">
+                    <mat-header-cell *matHeaderCellDef class="css">Client Po.No.</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css" [class.highlighted]="element.selected == true"> {{element.ClientPoNo}} </mat-cell>
+                </ng-container> -->
+            
+                <ng-container matColumnDef="No.of Pieces">
+                    <mat-header-cell *matHeaderCellDef class="css">Client Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="css" [class.highlighted]="element.selected == true"> {{element.ClientName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Reason">
+                    <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+                    <mat-cell *matCellDef="let element">  
+              <mat-form-field  fxFlex="100"  appearance="outline" *ngIf="element.isEditable">
+                 <input type="text" [(ngModel)]="element.Reason" matInput id="myInput">
+              </mat-form-field>
+
+                  
+                    </mat-cell>
+                  </ng-container>
+                
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef >Action</mat-header-cell>
+                    <mat-cell *matCellDef="let element" > 
+                        <button mat-icon-button *ngIf="element.isEditable" (click)="save(element)" onclick="this.disabled = true" ><mat-icon style="    color: blue;">check</mat-icon></button>
+                        <button mat-icon-button style="margin-left: -17px;" *ngIf="element.isEditable" (click)="close(element)" onclick="document.getElementById('myInput').value = ''">
+                            <mat-icon style="color:red">close</mat-icon>
+                            </button> 
+                        <a  *ngIf="!element.isEditable"  (click)="Reject(element)">Reject</a>
+                    </mat-cell>
+                  </ng-container>
+            
+               
+                <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+
+       <div class="text-center" style="margin-top: 10px;" *ngIf="boolvalue" >
+        <button mat-raised-button type="button" color="accent"  (click)="submitButton()" onclick="this.disabled = true" id="condition">
+            Move To Planning
+        </button>
+       </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+

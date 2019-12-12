@@ -1,0 +1,193 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+
+    
+    <div class="top-bg accent"></div>
+  
+
+   
+    <div class="center">
+
+
+      
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+           
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Goods / Receive Note
+                </span>
+            </div>
+          
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                     <input type="text" placeholder="Enter PO Number" matInput [(ngModel)]="searchNumber"  [ngModelOptions]="{standalone: true}" (keydown.Enter)="getOrderByNumber(searchNumber)">
+                </div>
+            </div>
+    
+
+        </div>
+     
+        <div class="content-card">
+
+
+
+
+            <mat-card class="card" style=" min-width: 50%;     margin-left: 137px;     margin-right: 137px;">
+                <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+                  
+                </mat-card-title>
+                <mat-card-content>
+
+
+
+<form class="example-form" [formGroup]="grnForm">
+
+<div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>BillNo</mat-label>
+        <input type="text"  matInput formControlName="BillNo" />
+    </mat-form-field>
+    <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>Report</mat-label>
+        <!-- <input type="text"  matInput formControlName="Report" /> -->
+        <mat-select formControlName="Report">
+                <mat-option value="Yes">Yes</mat-option>
+                <mat-option value="No">No</mat-option>
+            </mat-select>
+    </mat-form-field>
+</div>
+
+
+<div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>VehicleNo</mat-label>
+        <input type="text"  matInput formControlName="VehicleNo" />
+    </mat-form-field>
+    <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>LRNo</mat-label>
+        <input type="text"  matInput formControlName="LRNo" />
+    </mat-form-field>
+</div>
+
+
+<div class="" fxflex="1 0 auto" fxlayout="row" fxlayoutalign="start center">
+    <mat-form-field fxFlex="50" class="pr-24" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>TimeIn</mat-label>
+        <input type="time" atp-time-picker  matInput formControlName="TimeIn" />
+    </mat-form-field>
+    <mat-form-field fxFlex="50" appearance="outline" style="padding: 0 .75em 0 .75em;
+    margin-top: -1.25em;
+    position: relative;">
+        <mat-label>TimeOut</mat-label>
+        <input type="time" atp-time-picker  matInput formControlName="TimeOut" />
+    </mat-form-field>
+</div>
+
+ </form>
+    
+    <!-- <input type="time" atp-time-picker value="20:55"/> -->
+      
+    
+    
+</mat-card-content>
+</mat-card> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <mat-table class="products-table mb-12"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+           
+
+                <ng-container matColumnDef="ItemName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="ItemName">Material</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                       <p class="text-truncate">{{indent.ItemName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="CategoryName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="CategoryName">Category</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.CategoryName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Quantity">Quantity Ordered</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                        <p class="text-truncate">{{indent.Quantity}} ({{indent.UOM}})</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ReceivedQty">
+                    <mat-header-cell *matHeaderCellDef>Received Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                            <input type="number" name="{{indent.IndentId}}" [(ngModel)]="indent.ReceivedQuantity"  [ngModelOptions]="{standalone: true}" class="table_input">
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Price">
+                    <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+                    <mat-cell *matCellDef="let indent">
+                            <input type="number" name="{{indent.IndentId}}_Price" [(ngModel)]="indent.Price"  [ngModelOptions]="{standalone: true}" class="table_input" readonly>
+                    </mat-cell>
+                </ng-container>
+
+
+
+            
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;"
+                         class="product"
+                         matRipple>
+                </mat-row>
+
+
+
+            </mat-table>
+
+
+        </div>
+   
+
+<div class="mt-8">
+                <button *ngIf="dataSource && dataSource.length" onclick="this.disabled = true" mat-raised-button type="button" color="accent" (click)="generateGRN()">
+                    Save
+                </button>
+    </div>
+   
+</div>
+
+</div>

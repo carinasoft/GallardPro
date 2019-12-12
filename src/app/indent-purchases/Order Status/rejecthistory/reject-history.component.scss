@@ -1,0 +1,28 @@
+/** No CSS for this example */
+.full-width-modal mat-dialog-actions {
+	background: #eee !important;
+    margin: 0 -25px;
+}
+:ng-host .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 10px 0;
+}
+.cdk-column-action {
+	max-width: 85px;
+}
+mat-table.products-table.mb-48.pb-24.mat-table.ps {
+    //background: aliceblue;
+}
+.mat-dialog-container {
+    display: block;
+    padding: 24px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    overflow: auto;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+    min-height: auto !important;
+    max-height: inherit;
+    border: #039be5 3px solid;
+  
+}

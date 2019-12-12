@@ -1,0 +1,206 @@
+<div id="products" class="page-layout carded fullwidth inner-scroll mb-48">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+
+        <!-- <button mat-icon-button
+                class="secondary-text"
+                 aria-label="Palette" [routerLink]="['/indent/issue-stock']">
+            <mat-icon class="s-20">arrow_back</mat-icon>
+        </button> -->
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        <button class="secondary-text mat-icon-button" aria-label="Palette" mat-icon-button="" tabindex="0" (click)="goBack()">
+                                <span class="mat-button-wrapper">
+                                <mat-icon class="s-20 mat-icon ng-tns-c43-74 material-icons" role="img" aria-hidden="true">arrow_back</mat-icon>
+                                </span>
+                                <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+                                <div class="mat-button-focus-overlay"></div></button>
+                       Report - list
+                </span>
+            </div>
+            <br>
+            <!-- 
+                    
+                    class="search-wrapper mx-32 mx-md-0"
+                    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input  name="search" (keyup)="search($event)" placeholder="Search ">
+                </div> -->
+           
+            
+
+        </div>
+       
+        <div class="content-card">
+
+
+
+
+                <div class="mysearchbox">
+<mat-form-field fxFlex="70" class="pr-24" appearance="outline">
+    <mat-label>selected party</mat-label>
+    <mat-select placeholder="Category">
+        <mat-option value="option1">Option 1</mat-option>
+        <mat-option value="option2">Option 2 </mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+&nbsp;&nbsp;
+<mat-form-field fxFlex="50" class="pr-24" appearance="outline">
+    <mat-label>select status</mat-label>
+    <mat-select placeholder="Category">
+        <mat-option value="option1">Option 1</mat-option>
+        <mat-option value="option2">Option 2 </mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <input matInput [matDatepicker]="picker1" placeholder="statement from">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+&nbsp;&nbsp;
+<mat-form-field>
+    <input matInput [matDatepicker]="picker2" placeholder="to">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+
+</div>
+
+
+
+<div class="text-center">
+        <button   color="accent" mat-raised-button type="button"  >
+               Search..
+        </button> 
+</div>
+
+
+
+
+
+
+            <mat-table class="products-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar  (matSortChange)="sortData($event)">
+
+                <ng-container matColumnDef="workorderno" >
+                    <mat-header-cell *matHeaderCellDef >Work order no</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" >
+                        <p class="text-truncate">1982</p>   
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="order-date" >
+                    <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">Order-Date</mat-header-cell>
+                    <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+                        <p class="text-truncate">02/02/2019</p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Client Name" >
+                        <mat-header-cell *matHeaderCellDef [style.width.percentage]="10">Client Name</mat-header-cell>
+                        <mat-cell *matCellDef="let material;let i = index" [style.width.percentage]="10">
+                            <p class="text-truncate">Artech Engneering Works</p>
+                        </mat-cell>
+                    </ng-container>
+
+              
+
+                <ng-container matColumnDef="Client PO No" >
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="Client PO No">Client PO No</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                        <p class="text-truncate">GSL 04</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Status" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Status">Status</mat-header-cell>
+                        <mat-cell *matCellDef="let material">
+                            <p class="text-truncate">Pending</p>
+                        </mat-cell>
+                    </ng-container>
+              
+
+                <ng-container matColumnDef="Username" >
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Username">Username</mat-header-cell>
+                        <mat-cell *matCellDef="let material">
+                            <p class="text-truncate">gallard</p>
+                        </mat-cell>
+                    </ng-container>
+
+                 
+                            
+                <ng-container matColumnDef="view" >
+                        
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="view">Order State</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                      
+                            <button mat-icon-button (click)="openApprove()">
+                                    <mat-icon style="color: #2e9be5;">remove_red_eye</mat-icon> 
+                                </button>
+    
+                            </mat-cell>
+                
+                </ng-container>
+
+                <ng-container matColumnDef="action" sticky>
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="action">Print</mat-header-cell>
+                    <mat-cell *matCellDef="let material">
+                            <button mat-icon-button (click)="openApprove()">
+                                    <mat-icon style="color: #2e9be5;">print</mat-icon> 
+                                </button>
+                            
+                    </mat-cell>
+                    </div>
+                </ng-container>
+              
+
+
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let indent; columns: displayedColumns;let i = index"
+                         class="product">
+                </mat-row>
+
+            </mat-table>
+
+           
+
+        </div>
+       
+    </div>
+    
+</div>
+
+
+
+
+
+

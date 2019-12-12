@@ -1,0 +1,29 @@
+/** No CSS for this example */
+.full-width-modal mat-dialog-actions {
+	background: #eee !important;
+    margin: 0 -25px;
+}
+:ng-host .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 10px 0;
+}
+.cdk-column-action {
+	max-width: 85px;
+}
+.mat-progress-bar{
+    position:fixed;
+    top:0px;
+   }
+   .mat-dialog-title {
+    margin: 3px -1px -25px;
+    display: block;
+    //background-color: lightskyblue;
+    height: 70px;
+} 
+.width-500 {
+    width: 463px;
+    max-width: 500px;
+}
+.spinnerLoading {
+    text-align: -webkit-center;
+    margin-top: 200px;
+}
